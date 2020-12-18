@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30104.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonaVoiceClipEditor", "PersonaVoiceClipEditor\PersonaVoiceClipEditor.csproj", "{03ADACD6-B314-4994-8C22-139B505D7791}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PuyoTools", "..\puyotools\src\PuyoTools\PuyoTools.csproj", "{5485DCEA-61D0-4D27-9D06-D436A2C19892}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PuyoTools.Modules", "..\puyotools\src\PuyoTools.Modules\PuyoTools.Modules.csproj", "{EEE348CC-3B58-4926-A3E5-F939A1FC9CFE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GimSharp", "..\puyotools\src\GimSharp\GimSharp.csproj", "{11BE6F79-9BFC-409E-83AE-1E5D9F5CFCE7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VrSharp", "..\puyotools\src\VrSharp\VrSharp.csproj", "{55A9F9D7-4826-4616-AC84-3EE2F2CAD595}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{03ADACD6-B314-4994-8C22-139B505D7791}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03ADACD6-B314-4994-8C22-139B505D7791}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03ADACD6-B314-4994-8C22-139B505D7791}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03ADACD6-B314-4994-8C22-139B505D7791}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5485DCEA-61D0-4D27-9D06-D436A2C19892}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5485DCEA-61D0-4D27-9D06-D436A2C19892}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5485DCEA-61D0-4D27-9D06-D436A2C19892}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5485DCEA-61D0-4D27-9D06-D436A2C19892}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEE348CC-3B58-4926-A3E5-F939A1FC9CFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEE348CC-3B58-4926-A3E5-F939A1FC9CFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEE348CC-3B58-4926-A3E5-F939A1FC9CFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEE348CC-3B58-4926-A3E5-F939A1FC9CFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11BE6F79-9BFC-409E-83AE-1E5D9F5CFCE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11BE6F79-9BFC-409E-83AE-1E5D9F5CFCE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11BE6F79-9BFC-409E-83AE-1E5D9F5CFCE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11BE6F79-9BFC-409E-83AE-1E5D9F5CFCE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55A9F9D7-4826-4616-AC84-3EE2F2CAD595}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55A9F9D7-4826-4616-AC84-3EE2F2CAD595}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55A9F9D7-4826-4616-AC84-3EE2F2CAD595}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55A9F9D7-4826-4616-AC84-3EE2F2CAD595}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1C308B83-A345-4E87-B34C-9E85D3C7ACD6}
+	EndGlobalSection
+EndGlobal
