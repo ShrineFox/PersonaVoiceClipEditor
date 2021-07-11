@@ -29,7 +29,19 @@ namespace PersonaVoiceClipEditor
         public PersonaVoiceClipEditorForm()
         {
             InitializeComponent();
-            linkLabel_Help.Links.Add(0, 10, "https://amicitia-team.tumblr.com/post/176979497616");
+            linkLabel_Help.Links.Add(0, 10, "https://github.com/ShrineFox/PersonaVoiceClipEditor#readme");
+
+#if DEBUG
+                acbPath = @"G:\Projects\P5R Adachi\Voices\Original\JP\bp01.acb";
+                replacePath = @"G:\Projects\P5R Adachi\Voices\Original\JP\bp01";
+                sourcePath = @"G:\Projects\P5R Adachi\Voices\Source\JP";
+                txtPath = @"G:\Projects\P5R Adachi\Voices\New\order.txt";
+
+                textBox_Txt.Text = txtPath;
+                darkTextBox_ACBPath.Text = acbPath;
+                textBox_SourceWavFolder.Text = sourcePath;
+                textBox_ReplaceAdxFolder.Text = replacePath;
+#endif
         }
 
         private void ExtractAFS_DragDrop(object sender, DragEventArgs e)
@@ -266,15 +278,30 @@ namespace PersonaVoiceClipEditor
         {
             if (File.Exists(txtPath))
             {
+                lbl_Status.Text = "Started";
                 int i = Convert.ToInt32(darkNumericUpDown1.Value);
-                foreach (var line in File.ReadAllLines(txtPath))
+                string[] lines = File.ReadAllLines(txtPath);
+                int lineCount = lines.Count();
+                foreach (var line in lines)
                 {
-                    //Convert WAV to ADX
-                    RunCMD($"adxencd.exe \"{$"{sourcePath}\\{line}.wav"}\" \"{sourcePath}\\{line}.adx\"");
-                    //Overwrite ADX in matching list order
-                    File.Copy($"{sourcePath}\\{line}.adx", $"{replacePath}\\{i.ToString().PadLeft(5,'0')}_streaming.adx", true);
+                    lbl_Status.Text = $"{i + 1}/{lineCount}";
+                    if (!string.IsNullOrWhiteSpace(line))
+                    {
+                        //Convert WAV to ADX
+                        string wavPath = $"{sourcePath}\\{line}.wav";
+                        string adxPath = $"{sourcePath}\\{line}.adx";
+                        RunCMD($"adxencd.exe \"{wavPath}\" \"{adxPath}\"");
+                        using (WaitForFile(adxPath, FileMode.Open, FileAccess.ReadWrite, FileShare.None)) { }
+                        //Overwrite ADX in matching list order
+                        if (File.Exists(adxPath))
+                            File.Copy($"{sourcePath}\\{line}.adx", $"{replacePath}\\{i.ToString().PadLeft(5, '0')}_streaming.adx", true);
+                        else
+                            MessageBox.Show($"Failed to convert ADX: {txtPath}");
+                    }
                     i++;
                 }
+                lbl_Status.Text = $"Done";
+                MessageBox.Show($"Finished! New ADX can be found in:\n{replacePath}");
             }
             else
                 MessageBox.Show($"Specified Text file could not be found: {txtPath}");

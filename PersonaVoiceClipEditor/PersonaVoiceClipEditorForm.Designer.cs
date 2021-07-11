@@ -48,6 +48,7 @@
             this.linkLabel_Help = new System.Windows.Forms.LinkLabel();
             this.darkTextBox_ACBPath = new DarkUI.Controls.DarkTextBox();
             this.darkTextBox_AFSPath = new DarkUI.Controls.DarkTextBox();
+            this.lbl_Status = new DarkUI.Controls.DarkLabel();
             this.darkGroupBox_Replacement.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.darkNumericUpDown1)).BeginInit();
             this.SuspendLayout();
@@ -278,12 +279,24 @@
             this.darkTextBox_AFSPath.TabIndex = 1;
             this.darkTextBox_AFSPath.Click += new System.EventHandler(this.AFSPath_Click);
             // 
+            // lbl_Status
+            // 
+            this.lbl_Status.AutoSize = true;
+            this.lbl_Status.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.lbl_Status.Location = new System.Drawing.Point(377, 335);
+            this.lbl_Status.Name = "lbl_Status";
+            this.lbl_Status.Size = new System.Drawing.Size(49, 17);
+            this.lbl_Status.TabIndex = 20;
+            this.lbl_Status.Text = "Ready";
+            this.lbl_Status.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // PersonaVoiceClipEditorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
-            this.ClientSize = new System.Drawing.Size(432, 353);
+            this.ClientSize = new System.Drawing.Size(440, 361);
+            this.Controls.Add(this.lbl_Status);
             this.Controls.Add(this.darkTextBox_AFSPath);
             this.Controls.Add(this.darkTextBox_ACBPath);
             this.Controls.Add(this.darkGroupBox_Replacement);
@@ -297,7 +310,7 @@
             this.MaximumSize = new System.Drawing.Size(450, 400);
             this.MinimumSize = new System.Drawing.Size(450, 400);
             this.Name = "PersonaVoiceClipEditorForm";
-            this.Text = "Persona Voice Clip Editor";
+            this.Text = "Persona Voice Clip Editor v0.2";
             this.darkGroupBox_Replacement.ResumeLayout(false);
             this.darkGroupBox_Replacement.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.darkNumericUpDown1)).EndInit();
@@ -327,5 +340,6 @@
         private DarkUI.Controls.DarkTextBox darkTextBox_AFSPath;
         private DarkUI.Controls.DarkLabel darkLabel1;
         private DarkUI.Controls.DarkNumericUpDown darkNumericUpDown1;
+        private DarkUI.Controls.DarkLabel lbl_Status;
     }
 }
