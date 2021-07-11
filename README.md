@@ -11,6 +11,7 @@ Your English and Japanese WAV directories must contain identically-named files f
 4. Specify the path to your WAV directory.  
 ![](https://64.media.tumblr.com/b702119b521578abaa7f56b213bc001c/tumblr_inline_pdfuzxPdXC1rp7sxh_1280.png)  
 5. Specify the path to the existing ADX directory. The filenames and order of clips here will be matched to your WAV list for reference.  
+Please note **these files will be overwritten** so back them up before proceeding if needed.
 ![](https://64.media.tumblr.com/cba98f6a50228cb1b44cf5051e920c3f/tumblr_inline_pdfuwcN0dm1rp7sxh_1280.png)  
 6. Specify the path to your WAV list .txt.  
 7. Click Replace, wait for it to finish and repeat for each language you have WAVs for.
