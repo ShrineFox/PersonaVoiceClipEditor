@@ -15,19 +15,85 @@ using PuyoTools.GUI;
 using NAudio.Wave;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using ShrineFox.IO;
+using System.Security.Cryptography;
 
 namespace PersonaVoiceClipEditor
 {
     public partial class PersonaVoiceClipEditorForm : Form
     {
         public static List<string> supportedFormats = new List<string> { ".adx", ".hca", ".wav" };
+        public static List<string> supportedArchives = new List<string> { ".acb", ".afs" };
+
         public PersonaVoiceClipEditorForm()
         {
             InitializeComponent();
             comboBox_OutFormat.DataSource = supportedFormats;
             comboBox_OutFormat.SelectedIndex = 0;
-            // TODO: Add commandline options?
-            // TODO: Add log?
+            comboBox_ArchiveFormat.DataSource = supportedArchives;
+            comboBox_ArchiveFormat.SelectedIndex = 0;
+            Output.Logging = true;
+            Output.LogControl = rtb_Log;
+#if DEBUG
+            Output.VerboseLogging = true;
+#endif
+        }
+
+        private void Encode_Click(object sender, EventArgs e)
+        {
+
+            Encode();
+        }
+
+        private void Encode()
+        {
+            string inputDir = txt_InputDir.Text;
+
+            if (Directory.Exists(inputDir))
+            {
+                string outputDir = txt_OutputDir.Text;
+                bool createdOutputDir = RecreateDirectory(outputDir);
+                if (!createdOutputDir)
+                    return;
+                string outFormat = comboBox_OutFormat.Text;
+                Output.Log($"[INFO] Encoding supported files in directory \"{inputDir}\" to format \"{outFormat}\" and outputting to directory: \"{outputDir}\"");
+
+                // Convert files to target format, output to specified directory
+                foreach (var file in Directory.GetFiles(inputDir).Where(x => supportedFormats.Any(y => y.Equals(Path.GetExtension(x.ToLower())))))
+                {
+                    string outPath = Path.Combine(outputDir, Path.GetFileNameWithoutExtension(file) + outFormat);
+                    string args = $"\"{file}\" \"{outPath}\"";
+                    if (chk_UseEncKey.Checked && txt_Key.Text != "" && txt_Key.Enabled)
+                        args += $" --keycode {txt_Key.Text}";
+                    // TODO: If outformat is at9, use at9tool
+                    Output.VerboseLog($"[INFO] Encoding \"{Path.GetFileName(file)}\" to \"{Path.GetFileName(outPath)}\"...");
+                    Exe.Run(".\\Dependencies\\VGAudioCli.exe", args);
+                    if (File.Exists(outPath))
+                        Output.VerboseLog($"[INFO] Encoded file successfully!", ConsoleColor.DarkGreen);
+                    else
+                        Output.VerboseLog($"[INFO] Failed to encode file: \"{file}\"", ConsoleColor.DarkRed);
+                }
+                Output.Log($"[INFO] Done encoding {comboBox_OutFormat.Text} files to directory: \"{txt_OutputDir.Text}\"", ConsoleColor.Green);
+            }
+            else
+                Output.Log($"[ERROR] Encoding failed, input directory doesn't exist: \"{txt_InputDir.Text}\"", ConsoleColor.Red);
+
+        }
+
+        private bool RecreateDirectory(string outputDir)
+        {
+            if (Directory.Exists(outputDir))
+            {
+                bool prompt = WinFormsDialogs.YesNoMsgBox("Delete directory?",
+                    $"Any existing contents of the following directory will be deleted. " +
+                    $"Are you sure you want to continue?\n\n\"{outputDir}\"");
+                if (!prompt)
+                    return false;
+                Output.Log($"[INFO] Deleting existing directory: \"{outputDir}\"");
+                Directory.Delete(outputDir, true);
+            }
+            Output.Log($"[INFO] Creating directory: \"{outputDir}\"");
+            Directory.CreateDirectory(outputDir);
+            return true;
         }
 
         private void ExtractAFS(string afs)
@@ -37,6 +103,8 @@ namespace PersonaVoiceClipEditor
 
             if (File.Exists(afs))
             {
+                Output.Log($"[INFO] Extracting AFS archive: \"{afs}\"");
+
                 // Create List for PuyoTools Extraction
                 List<string> files = new List<string>();
                 files.Add(afs);
@@ -46,22 +114,33 @@ namespace PersonaVoiceClipEditor
                 //Extract AFS
                 PuyoTools.GUI.ArchiveExtractor.Run(settings, dialog);
                 // TODO: Move to Extracted Dir
+
+                // Update interface
+                if (txt_OutputArchive.Text == "")
+                    comboBox_OutFormat.SelectedIndex = comboBox_OutFormat.Items.IndexOf(".afs");
+                Output.Log($"[INFO] Done extracting archive contents: \"{afs}\"");
+
             }
+            else
+                Output.Log($"[ERROR] AFS extraction failed, input archive doesn't exist: \"{afs}\"", ConsoleColor.Red);
+
         }
 
-        private void RepackAFS(string afs)
+        private void RepackAFS(string afsDir)
         {
             var settings = new PuyoTools.GUI.ArchiveCreator.Settings();
             var dialog = new PuyoTools.GUI.ProgressDialog();
 
-            if (Directory.Exists(afs))
+            if (Directory.Exists(afsDir))
             {
-                List<string> files = Directory.GetFiles(afs).ToList();
+                List<string> files = Directory.GetFiles(afsDir).ToList();
                 // TODO: Use settings.FileEntries.Add instead?
                 PuyoTools.GUI.ToolForm.fileList = files;
                 PuyoTools.GUI.ArchiveCreator.Run(settings, dialog);
                 // TODO: Move to Output Archive Location
             }
+            else
+                Output.Log($"[ERROR] AFS repack failed, extracted archive directory doesn't exist: \"{afsDir}\"", ConsoleColor.Red);
         }
 
         private void ExtractACB(string acb)
@@ -72,69 +151,50 @@ namespace PersonaVoiceClipEditor
                 Exe.Run($".\\Dependencies\\AcbEditor.exe \"{acb}\"");
                 // Set ACB Path to extracted path for Repacking
                 string acbPath = Path.Combine(Path.GetDirectoryName(acb), Path.GetFileNameWithoutExtension(acb));
-                if (txt_ArchiveDir.Text == "")
-                    txt_ArchiveDir.Text = acbPath;
+                txt_ArchiveDir.Text = acbPath;
+                comboBox_OutFormat.SelectedIndex = comboBox_OutFormat.Items.IndexOf(".acb");
+                txt_OutputArchive.Text = acb;
+                EnableOutputArchiveSel();
+            }
+            else
+                Output.Log($"[ERROR] ACB extract failed, input archive doesn't exist: \"{acb}\"", ConsoleColor.Red);
+
+        }
+
+        private void RepackACB(string acbDir)
+        {
+            string acbFile = Path.Combine(Path.GetDirectoryName(acbDir), Path.GetFileName(acbDir) + ".acb");
+            string awbFile = acbFile.Replace(".acb",".awb");
+            if (File.Exists(acbFile))
+            {
+                if (File.Exists(awbFile))
+                {
+                    if (Directory.Exists(acbDir))
+                    {
+                        // Create Backup ACB/AWB
+                        BackupArchive(acbFile);
+                        BackupArchive(awbFile);
+                        // Repack ACB
+                        Output.Log($"[INFO] Repacking ACB/AWB file with files from: \"{acbDir}\"");
+                        Exe.Run($".\\Dependencies\\AcbEditor.exe \"{acbDir}\"");
+                        Output.Log($"[INFO] Done repacking!", ConsoleColor.Green);
+                    }
+                    else
+                        Output.Log($"[ERROR] ACB repack failed, extracted archive directory doesn't exist: \"{acbDir}\"", ConsoleColor.Red);
+                }
                 else
-                    Directory.Move(acbPath, txt_ArchiveDir.Text);
+                    Output.Log($"[ERROR] ACB repack failed, original AWB doesn't exist: \"{awbFile}\"", ConsoleColor.Red);
             }
+            else
+                Output.Log($"[ERROR] ACB repack failed, original ACB doesn't exist: \"{acbFile}\"", ConsoleColor.Red);
         }
 
-        private void RepackACB(string acb)
+        private void BackupArchive(string file)
         {
-            if (Directory.Exists(acb))
+            if (!File.Exists(file + ".bak"))
             {
-                //Repack ACB
-                Exe.Run($".\\Dependencies\\AcbEditor.exe \"{acb}\"");
-                string acbPath = Path.Combine(Path.GetDirectoryName(acb), Path.GetFileNameWithoutExtension(acb) + ".acb");
-                string awbPath = acbPath.Replace(".acb", ".awb");
-                if (txt_OutputArchive.Text == "")
-                    txt_OutputArchive.Text = acbPath;
-                else if (File.Exists(acbPath))
-                {
-                    File.Move(acbPath, txt_OutputArchive.Text);
-                    if (File.Exists(awbPath))
-                        File.Move(awbPath, txt_OutputArchive.Text.Replace(".acb", ".awb"));
-                }
-            }
-        }
-
-        private void Encode_Click(object sender, EventArgs e)
-        {
-
-            if (Directory.Exists(txt_InputDir.Text))
-            {
-                if (Directory.Exists(txt_OutputDir.Text))
-                {
-                    // Convert files to target format, output to specified directory
-                    foreach (var file in Directory.GetFiles(txt_InputDir.Text).Where(x => supportedFormats.Any(y => y.Equals(Path.GetExtension(x.ToLower())))))
-                    {
-                        string outPath = Path.Combine(txt_OutputDir.Text, Path.GetFileNameWithoutExtension(file) + comboBox_OutFormat.Text);
-                        string args = $"\"{file}\" \"{outPath}\"";
-                        if (chk_UseEncKey.Checked && txt_Key.Text != "" && txt_Key.Enabled)
-                            args += $" --keycode {txt_Key.Text}";
-                        // TODO: If outformat is at9, use at9tool
-                        Exe.Run(".\\Dependencies\\VGAudioCli.exe", args);
-                    }
-                    // Re-order based on .txt file
-                    if (File.Exists(txt_TxtFile.Text))
-                    {
-                        string tempFolder = Path.Combine(Path.GetDirectoryName(txt_OutputDir.Text), "PVE_Temp");
-                        if (Directory.Exists(tempFolder))
-                            Directory.Delete(tempFolder, true);
-                        Directory.CreateDirectory(tempFolder);
-                        int i = 0;
-                        foreach (var line in File.ReadLines(txt_TxtFile.Text))
-                        {
-                            var files = Directory.GetFiles(txt_OutputDir.Text, $"*{comboBox_OutFormat.Text}", SearchOption.TopDirectoryOnly);
-                            if (files.Any(x => Path.GetFileNameWithoutExtension(x).Equals(line.Trim())))
-                            {
-                                var file = files.Single(x => Path.GetFileNameWithoutExtension(x).Equals(line.Trim()));
-                                string outPath = Path.Combine(tempFolder, $"{i.ToString().PadLeft(5, '0')}{txt_Suffix}");
-                                File.Copy(file, outPath);
-                            }
-                        }
-                    }
-                }
+                Output.Log($"[INFO] Creating backup of original archive: \"{file}.bak\"");
+                File.Copy(file, file + ".bak");
             }
         }
 
@@ -150,20 +210,46 @@ namespace PersonaVoiceClipEditor
                 this.Text = data[0];
         }
 
-        private void Extract_DragDrop(object sender, DragEventArgs e)
+        private void Encode_DragDrop(object sender, DragEventArgs e)
         {
             var data = (string[])e.Data.GetData(DataFormats.FileDrop, false);
-            // TODO: If directory, do each file in directory (use separate UI thread)
-            if (Path.GetExtension(data[0]).ToLower() == ".afs")
-                ExtractAFS(data[0]);
-            else if (Path.GetExtension(data[0]).ToLower() == ".acb")
-                ExtractACB(data[0]);
+            if (Directory.Exists(data[0]))
+                txt_InputDir.Text = data[0];
+            EnableEncodeBtn();
+            if (btn_Encode.Enabled)
+                Encode();
         }
 
-        private void RepackACB_DragDrop(object sender, DragEventArgs e)
+        private void Rename_DragDrop(object sender, DragEventArgs e)
         {
             var data = (string[])e.Data.GetData(DataFormats.FileDrop, false);
-            RepackACB(data[0]);
+            if (File.Exists(data[0]) && Path.GetExtension(data[0]).ToLower() == ".txt")
+                txt_TxtFile.Text = data[0];
+            else if (Directory.Exists(data[0]))
+                txt_RenameDir.Text = data[0];
+            EnableRenameBtn();
+            if (btn_Rename.Enabled)
+                Rename();
+        }
+
+        private void Unpack_DragDrop(object sender, DragEventArgs e)
+        {
+            var data = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            if (File.Exists(data[0]))
+                txt_InputArchive.Text = data[0];
+            EnableUnpackBtn();
+            if (btn_Unpack.Enabled)
+                UnpackArchive();
+        }
+
+        private void Repack_DragDrop(object sender, DragEventArgs e)
+        {
+            var data = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            if (Directory.Exists(data[0]))
+                txt_ArchiveDir.Text = data[0];
+            EnableRepackBtn();
+            if (btn_Repack.Enabled)
+                RepackArchive();
         }
 
         private void InputArchive_Click(object sender, EventArgs e)
@@ -223,6 +309,179 @@ namespace PersonaVoiceClipEditor
             string path = WinFormsEvents.FolderPath_Click("Choose Renamed Files Destination...");
             if (!string.IsNullOrEmpty(path))
                 txt_RenameOutput.Text = path;
+        }
+
+        private void EncodeDir_Changed(object sender, EventArgs e)
+        {
+            EnableEncodeBtn();
+        }
+
+        private void EnableEncodeBtn()
+        {
+            ValidateTextCtrls(new List<Control>() { txt_InputDir, txt_OutputDir }, btn_Encode);
+        }
+
+        private void RenamePath_Changed(object sender, EventArgs e)
+        {
+            EnableRenameBtn();
+        }
+
+        private void EnableRenameBtn()
+        {
+            ValidateTextCtrls(new List<Control>() { txt_TxtFile, txt_RenameDir, txt_RenameOutput }, btn_Rename);
+        }
+
+        private void InputArchive_Changed(object sender, EventArgs e)
+        {
+            EnableUnpackBtn();
+        }
+
+        private void EnableUnpackBtn()
+        {
+            ValidateTextCtrls(new List<Control>() { txt_InputArchive, txt_ArchiveDir }, btn_Unpack);
+        }
+
+        private void OutputArchive_Changed(object sender, EventArgs e)
+        {
+            EnableRepackBtn();
+
+            if (!string.IsNullOrEmpty(this.Text) && File.Exists(this.Text))
+            {
+                string ext = Path.GetExtension(this.Text);
+                if (supportedArchives.Any(x => x.Equals(ext)))
+                    comboBox_OutFormat.SelectedIndex = comboBox_OutFormat.Items.IndexOf(ext);
+            }
+        }
+
+        private void EnableRepackBtn()
+        {
+            ValidateTextCtrls(new List<Control>() { txt_OutputArchive, txt_ArchiveDir }, btn_Repack);
+        }
+
+        private void Unpack_Click(object sender, EventArgs e)
+        {
+            UnpackArchive();
+        }
+
+        private void UnpackArchive()
+        {
+            string archive = txt_InputArchive.Text;
+            if (File.Exists(archive))
+            {
+                if (Path.GetExtension(archive).ToLower() == ".afs")
+                    ExtractAFS(archive);
+                else if (Path.GetExtension(archive).ToLower() == ".acb")
+                    ExtractACB(archive);
+                else
+                    Output.Log($"[ERROR] Could not extract archive, not a supported format: \"{archive}\"", ConsoleColor.Red);
+            }
+            else
+                Output.Log($"[ERROR] Could not unpack archive, file doesn't exist: \"{archive}\"", ConsoleColor.Red);
+        }
+
+        private void Repack_Click(object sender, EventArgs e)
+        {
+            RepackArchive();
+        }
+
+        private void RepackArchive()
+        {
+            string archiveDir = txt_ArchiveDir.Text;
+            if (Directory.Exists(archiveDir))
+            {
+                if (comboBox_ArchiveFormat.Text == ".afs")
+                    RepackAFS(archiveDir);
+                else if (comboBox_ArchiveFormat.Text == ".acb")
+                    RepackACB(archiveDir);
+                else
+                    Output.Log($"[ERROR] Could not repack archive, not a supported format: \"{comboBox_ArchiveFormat.Text}\"", ConsoleColor.Red);
+            }
+            else
+                Output.Log($"[ERROR] Could not repack archive, directory doesn't exist: \"{archiveDir}\"", ConsoleColor.Red);
+        }
+
+        private void Rename_Click(object sender, EventArgs e)
+        {
+            Rename();
+        }
+
+        private void Rename()
+        {
+            string txtFile = txt_TxtFile.Text;
+
+            if (File.Exists(txtFile))
+            {
+                // Delete and recreate output directory
+                string outFolder = txt_RenameOutput.Text;
+                bool createDir = RecreateDirectory(outFolder);
+                if (!createDir)
+                    return;
+
+                Output.Log($"[INFO] Copying and renaming files based on order of filenames in: \"{txtFile}\"");
+
+                // Re-order based on .txt file
+                int i = 0;
+                foreach (var line in File.ReadLines(txtFile))
+                {
+                    var files = Directory.GetFiles(txt_RenameDir.Text);
+                    // If file found, copy to output folder with new name
+                    if (files.Any(x => Path.GetFileNameWithoutExtension(x).Equals(line.Trim())))
+                    {
+                        var file = files.Single(x => Path.GetFileNameWithoutExtension(x).Equals(line.Trim()));
+                        var ext = Path.GetExtension(file);
+                        string outPath = Path.Combine(outFolder, $"{i.ToString().PadLeft(5, '0')}{txt_Suffix}");
+                        File.Copy(file, outPath);
+                        Output.VerboseLog($"[INFO] Copied \"{file}\" to:\n\t\"{outPath}\"", ConsoleColor.Green);
+                    }
+                    else
+                        Output.VerboseLog($"[WARNING] File with name \"{line}\" not found in directory \"{txt_RenameDir.Text}\", " +
+                            $"skipping index {i}.", ConsoleColor.Yellow);
+                    i++;
+                }
+                Output.Log($"[INFO] Done copying and renaming files to: \"{outFolder}\"", ConsoleColor.Green);
+            }
+            else
+                Output.Log($"[ERROR] Rename failed, could not find file: \"{txtFile}\"", ConsoleColor.Red);
+        
+        }
+
+        private void ArchiveFormat_Changed(object sender, EventArgs e)
+        {
+            EnableOutputArchiveSel();
+        }
+
+        private void EnableOutputArchiveSel()
+        {
+            if (comboBox_ArchiveFormat.SelectedIndex == comboBox_ArchiveFormat.Items.IndexOf(".acb"))
+            {
+                txt_OutputArchive.Enabled = false;
+                btn_OutputArchive.Enabled = false;
+                txt_ArchiveDir.Enabled = false;
+                btn_ArchiveDir.Enabled = false;
+                Output.VerboseLog($"[INFO] Disabling output archive directory selection due to format ACB being selected.");
+            }
+            else
+            {
+                txt_OutputArchive.Enabled = true;
+                btn_OutputArchive.Enabled = true;
+                txt_ArchiveDir.Enabled = true;
+                btn_ArchiveDir.Enabled = true;
+                Output.VerboseLog($"[INFO] Enabling output archive directory selection due to format ACB being selected.");
+            }
+        }
+
+        private void ValidateTextCtrls(List<Control> ctrls, Control ctrlToToggle)
+        {
+            if (ctrls.All(x => x.Text != ""))
+            {
+                Output.VerboseLog($"[INFO] Enabling control: \"{ctrlToToggle.Name}\"");
+                ctrlToToggle.Enabled = true;
+            }
+            else
+            {
+                Output.VerboseLog($"[INFO] Disabling control: \"{ctrlToToggle.Name}\"");
+                ctrlToToggle.Enabled = false;
+            }
         }
     }
 }
