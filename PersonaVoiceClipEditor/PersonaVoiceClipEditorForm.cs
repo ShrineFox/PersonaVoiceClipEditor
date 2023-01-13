@@ -8,117 +8,156 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using PuyoTools.Modules.Archive;
 using PuyoTools.Formats.Archives;
 using System.Threading;
 using System.Diagnostics;
 using PuyoTools.GUI;
 using NAudio.Wave;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using ShrineFox.IO;
 
 namespace PersonaVoiceClipEditor
 {
     public partial class PersonaVoiceClipEditorForm : Form
     {
-        string afsPath = "";
-        string acbPath = "";
-        string sourcePath = "";
-        string replacePath = "";
-        string txtPath = "";
-
+        public static List<string> supportedFormats = new List<string> { ".adx", ".hca", ".wav" };
         public PersonaVoiceClipEditorForm()
         {
             InitializeComponent();
-            linkLabel_Help.Links.Add(0, 10, "https://github.com/ShrineFox/PersonaVoiceClipEditor#readme");
-
-#if DEBUG
-                acbPath = @"G:\Projects\P5R Adachi\Voices\Original\JP\bp01.acb";
-                replacePath = @"G:\Projects\P5R Adachi\Voices\Original\JP\bp01";
-                sourcePath = @"G:\Projects\P5R Adachi\Voices\Source\JP";
-                txtPath = @"G:\Projects\P5R Adachi\Voices\New\order.txt";
-
-                textBox_Txt.Text = txtPath;
-                darkTextBox_ACBPath.Text = acbPath;
-                textBox_SourceWavFolder.Text = sourcePath;
-                textBox_ReplaceAdxFolder.Text = replacePath;
-#endif
-        }
-
-        private void ExtractAFS_DragDrop(object sender, DragEventArgs e)
-        {
-            var data = (string[])e.Data.GetData(DataFormats.FileDrop, false);
-            ExtractAFS(data[0]);
+            comboBox_OutFormat.DataSource = supportedFormats;
+            comboBox_OutFormat.SelectedIndex = 0;
+            // TODO: Add commandline options?
+            // TODO: Add log?
         }
 
         private void ExtractAFS(string afs)
         {
             var settings = new PuyoTools.GUI.ArchiveExtractor.Settings();
+            var dialog = new PuyoTools.GUI.ProgressDialog();
+
             if (File.Exists(afs))
             {
-                //Create List for PuyoTools Extraction
+                // Create List for PuyoTools Extraction
                 List<string> files = new List<string>();
                 files.Add(afs);
-                //Set AFS Path to extracted path for Repacking
-                afsPath = Path.Combine(Path.GetDirectoryName(afs), Path.GetFileNameWithoutExtension(afs));
-                textBox_ReplaceAdxFolder.Text = afsPath;
+                PuyoTools.GUI.ToolForm.fileList = files;
+                settings.ExtractToSameNameDirectory = true;
+                settings.ExtractToSourceDirectory = false;
                 //Extract AFS
-                PuyoTools.GUI.ArchiveExtractor.Run(settings, files);
+                PuyoTools.GUI.ArchiveExtractor.Run(settings, dialog);
+                // TODO: Move to Extracted Dir
             }
-        }
-
-        private void RepackAFS_DragDrop(object sender, DragEventArgs e)
-        {
-            var data = (string[])e.Data.GetData(DataFormats.FileDrop, false);
-            RepackAFS(data[0]);
         }
 
         private void RepackAFS(string afs)
         {
+            var settings = new PuyoTools.GUI.ArchiveCreator.Settings();
+            var dialog = new PuyoTools.GUI.ProgressDialog();
+
             if (Directory.Exists(afs))
             {
-                //Convert WAV to ADX
-                foreach (var file in Directory.GetFiles(afs))
-                {
-                    if (Path.GetExtension(file).ToLower() == ".wav")
-                        RunCMD($"adxencd.exe \"{file}\" \"{Path.Combine(Path.GetDirectoryName(file), Path.GetFileNameWithoutExtension(file) + ".adx")}\"");
-                }
-                //Repack AFS
-                List<string> files = Directory.GetFiles(afsPath).ToList();
-                PuyoTools.GUI.ArchiveCreator.Run(files);
+                List<string> files = Directory.GetFiles(afs).ToList();
+                // TODO: Use settings.FileEntries.Add instead?
+                PuyoTools.GUI.ToolForm.fileList = files;
+                PuyoTools.GUI.ArchiveCreator.Run(settings, dialog);
+                // TODO: Move to Output Archive Location
             }
-        }
-
-        private void ExtractACB_DragDrop(object sender, DragEventArgs e)
-        {
-            var data = (string[])e.Data.GetData(DataFormats.FileDrop, false);
-            ExtractACB(data[0]);
         }
 
         private void ExtractACB(string acb)
         {
             if (File.Exists(acb))
             {
-                //Extract ADX from ACB
-                RunCMD($"AcbEditor.exe \"{acb}\"");
-                //Set ACB Path to extracted path for Repacking
-                acbPath = Path.Combine(Path.GetDirectoryName(acbPath), Path.GetFileNameWithoutExtension(acbPath));
-                darkTextBox_ACBPath.Text = acbPath;
+                // Extract ADX from ACB
+                Exe.Run($".\\Dependencies\\AcbEditor.exe \"{acb}\"");
+                // Set ACB Path to extracted path for Repacking
+                string acbPath = Path.Combine(Path.GetDirectoryName(acb), Path.GetFileNameWithoutExtension(acb));
+                if (txt_ArchiveDir.Text == "")
+                    txt_ArchiveDir.Text = acbPath;
+                else
+                    Directory.Move(acbPath, txt_ArchiveDir.Text);
             }
         }
 
-        private void RunCMD(string args, bool hidden = true)
+        private void RepackACB(string acb)
         {
-            ProcessStartInfo start = new ProcessStartInfo();
-            start.FileName = "cmd";
-            start.Arguments = $"/K {args}";
-            start.UseShellExecute = true;
-            start.RedirectStandardOutput = false;
-            if (hidden)
-                start.WindowStyle = ProcessWindowStyle.Hidden;
-            using (Process process = Process.Start(start))
+            if (Directory.Exists(acb))
             {
-
+                //Repack ACB
+                Exe.Run($".\\Dependencies\\AcbEditor.exe \"{acb}\"");
+                string acbPath = Path.Combine(Path.GetDirectoryName(acb), Path.GetFileNameWithoutExtension(acb) + ".acb");
+                string awbPath = acbPath.Replace(".acb", ".awb");
+                if (txt_OutputArchive.Text == "")
+                    txt_OutputArchive.Text = acbPath;
+                else if (File.Exists(acbPath))
+                {
+                    File.Move(acbPath, txt_OutputArchive.Text);
+                    if (File.Exists(awbPath))
+                        File.Move(awbPath, txt_OutputArchive.Text.Replace(".acb", ".awb"));
+                }
             }
+        }
+
+        private void Encode_Click(object sender, EventArgs e)
+        {
+
+            if (Directory.Exists(txt_InputDir.Text))
+            {
+                if (Directory.Exists(txt_OutputDir.Text))
+                {
+                    // Convert files to target format, output to specified directory
+                    foreach (var file in Directory.GetFiles(txt_InputDir.Text).Where(x => supportedFormats.Any(y => y.Equals(Path.GetExtension(x.ToLower())))))
+                    {
+                        string outPath = Path.Combine(txt_OutputDir.Text, Path.GetFileNameWithoutExtension(file) + comboBox_OutFormat.Text);
+                        string args = $"\"{file}\" \"{outPath}\"";
+                        if (chk_UseEncKey.Checked && txt_Key.Text != "" && txt_Key.Enabled)
+                            args += $" --keycode {txt_Key.Text}";
+                        // TODO: If outformat is at9, use at9tool
+                        Exe.Run(".\\Dependencies\\VGAudioCli.exe", args);
+                    }
+                    // Re-order based on .txt file
+                    if (File.Exists(txt_TxtFile.Text))
+                    {
+                        string tempFolder = Path.Combine(Path.GetDirectoryName(txt_OutputDir.Text), "PVE_Temp");
+                        if (Directory.Exists(tempFolder))
+                            Directory.Delete(tempFolder, true);
+                        Directory.CreateDirectory(tempFolder);
+                        int i = 0;
+                        foreach (var line in File.ReadLines(txt_TxtFile.Text))
+                        {
+                            var files = Directory.GetFiles(txt_OutputDir.Text, $"*{comboBox_OutFormat.Text}", SearchOption.TopDirectoryOnly);
+                            if (files.Any(x => Path.GetFileNameWithoutExtension(x).Equals(line.Trim())))
+                            {
+                                var file = files.Single(x => Path.GetFileNameWithoutExtension(x).Equals(line.Trim()));
+                                string outPath = Path.Combine(tempFolder, $"{i.ToString().PadLeft(5, '0')}{txt_Suffix}");
+                                File.Copy(file, outPath);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Move;
+        }
+
+        private void Txt_DragDrop(object sender, DragEventArgs e)
+        {
+            var data = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            if (File.Exists(data[0]))
+                this.Text = data[0];
+        }
+
+        private void Extract_DragDrop(object sender, DragEventArgs e)
+        {
+            var data = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            // TODO: If directory, do each file in directory (use separate UI thread)
+            if (Path.GetExtension(data[0]).ToLower() == ".afs")
+                ExtractAFS(data[0]);
+            else if (Path.GetExtension(data[0]).ToLower() == ".acb")
+                ExtractACB(data[0]);
         }
 
         private void RepackACB_DragDrop(object sender, DragEventArgs e)
@@ -127,204 +166,63 @@ namespace PersonaVoiceClipEditor
             RepackACB(data[0]);
         }
 
-        private void RepackACB(string acb)
+        private void InputArchive_Click(object sender, EventArgs e)
         {
-            if (Directory.Exists(acb))
-            {
-                //Convert WAV to ADX
-                foreach (var file in Directory.GetFiles(acb))
-                {
-                    if (Path.GetExtension(file).ToLower() == ".wav")
-                        RunCMD($"adxencd.exe \"{file}\" \"{Path.Combine(Path.GetDirectoryName(file), Path.GetFileNameWithoutExtension(file) + ".adx")}\"");
-                }
-                //Repack ACB
-                List<string> files = Directory.GetFiles(acbPath).ToList();
-                RunCMD($"AcbEditor.exe \"{acbPath}\"");
-            }
+            var files = WinFormsEvents.FilePath_Click("Choose Input Archive File...", false,
+                new string[] { "ACB Archive (.acb)", "AFS Archive (.afs)" });
+            if (files.Count > 0)
+                txt_InputArchive.Text = files[0];
         }
 
-        private void ExtractAFS_DragEnter(object sender, DragEventArgs e)
+        private void ExtractedArchiveDir_Click(object sender, EventArgs e)
         {
-            e.Effect = DragDropEffects.Move;
+            string path = WinFormsEvents.FolderPath_Click("Choose Extracted Archive Folder...");
+            if (!string.IsNullOrEmpty(path))
+                txt_ArchiveDir.Text = path;
         }
 
-        private void RepackAFS_DragEnter(object sender, DragEventArgs e)
+        private void OutputArchive_Click(object sender, EventArgs e)
         {
-            e.Effect = DragDropEffects.Move;
+            var files = WinFormsEvents.FilePath_Click("Choose Output Archive File Location...", false,
+                new string[] { "ACB Archive (.acb)", "AFS Archive (.afs)" });
+            if (files.Count > 0)
+                txt_OutputArchive.Text = files[0];
         }
 
-        private void ExtractACB_DragEnter(object sender, DragEventArgs e)
+        private void InputDir_Click(object sender, EventArgs e)
         {
-            e.Effect = DragDropEffects.Move;
+            string path = WinFormsEvents.FolderPath_Click("Choose Input Audio Files Folder...");
+            if (!string.IsNullOrEmpty(path))
+                txt_InputDir.Text = path;
         }
 
-        private void RepackACB_DragEnter(object sender, DragEventArgs e)
+        private void OutputDir_Click(object sender, EventArgs e)
         {
-            e.Effect = DragDropEffects.Move;
-        }
-
-        public static void RecursiveDelete(DirectoryInfo baseDir)
-        {
-            if (!baseDir.Exists)
-                return;
-
-            foreach (var dir in baseDir.EnumerateDirectories())
-            {
-                RecursiveDelete(dir);
-                dir.Delete(true);
-            }
-            //baseDir.Delete(true);
-        }
-
-        FileStream WaitForFile(string fullPath, FileMode mode, FileAccess access, FileShare share)
-        {
-            for (int numTries = 0; numTries < 10; numTries++)
-            {
-                FileStream fs = null;
-                try
-                {
-                    fs = new FileStream(fullPath, mode, access, share);
-                    return fs;
-                }
-                catch (IOException)
-                {
-                    if (fs != null)
-                    {
-                        fs.Dispose();
-                    }
-                    Thread.Sleep(100);
-                }
-            }
-
-            return null;
-        }
-
-        public static void StereoToMono(string sourceFile, string outputFile)
-        {
-            using (var waveFileReader = new WaveFileReader(sourceFile))
-            {
-                var outFormat = new WaveFormat(waveFileReader.WaveFormat.SampleRate, 1);
-                using (var resampler = new MediaFoundationResampler(waveFileReader, outFormat))
-                {
-                    WaveFileWriter.CreateWaveFile(outputFile, resampler);
-                }
-            }
-        }
-
-        private void linkLabel_Help_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start(e.Link.LinkData as string);
-        }
-
-        private void AFSPath_Click(object sender, EventArgs e)
-        {
-            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
-            dialog.IsFolderPicker = false;
-            dialog.Filters.Add(new CommonFileDialogFilter("AFS Archives", "afs"));
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                afsPath = dialog.FileName;
-                darkTextBox_AFSPath.Text = afsPath;
-            }
-        }
-
-        private void ACBPath_Click(object sender, EventArgs e)
-        {
-            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
-            dialog.Filters.Add(new CommonFileDialogFilter("ACB Archives", "acb"));
-            dialog.IsFolderPicker = false;
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                acbPath = dialog.FileName;
-                darkTextBox_ACBPath.Text = acbPath;
-            }
-        }
-
-        private void SourceWAV_Click(object sender, EventArgs e)
-        {
-            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
-            dialog.IsFolderPicker = true;
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                sourcePath = dialog.FileName;
-                textBox_SourceWavFolder.Text = sourcePath;
-            }
-        }
-
-        private void ReplaceAdxFolder_Click(object sender, EventArgs e)
-        {
-            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
-            dialog.IsFolderPicker = true;
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                replacePath = dialog.FileName;
-                textBox_ReplaceAdxFolder.Text = replacePath;
-            }
+            string path = WinFormsEvents.FolderPath_Click("Choose Output Audio Files Folder...");
+            if (!string.IsNullOrEmpty(path))
+                txt_OutputDir.Text = path;
         }
 
         private void Txt_Click(object sender, EventArgs e)
         {
-            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
-            dialog.Filters.Add(new CommonFileDialogFilter("Text Files","txt"));
-            dialog.IsFolderPicker = false;
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                txtPath = dialog.FileName;
-                textBox_Txt.Text = txtPath;
-            }
+            var files = WinFormsEvents.FilePath_Click("Choose Output Name Order File Location...", false,
+                new string[] { "Text file (.txt)" });
+            if (files.Count > 0)
+                txt_TxtFile.Text = files[0];
         }
 
-        private void Replace_Click(object sender, EventArgs e)
+        private void RenameDir_Click(object sender, EventArgs e)
         {
-            if (File.Exists(txtPath))
-            {
-                lbl_Status.Text = "Started";
-                int i = Convert.ToInt32(darkNumericUpDown1.Value);
-                string[] lines = File.ReadAllLines(txtPath);
-                int lineCount = lines.Count();
-                foreach (var line in lines)
-                {
-                    lbl_Status.Text = $"{i + 1}/{lineCount}";
-                    if (!string.IsNullOrWhiteSpace(line))
-                    {
-                        //Convert WAV to ADX
-                        string wavPath = $"{sourcePath}\\{line}.wav";
-                        string adxPath = $"{sourcePath}\\{line}.adx";
-                        RunCMD($"adxencd.exe \"{wavPath}\" \"{adxPath}\"");
-                        using (WaitForFile(adxPath, FileMode.Open, FileAccess.ReadWrite, FileShare.None)) { }
-                        //Overwrite ADX in matching list order
-                        if (File.Exists(adxPath))
-                            File.Copy($"{sourcePath}\\{line}.adx", $"{replacePath}\\{i.ToString().PadLeft(5, '0')}_streaming.adx", true);
-                        else
-                            MessageBox.Show($"Failed to convert ADX: {txtPath}");
-                    }
-                    i++;
-                }
-                lbl_Status.Text = $"Done";
-                MessageBox.Show($"Finished! New ADX can be found in:\n{replacePath}");
-            }
-            else
-                MessageBox.Show($"Specified Text file could not be found: {txtPath}");
+            string path = WinFormsEvents.FolderPath_Click("Choose Directory of Files to Rename...");
+            if (!string.IsNullOrEmpty(path))
+                txt_RenameDir.Text = path;
         }
 
-        private void AFSExtract_Click(object sender, EventArgs e)
+        private void RenameOutputDir_Click(object sender, EventArgs e)
         {
-            ExtractAFS(afsPath);
-        }
-
-        private void AFSRepack_Click(object sender, EventArgs e)
-        {
-            RepackAFS(afsPath);
-        }
-
-        private void ACBExtract_Click(object sender, EventArgs e)
-        {
-            ExtractACB(acbPath);
-        }
-
-        private void ACBRepack_Click(object sender, EventArgs e)
-        {
-            RepackACB(acbPath);
+            string path = WinFormsEvents.FolderPath_Click("Choose Renamed Files Destination...");
+            if (!string.IsNullOrEmpty(path))
+                txt_RenameOutput.Text = path;
         }
     }
 }

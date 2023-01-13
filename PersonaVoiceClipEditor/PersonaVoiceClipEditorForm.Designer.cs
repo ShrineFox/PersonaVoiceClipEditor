@@ -1,4 +1,6 @@
-﻿namespace PersonaVoiceClipEditor
+﻿using GrayIris.Utilities.UI.Controls;
+
+namespace PersonaVoiceClipEditor
 {
     partial class PersonaVoiceClipEditorForm
     {
@@ -29,317 +31,664 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PersonaVoiceClipEditorForm));
-            this.btn_ExtractAFS = new DarkUI.Controls.DarkButton();
-            this.btn_RepackAFS = new DarkUI.Controls.DarkButton();
-            this.btn_RepackCSB = new DarkUI.Controls.DarkButton();
-            this.btn_ExtractCSB = new DarkUI.Controls.DarkButton();
-            this.lbl_AFS = new DarkUI.Controls.DarkLabel();
-            this.lbl_ACBPath = new DarkUI.Controls.DarkLabel();
-            this.lbl_SourceWavFolder = new DarkUI.Controls.DarkLabel();
-            this.lbl_ReplacementFolder = new DarkUI.Controls.DarkLabel();
-            this.lbl_Txt = new DarkUI.Controls.DarkLabel();
+            this.progressBar_Main = new System.Windows.Forms.ProgressBar();
+            this.tabControl_Main = new GrayIris.Utilities.UI.Controls.YaTabControl();
+            this.tabPage_Encoding = new GrayIris.Utilities.UI.Controls.YaTabPage();
+            this.lbl_OutFormat = new DarkUI.Controls.DarkLabel();
+            this.comboBox_OutFormat = new DarkUI.Controls.DarkComboBox();
+            this.lbl_InputDir = new DarkUI.Controls.DarkLabel();
             this.btn_Replace = new DarkUI.Controls.DarkButton();
-            this.textBox_SourceWavFolder = new DarkUI.Controls.DarkTextBox();
-            this.textBox_ReplaceAdxFolder = new DarkUI.Controls.DarkTextBox();
-            this.textBox_Txt = new DarkUI.Controls.DarkTextBox();
-            this.darkGroupBox_Replacement = new DarkUI.Controls.DarkGroupBox();
-            this.darkLabel1 = new DarkUI.Controls.DarkLabel();
-            this.darkNumericUpDown1 = new DarkUI.Controls.DarkNumericUpDown();
-            this.linkLabel_Help = new System.Windows.Forms.LinkLabel();
-            this.darkTextBox_ACBPath = new DarkUI.Controls.DarkTextBox();
-            this.darkTextBox_AFSPath = new DarkUI.Controls.DarkTextBox();
-            this.lbl_Status = new DarkUI.Controls.DarkLabel();
-            this.darkGroupBox_Replacement.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.darkNumericUpDown1)).BeginInit();
+            this.txt_Key = new DarkUI.Controls.DarkTextBox();
+            this.lbl_OutputDir = new DarkUI.Controls.DarkLabel();
+            this.chk_UseEncKey = new DarkUI.Controls.DarkCheckBox();
+            this.txt_InputDir = new DarkUI.Controls.DarkTextBox();
+            this.btn_InputDir = new DarkUI.Controls.DarkButton();
+            this.btn_OutputDir = new DarkUI.Controls.DarkButton();
+            this.txt_OutputDir = new DarkUI.Controls.DarkTextBox();
+            this.tabPage_Renaming = new GrayIris.Utilities.UI.Controls.YaTabPage();
+            this.btn_RenameOutput = new DarkUI.Controls.DarkButton();
+            this.lbl_RenameOutput = new DarkUI.Controls.DarkLabel();
+            this.txt_RenameOutput = new DarkUI.Controls.DarkTextBox();
+            this.lbl_TxtFile = new DarkUI.Controls.DarkLabel();
+            this.lbl_TxtSuffix = new DarkUI.Controls.DarkLabel();
+            this.btn_Rename = new DarkUI.Controls.DarkButton();
+            this.btn_TxtFile = new DarkUI.Controls.DarkButton();
+            this.txt_TxtFile = new DarkUI.Controls.DarkTextBox();
+            this.btn_RenameDir = new DarkUI.Controls.DarkButton();
+            this.txt_Suffix = new DarkUI.Controls.DarkTextBox();
+            this.lbl_RenameDir = new DarkUI.Controls.DarkLabel();
+            this.txt_RenameDir = new DarkUI.Controls.DarkTextBox();
+            this.Archives = new GrayIris.Utilities.UI.Controls.YaTabPage();
+            this.lbl_ArchiveFormat = new DarkUI.Controls.DarkLabel();
+            this.comboBox_ArchiveFormat = new DarkUI.Controls.DarkComboBox();
+            this.lbl_ArchiveDir = new DarkUI.Controls.DarkLabel();
+            this.txt_ArchiveDir = new DarkUI.Controls.DarkTextBox();
+            this.lbl_InputArchive = new DarkUI.Controls.DarkLabel();
+            this.btn_ArchiveDir = new DarkUI.Controls.DarkButton();
+            this.btn_Unpack = new DarkUI.Controls.DarkButton();
+            this.lbl_OutputArchive = new DarkUI.Controls.DarkLabel();
+            this.btn_InputArchive = new DarkUI.Controls.DarkButton();
+            this.btn_OutputArchive = new DarkUI.Controls.DarkButton();
+            this.btn_Repack = new DarkUI.Controls.DarkButton();
+            this.txt_OutputArchive = new DarkUI.Controls.DarkTextBox();
+            this.txt_InputArchive = new DarkUI.Controls.DarkTextBox();
+            this.rtb_Log = new System.Windows.Forms.RichTextBox();
+            this.tabControl_Main.SuspendLayout();
+            this.tabPage_Encoding.SuspendLayout();
+            this.tabPage_Renaming.SuspendLayout();
+            this.Archives.SuspendLayout();
             this.SuspendLayout();
             // 
-            // btn_ExtractAFS
+            // progressBar_Main
             // 
-            this.btn_ExtractAFS.AllowDrop = true;
-            this.btn_ExtractAFS.Location = new System.Drawing.Point(258, 29);
-            this.btn_ExtractAFS.Name = "btn_ExtractAFS";
-            this.btn_ExtractAFS.Padding = new System.Windows.Forms.Padding(5);
-            this.btn_ExtractAFS.Size = new System.Drawing.Size(80, 40);
-            this.btn_ExtractAFS.TabIndex = 4;
-            this.btn_ExtractAFS.Text = "Extract";
-            this.btn_ExtractAFS.Click += new System.EventHandler(this.AFSExtract_Click);
-            this.btn_ExtractAFS.DragDrop += new System.Windows.Forms.DragEventHandler(this.ExtractAFS_DragDrop);
-            this.btn_ExtractAFS.DragEnter += new System.Windows.Forms.DragEventHandler(this.ExtractAFS_DragEnter);
+            this.progressBar_Main.ForeColor = System.Drawing.Color.Chartreuse;
+            this.progressBar_Main.Location = new System.Drawing.Point(-1, 389);
+            this.progressBar_Main.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.progressBar_Main.Name = "progressBar_Main";
+            this.progressBar_Main.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.progressBar_Main.Size = new System.Drawing.Size(514, 18);
+            this.progressBar_Main.TabIndex = 40;
             // 
-            // btn_RepackAFS
+            // tabControl_Main
             // 
-            this.btn_RepackAFS.AllowDrop = true;
-            this.btn_RepackAFS.Location = new System.Drawing.Point(346, 29);
-            this.btn_RepackAFS.Name = "btn_RepackAFS";
-            this.btn_RepackAFS.Padding = new System.Windows.Forms.Padding(5);
-            this.btn_RepackAFS.Size = new System.Drawing.Size(80, 40);
-            this.btn_RepackAFS.TabIndex = 5;
-            this.btn_RepackAFS.Text = "Repack";
-            this.btn_RepackAFS.Click += new System.EventHandler(this.AFSRepack_Click);
-            this.btn_RepackAFS.DragDrop += new System.Windows.Forms.DragEventHandler(this.RepackAFS_DragDrop);
-            this.btn_RepackAFS.DragEnter += new System.Windows.Forms.DragEventHandler(this.RepackAFS_DragEnter);
+            this.tabControl_Main.ActiveColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.tabControl_Main.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.tabControl_Main.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.tabControl_Main.CloseButton = false;
+            this.tabControl_Main.Controls.Add(this.tabPage_Encoding);
+            this.tabControl_Main.Controls.Add(this.tabPage_Renaming);
+            this.tabControl_Main.Controls.Add(this.Archives);
+            this.tabControl_Main.ForeColor = System.Drawing.Color.Silver;
+            this.tabControl_Main.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.tabControl_Main.ImageIndex = -1;
+            this.tabControl_Main.ImageList = null;
+            this.tabControl_Main.InactiveColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.tabControl_Main.Location = new System.Drawing.Point(-1, -2);
+            this.tabControl_Main.Name = "tabControl_Main";
+            this.tabControl_Main.NewTabButton = false;
+            this.tabControl_Main.OverIndex = -1;
+            this.tabControl_Main.ScrollButtonStyle = GrayIris.Utilities.UI.Controls.YaScrollButtonStyle.Always;
+            this.tabControl_Main.SelectedIndex = 2;
+            this.tabControl_Main.SelectedTab = this.Archives;
+            this.tabControl_Main.Size = new System.Drawing.Size(514, 220);
+            this.tabControl_Main.TabDock = System.Windows.Forms.DockStyle.Top;
+            this.tabControl_Main.TabDrawer = null;
+            this.tabControl_Main.TabFont = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tabControl_Main.TabIndex = 0;
             // 
-            // btn_RepackCSB
+            // tabPage_Encoding
             // 
-            this.btn_RepackCSB.AllowDrop = true;
-            this.btn_RepackCSB.Location = new System.Drawing.Point(346, 78);
-            this.btn_RepackCSB.Name = "btn_RepackCSB";
-            this.btn_RepackCSB.Padding = new System.Windows.Forms.Padding(5);
-            this.btn_RepackCSB.Size = new System.Drawing.Size(80, 40);
-            this.btn_RepackCSB.TabIndex = 7;
-            this.btn_RepackCSB.Text = "Repack";
-            this.btn_RepackCSB.Click += new System.EventHandler(this.ACBRepack_Click);
-            this.btn_RepackCSB.DragDrop += new System.Windows.Forms.DragEventHandler(this.RepackACB_DragDrop);
-            this.btn_RepackCSB.DragEnter += new System.Windows.Forms.DragEventHandler(this.RepackACB_DragEnter);
+            this.tabPage_Encoding.Controls.Add(this.lbl_OutFormat);
+            this.tabPage_Encoding.Controls.Add(this.comboBox_OutFormat);
+            this.tabPage_Encoding.Controls.Add(this.lbl_InputDir);
+            this.tabPage_Encoding.Controls.Add(this.btn_Replace);
+            this.tabPage_Encoding.Controls.Add(this.txt_Key);
+            this.tabPage_Encoding.Controls.Add(this.lbl_OutputDir);
+            this.tabPage_Encoding.Controls.Add(this.chk_UseEncKey);
+            this.tabPage_Encoding.Controls.Add(this.txt_InputDir);
+            this.tabPage_Encoding.Controls.Add(this.btn_InputDir);
+            this.tabPage_Encoding.Controls.Add(this.btn_OutputDir);
+            this.tabPage_Encoding.Controls.Add(this.txt_OutputDir);
+            this.tabPage_Encoding.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabPage_Encoding.ImageIndex = -1;
+            this.tabPage_Encoding.Location = new System.Drawing.Point(4, 36);
+            this.tabPage_Encoding.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabPage_Encoding.Name = "tabPage_Encoding";
+            this.tabPage_Encoding.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabPage_Encoding.Size = new System.Drawing.Size(506, 180);
+            this.tabPage_Encoding.TabIndex = 1;
+            this.tabPage_Encoding.Text = "Encoding";
             // 
-            // btn_ExtractCSB
+            // lbl_OutFormat
             // 
-            this.btn_ExtractCSB.AllowDrop = true;
-            this.btn_ExtractCSB.Location = new System.Drawing.Point(258, 78);
-            this.btn_ExtractCSB.Name = "btn_ExtractCSB";
-            this.btn_ExtractCSB.Padding = new System.Windows.Forms.Padding(5);
-            this.btn_ExtractCSB.Size = new System.Drawing.Size(80, 40);
-            this.btn_ExtractCSB.TabIndex = 6;
-            this.btn_ExtractCSB.Text = "Extract";
-            this.btn_ExtractCSB.Click += new System.EventHandler(this.ACBExtract_Click);
-            this.btn_ExtractCSB.DragDrop += new System.Windows.Forms.DragEventHandler(this.ExtractACB_DragDrop);
-            this.btn_ExtractCSB.DragEnter += new System.Windows.Forms.DragEventHandler(this.ExtractACB_DragEnter);
+            this.lbl_OutFormat.AutoSize = true;
+            this.lbl_OutFormat.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.lbl_OutFormat.Location = new System.Drawing.Point(362, 15);
+            this.lbl_OutFormat.Name = "lbl_OutFormat";
+            this.lbl_OutFormat.Size = new System.Drawing.Size(93, 16);
+            this.lbl_OutFormat.TabIndex = 10;
+            this.lbl_OutFormat.Text = "Output Format:";
             // 
-            // lbl_AFS
+            // comboBox_OutFormat
             // 
-            this.lbl_AFS.AutoSize = true;
-            this.lbl_AFS.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.lbl_AFS.Location = new System.Drawing.Point(12, 19);
-            this.lbl_AFS.Name = "lbl_AFS";
-            this.lbl_AFS.Size = new System.Drawing.Size(71, 17);
-            this.lbl_AFS.TabIndex = 0;
-            this.lbl_AFS.Text = "AFS Path:";
+            this.comboBox_OutFormat.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.comboBox_OutFormat.FormattingEnabled = true;
+            this.comboBox_OutFormat.Items.AddRange(new object[] {
+            ".adx",
+            ".hca",
+            ".at9",
+            ".wav"});
+            this.comboBox_OutFormat.Location = new System.Drawing.Point(365, 35);
+            this.comboBox_OutFormat.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.comboBox_OutFormat.Name = "comboBox_OutFormat";
+            this.comboBox_OutFormat.Size = new System.Drawing.Size(135, 23);
+            this.comboBox_OutFormat.TabIndex = 11;
             // 
-            // lbl_ACBPath
+            // lbl_InputDir
             // 
-            this.lbl_ACBPath.AutoSize = true;
-            this.lbl_ACBPath.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.lbl_ACBPath.Location = new System.Drawing.Point(12, 68);
-            this.lbl_ACBPath.Name = "lbl_ACBPath";
-            this.lbl_ACBPath.Size = new System.Drawing.Size(72, 17);
-            this.lbl_ACBPath.TabIndex = 2;
-            this.lbl_ACBPath.Text = "ACB Path:";
-            // 
-            // lbl_SourceWavFolder
-            // 
-            this.lbl_SourceWavFolder.AutoSize = true;
-            this.lbl_SourceWavFolder.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.lbl_SourceWavFolder.Location = new System.Drawing.Point(6, 18);
-            this.lbl_SourceWavFolder.Name = "lbl_SourceWavFolder";
-            this.lbl_SourceWavFolder.Size = new System.Drawing.Size(140, 17);
-            this.lbl_SourceWavFolder.TabIndex = 10;
-            this.lbl_SourceWavFolder.Text = "Source .WAV Folder:";
-            // 
-            // lbl_ReplacementFolder
-            // 
-            this.lbl_ReplacementFolder.AutoSize = true;
-            this.lbl_ReplacementFolder.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.lbl_ReplacementFolder.Location = new System.Drawing.Point(6, 63);
-            this.lbl_ReplacementFolder.Name = "lbl_ReplacementFolder";
-            this.lbl_ReplacementFolder.Size = new System.Drawing.Size(151, 17);
-            this.lbl_ReplacementFolder.TabIndex = 13;
-            this.lbl_ReplacementFolder.Text = "Extracted .ADX Folder:";
-            // 
-            // lbl_Txt
-            // 
-            this.lbl_Txt.AutoSize = true;
-            this.lbl_Txt.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.lbl_Txt.Location = new System.Drawing.Point(6, 109);
-            this.lbl_Txt.Name = "lbl_Txt";
-            this.lbl_Txt.Size = new System.Drawing.Size(250, 17);
-            this.lbl_Txt.TabIndex = 15;
-            this.lbl_Txt.Text = ".TXT file with ordered .WAV filenames:";
+            this.lbl_InputDir.AutoSize = true;
+            this.lbl_InputDir.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.lbl_InputDir.Location = new System.Drawing.Point(10, 15);
+            this.lbl_InputDir.Name = "lbl_InputDir";
+            this.lbl_InputDir.Size = new System.Drawing.Size(127, 16);
+            this.lbl_InputDir.TabIndex = 2;
+            this.lbl_InputDir.Text = "Input Files Directory:";
             // 
             // btn_Replace
             // 
             this.btn_Replace.AllowDrop = true;
-            this.btn_Replace.Location = new System.Drawing.Point(273, 38);
+            this.btn_Replace.Enabled = false;
+            this.btn_Replace.Location = new System.Drawing.Point(365, 108);
             this.btn_Replace.Name = "btn_Replace";
             this.btn_Replace.Padding = new System.Windows.Forms.Padding(5);
-            this.btn_Replace.Size = new System.Drawing.Size(139, 144);
-            this.btn_Replace.TabIndex = 17;
-            this.btn_Replace.Text = "Replace";
-            this.btn_Replace.Click += new System.EventHandler(this.Replace_Click);
+            this.btn_Replace.Size = new System.Drawing.Size(135, 65);
+            this.btn_Replace.TabIndex = 12;
+            this.btn_Replace.Text = "Encode Files";
+            this.btn_Replace.Click += new System.EventHandler(this.Encode_Click);
+            this.btn_Replace.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
             // 
-            // textBox_SourceWavFolder
+            // txt_Key
             // 
-            this.textBox_SourceWavFolder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
-            this.textBox_SourceWavFolder.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox_SourceWavFolder.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.textBox_SourceWavFolder.Location = new System.Drawing.Point(6, 38);
-            this.textBox_SourceWavFolder.Name = "textBox_SourceWavFolder";
-            this.textBox_SourceWavFolder.ReadOnly = true;
-            this.textBox_SourceWavFolder.Size = new System.Drawing.Size(257, 22);
-            this.textBox_SourceWavFolder.TabIndex = 12;
-            this.textBox_SourceWavFolder.Click += new System.EventHandler(this.SourceWAV_Click);
+            this.txt_Key.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
+            this.txt_Key.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_Key.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.txt_Key.Location = new System.Drawing.Point(95, 150);
+            this.txt_Key.Name = "txt_Key";
+            this.txt_Key.ReadOnly = true;
+            this.txt_Key.Size = new System.Drawing.Size(239, 22);
+            this.txt_Key.TabIndex = 9;
             // 
-            // textBox_ReplaceAdxFolder
+            // lbl_OutputDir
             // 
-            this.textBox_ReplaceAdxFolder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
-            this.textBox_ReplaceAdxFolder.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox_ReplaceAdxFolder.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.textBox_ReplaceAdxFolder.Location = new System.Drawing.Point(6, 84);
-            this.textBox_ReplaceAdxFolder.Name = "textBox_ReplaceAdxFolder";
-            this.textBox_ReplaceAdxFolder.ReadOnly = true;
-            this.textBox_ReplaceAdxFolder.Size = new System.Drawing.Size(257, 22);
-            this.textBox_ReplaceAdxFolder.TabIndex = 14;
-            this.textBox_ReplaceAdxFolder.Click += new System.EventHandler(this.ReplaceAdxFolder_Click);
+            this.lbl_OutputDir.AutoSize = true;
+            this.lbl_OutputDir.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.lbl_OutputDir.Location = new System.Drawing.Point(10, 75);
+            this.lbl_OutputDir.Name = "lbl_OutputDir";
+            this.lbl_OutputDir.Size = new System.Drawing.Size(137, 16);
+            this.lbl_OutputDir.TabIndex = 5;
+            this.lbl_OutputDir.Text = "Output Files Directory:";
             // 
-            // textBox_Txt
+            // chk_UseEncKey
             // 
-            this.textBox_Txt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
-            this.textBox_Txt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox_Txt.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.textBox_Txt.Location = new System.Drawing.Point(6, 129);
-            this.textBox_Txt.Name = "textBox_Txt";
-            this.textBox_Txt.ReadOnly = true;
-            this.textBox_Txt.Size = new System.Drawing.Size(257, 22);
-            this.textBox_Txt.TabIndex = 16;
-            this.textBox_Txt.Click += new System.EventHandler(this.Txt_Click);
+            this.chk_UseEncKey.AutoSize = true;
+            this.chk_UseEncKey.Location = new System.Drawing.Point(12, 150);
+            this.chk_UseEncKey.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.chk_UseEncKey.Name = "chk_UseEncKey";
+            this.chk_UseEncKey.Size = new System.Drawing.Size(87, 21);
+            this.chk_UseEncKey.TabIndex = 8;
+            this.chk_UseEncKey.Text = "Use Key:";
             // 
-            // darkGroupBox_Replacement
+            // txt_InputDir
             // 
-            this.darkGroupBox_Replacement.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            this.darkGroupBox_Replacement.Controls.Add(this.darkLabel1);
-            this.darkGroupBox_Replacement.Controls.Add(this.darkNumericUpDown1);
-            this.darkGroupBox_Replacement.Controls.Add(this.linkLabel_Help);
-            this.darkGroupBox_Replacement.Controls.Add(this.textBox_SourceWavFolder);
-            this.darkGroupBox_Replacement.Controls.Add(this.textBox_Txt);
-            this.darkGroupBox_Replacement.Controls.Add(this.lbl_SourceWavFolder);
-            this.darkGroupBox_Replacement.Controls.Add(this.textBox_ReplaceAdxFolder);
-            this.darkGroupBox_Replacement.Controls.Add(this.lbl_ReplacementFolder);
-            this.darkGroupBox_Replacement.Controls.Add(this.lbl_Txt);
-            this.darkGroupBox_Replacement.Controls.Add(this.btn_Replace);
-            this.darkGroupBox_Replacement.ForeColor = System.Drawing.Color.White;
-            this.darkGroupBox_Replacement.Location = new System.Drawing.Point(12, 133);
-            this.darkGroupBox_Replacement.Name = "darkGroupBox_Replacement";
-            this.darkGroupBox_Replacement.Size = new System.Drawing.Size(414, 197);
-            this.darkGroupBox_Replacement.TabIndex = 9;
-            this.darkGroupBox_Replacement.TabStop = false;
-            this.darkGroupBox_Replacement.Text = "Replacement by Filename Order";
+            this.txt_InputDir.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
+            this.txt_InputDir.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_InputDir.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.txt_InputDir.Location = new System.Drawing.Point(10, 34);
+            this.txt_InputDir.Name = "txt_InputDir";
+            this.txt_InputDir.ReadOnly = true;
+            this.txt_InputDir.Size = new System.Drawing.Size(282, 22);
+            this.txt_InputDir.TabIndex = 3;
+            this.txt_InputDir.Click += new System.EventHandler(this.InputDir_Click);
+            this.txt_InputDir.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
             // 
-            // darkLabel1
+            // btn_InputDir
             // 
-            this.darkLabel1.AutoSize = true;
-            this.darkLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.darkLabel1.Location = new System.Drawing.Point(6, 162);
-            this.darkLabel1.Name = "darkLabel1";
-            this.darkLabel1.Size = new System.Drawing.Size(95, 17);
-            this.darkLabel1.TabIndex = 19;
-            this.darkLabel1.Text = "Start at Index:";
+            this.btn_InputDir.Location = new System.Drawing.Point(298, 35);
+            this.btn_InputDir.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btn_InputDir.Name = "btn_InputDir";
+            this.btn_InputDir.Padding = new System.Windows.Forms.Padding(4);
+            this.btn_InputDir.Size = new System.Drawing.Size(37, 21);
+            this.btn_InputDir.TabIndex = 4;
+            this.btn_InputDir.Text = "...";
+            this.btn_InputDir.Click += new System.EventHandler(this.InputDir_Click);
+            this.btn_InputDir.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
             // 
-            // darkNumericUpDown1
+            // btn_OutputDir
             // 
-            this.darkNumericUpDown1.Location = new System.Drawing.Point(107, 160);
-            this.darkNumericUpDown1.Name = "darkNumericUpDown1";
-            this.darkNumericUpDown1.Size = new System.Drawing.Size(55, 22);
-            this.darkNumericUpDown1.TabIndex = 18;
+            this.btn_OutputDir.Location = new System.Drawing.Point(298, 95);
+            this.btn_OutputDir.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btn_OutputDir.Name = "btn_OutputDir";
+            this.btn_OutputDir.Padding = new System.Windows.Forms.Padding(4);
+            this.btn_OutputDir.Size = new System.Drawing.Size(37, 21);
+            this.btn_OutputDir.TabIndex = 7;
+            this.btn_OutputDir.Text = "...";
+            this.btn_OutputDir.Click += new System.EventHandler(this.OutputDir_Click);
+            this.btn_OutputDir.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
             // 
-            // linkLabel_Help
+            // txt_OutputDir
             // 
-            this.linkLabel_Help.ActiveLinkColor = System.Drawing.Color.White;
-            this.linkLabel_Help.AutoSize = true;
-            this.linkLabel_Help.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
-            this.linkLabel_Help.LinkColor = System.Drawing.Color.White;
-            this.linkLabel_Help.Location = new System.Drawing.Point(328, 18);
-            this.linkLabel_Help.Name = "linkLabel_Help";
-            this.linkLabel_Help.Size = new System.Drawing.Size(80, 17);
-            this.linkLabel_Help.TabIndex = 11;
-            this.linkLabel_Help.TabStop = true;
-            this.linkLabel_Help.Text = "How to Use";
-            this.linkLabel_Help.VisitedLinkColor = System.Drawing.Color.White;
-            this.linkLabel_Help.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_Help_LinkClicked);
+            this.txt_OutputDir.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
+            this.txt_OutputDir.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_OutputDir.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.txt_OutputDir.Location = new System.Drawing.Point(10, 94);
+            this.txt_OutputDir.Name = "txt_OutputDir";
+            this.txt_OutputDir.ReadOnly = true;
+            this.txt_OutputDir.Size = new System.Drawing.Size(282, 22);
+            this.txt_OutputDir.TabIndex = 6;
+            this.txt_OutputDir.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
             // 
-            // darkTextBox_ACBPath
+            // tabPage_Renaming
             // 
-            this.darkTextBox_ACBPath.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
-            this.darkTextBox_ACBPath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.darkTextBox_ACBPath.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.darkTextBox_ACBPath.Location = new System.Drawing.Point(12, 88);
-            this.darkTextBox_ACBPath.Name = "darkTextBox_ACBPath";
-            this.darkTextBox_ACBPath.ReadOnly = true;
-            this.darkTextBox_ACBPath.Size = new System.Drawing.Size(237, 22);
-            this.darkTextBox_ACBPath.TabIndex = 3;
-            this.darkTextBox_ACBPath.Click += new System.EventHandler(this.ACBPath_Click);
+            this.tabPage_Renaming.Controls.Add(this.btn_RenameOutput);
+            this.tabPage_Renaming.Controls.Add(this.lbl_RenameOutput);
+            this.tabPage_Renaming.Controls.Add(this.txt_RenameOutput);
+            this.tabPage_Renaming.Controls.Add(this.lbl_TxtFile);
+            this.tabPage_Renaming.Controls.Add(this.lbl_TxtSuffix);
+            this.tabPage_Renaming.Controls.Add(this.btn_Rename);
+            this.tabPage_Renaming.Controls.Add(this.btn_TxtFile);
+            this.tabPage_Renaming.Controls.Add(this.txt_TxtFile);
+            this.tabPage_Renaming.Controls.Add(this.btn_RenameDir);
+            this.tabPage_Renaming.Controls.Add(this.txt_Suffix);
+            this.tabPage_Renaming.Controls.Add(this.lbl_RenameDir);
+            this.tabPage_Renaming.Controls.Add(this.txt_RenameDir);
+            this.tabPage_Renaming.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabPage_Renaming.ImageIndex = -1;
+            this.tabPage_Renaming.Location = new System.Drawing.Point(4, 36);
+            this.tabPage_Renaming.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabPage_Renaming.Name = "tabPage_Renaming";
+            this.tabPage_Renaming.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabPage_Renaming.Size = new System.Drawing.Size(506, 180);
+            this.tabPage_Renaming.TabIndex = 13;
+            this.tabPage_Renaming.Text = "Renaming";
+            this.tabPage_Renaming.DragDrop += new System.Windows.Forms.DragEventHandler(this.Txt_DragDrop);
+            this.tabPage_Renaming.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
             // 
-            // darkTextBox_AFSPath
+            // btn_RenameOutput
             // 
-            this.darkTextBox_AFSPath.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
-            this.darkTextBox_AFSPath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.darkTextBox_AFSPath.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.darkTextBox_AFSPath.Location = new System.Drawing.Point(12, 39);
-            this.darkTextBox_AFSPath.Name = "darkTextBox_AFSPath";
-            this.darkTextBox_AFSPath.ReadOnly = true;
-            this.darkTextBox_AFSPath.Size = new System.Drawing.Size(237, 22);
-            this.darkTextBox_AFSPath.TabIndex = 1;
-            this.darkTextBox_AFSPath.Click += new System.EventHandler(this.AFSPath_Click);
+            this.btn_RenameOutput.Location = new System.Drawing.Point(298, 150);
+            this.btn_RenameOutput.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btn_RenameOutput.Name = "btn_RenameOutput";
+            this.btn_RenameOutput.Padding = new System.Windows.Forms.Padding(4);
+            this.btn_RenameOutput.Size = new System.Drawing.Size(37, 21);
+            this.btn_RenameOutput.TabIndex = 21;
+            this.btn_RenameOutput.Text = "...";
+            this.btn_RenameOutput.Click += new System.EventHandler(this.RenameOutputDir_Click);
+            this.btn_RenameOutput.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
             // 
-            // lbl_Status
+            // lbl_RenameOutput
             // 
-            this.lbl_Status.AutoSize = true;
-            this.lbl_Status.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.lbl_Status.Location = new System.Drawing.Point(377, 335);
-            this.lbl_Status.Name = "lbl_Status";
-            this.lbl_Status.Size = new System.Drawing.Size(49, 17);
-            this.lbl_Status.TabIndex = 20;
-            this.lbl_Status.Text = "Ready";
-            this.lbl_Status.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.lbl_RenameOutput.AutoSize = true;
+            this.lbl_RenameOutput.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.lbl_RenameOutput.Location = new System.Drawing.Point(10, 131);
+            this.lbl_RenameOutput.Name = "lbl_RenameOutput";
+            this.lbl_RenameOutput.Size = new System.Drawing.Size(105, 16);
+            this.lbl_RenameOutput.TabIndex = 19;
+            this.lbl_RenameOutput.Text = "Output Directory:";
+            // 
+            // txt_RenameOutput
+            // 
+            this.txt_RenameOutput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
+            this.txt_RenameOutput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_RenameOutput.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.txt_RenameOutput.Location = new System.Drawing.Point(10, 150);
+            this.txt_RenameOutput.Name = "txt_RenameOutput";
+            this.txt_RenameOutput.ReadOnly = true;
+            this.txt_RenameOutput.Size = new System.Drawing.Size(282, 22);
+            this.txt_RenameOutput.TabIndex = 20;
+            this.txt_RenameOutput.DragDrop += new System.Windows.Forms.DragEventHandler(this.Txt_DragDrop);
+            this.txt_RenameOutput.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
+            // 
+            // lbl_TxtFile
+            // 
+            this.lbl_TxtFile.AutoSize = true;
+            this.lbl_TxtFile.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.lbl_TxtFile.Location = new System.Drawing.Point(10, 15);
+            this.lbl_TxtFile.Name = "lbl_TxtFile";
+            this.lbl_TxtFile.Size = new System.Drawing.Size(201, 16);
+            this.lbl_TxtFile.TabIndex = 13;
+            this.lbl_TxtFile.Text = ".Txt File With Filenames in Order:";
+            // 
+            // lbl_TxtSuffix
+            // 
+            this.lbl_TxtSuffix.AutoSize = true;
+            this.lbl_TxtSuffix.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.lbl_TxtSuffix.Location = new System.Drawing.Point(362, 15);
+            this.lbl_TxtSuffix.Name = "lbl_TxtSuffix";
+            this.lbl_TxtSuffix.Size = new System.Drawing.Size(81, 16);
+            this.lbl_TxtSuffix.TabIndex = 22;
+            this.lbl_TxtSuffix.Text = ".Txt ID Suffix:";
+            // 
+            // btn_Rename
+            // 
+            this.btn_Rename.AllowDrop = true;
+            this.btn_Rename.Enabled = false;
+            this.btn_Rename.Location = new System.Drawing.Point(365, 108);
+            this.btn_Rename.Name = "btn_Rename";
+            this.btn_Rename.Padding = new System.Windows.Forms.Padding(5);
+            this.btn_Rename.Size = new System.Drawing.Size(135, 65);
+            this.btn_Rename.TabIndex = 24;
+            this.btn_Rename.Text = "Rename Files";
+            this.btn_Rename.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
+            // 
+            // btn_TxtFile
+            // 
+            this.btn_TxtFile.Location = new System.Drawing.Point(298, 35);
+            this.btn_TxtFile.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btn_TxtFile.Name = "btn_TxtFile";
+            this.btn_TxtFile.Padding = new System.Windows.Forms.Padding(4);
+            this.btn_TxtFile.Size = new System.Drawing.Size(37, 21);
+            this.btn_TxtFile.TabIndex = 15;
+            this.btn_TxtFile.Text = "...";
+            this.btn_TxtFile.Click += new System.EventHandler(this.Txt_Click);
+            this.btn_TxtFile.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
+            // 
+            // txt_TxtFile
+            // 
+            this.txt_TxtFile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
+            this.txt_TxtFile.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_TxtFile.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.txt_TxtFile.Location = new System.Drawing.Point(10, 34);
+            this.txt_TxtFile.Name = "txt_TxtFile";
+            this.txt_TxtFile.ReadOnly = true;
+            this.txt_TxtFile.Size = new System.Drawing.Size(282, 22);
+            this.txt_TxtFile.TabIndex = 14;
+            this.txt_TxtFile.DragDrop += new System.Windows.Forms.DragEventHandler(this.Txt_DragDrop);
+            this.txt_TxtFile.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
+            // 
+            // btn_RenameDir
+            // 
+            this.btn_RenameDir.Location = new System.Drawing.Point(298, 95);
+            this.btn_RenameDir.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btn_RenameDir.Name = "btn_RenameDir";
+            this.btn_RenameDir.Padding = new System.Windows.Forms.Padding(4);
+            this.btn_RenameDir.Size = new System.Drawing.Size(37, 21);
+            this.btn_RenameDir.TabIndex = 18;
+            this.btn_RenameDir.Text = "...";
+            this.btn_RenameDir.Click += new System.EventHandler(this.RenameDir_Click);
+            this.btn_RenameDir.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
+            // 
+            // txt_Suffix
+            // 
+            this.txt_Suffix.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
+            this.txt_Suffix.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_Suffix.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.txt_Suffix.Location = new System.Drawing.Point(365, 35);
+            this.txt_Suffix.Name = "txt_Suffix";
+            this.txt_Suffix.ReadOnly = true;
+            this.txt_Suffix.Size = new System.Drawing.Size(135, 22);
+            this.txt_Suffix.TabIndex = 23;
+            this.txt_Suffix.Text = "_streaming";
+            // 
+            // lbl_RenameDir
+            // 
+            this.lbl_RenameDir.AutoSize = true;
+            this.lbl_RenameDir.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.lbl_RenameDir.Location = new System.Drawing.Point(10, 75);
+            this.lbl_RenameDir.Name = "lbl_RenameDir";
+            this.lbl_RenameDir.Size = new System.Drawing.Size(179, 16);
+            this.lbl_RenameDir.TabIndex = 16;
+            this.lbl_RenameDir.Text = "Directory of Files to Rename:";
+            // 
+            // txt_RenameDir
+            // 
+            this.txt_RenameDir.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
+            this.txt_RenameDir.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_RenameDir.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.txt_RenameDir.Location = new System.Drawing.Point(10, 94);
+            this.txt_RenameDir.Name = "txt_RenameDir";
+            this.txt_RenameDir.ReadOnly = true;
+            this.txt_RenameDir.Size = new System.Drawing.Size(282, 22);
+            this.txt_RenameDir.TabIndex = 17;
+            this.txt_RenameDir.DragDrop += new System.Windows.Forms.DragEventHandler(this.Txt_DragDrop);
+            this.txt_RenameDir.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
+            // 
+            // Archives
+            // 
+            this.Archives.Controls.Add(this.lbl_ArchiveFormat);
+            this.Archives.Controls.Add(this.comboBox_ArchiveFormat);
+            this.Archives.Controls.Add(this.lbl_ArchiveDir);
+            this.Archives.Controls.Add(this.txt_ArchiveDir);
+            this.Archives.Controls.Add(this.lbl_InputArchive);
+            this.Archives.Controls.Add(this.btn_ArchiveDir);
+            this.Archives.Controls.Add(this.btn_Unpack);
+            this.Archives.Controls.Add(this.lbl_OutputArchive);
+            this.Archives.Controls.Add(this.btn_InputArchive);
+            this.Archives.Controls.Add(this.btn_OutputArchive);
+            this.Archives.Controls.Add(this.btn_Repack);
+            this.Archives.Controls.Add(this.txt_OutputArchive);
+            this.Archives.Controls.Add(this.txt_InputArchive);
+            this.Archives.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Archives.ImageIndex = -1;
+            this.Archives.Location = new System.Drawing.Point(4, 36);
+            this.Archives.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Archives.Name = "Archives";
+            this.Archives.Size = new System.Drawing.Size(506, 180);
+            this.Archives.TabIndex = 25;
+            this.Archives.Text = "Archives";
+            // 
+            // lbl_ArchiveFormat
+            // 
+            this.lbl_ArchiveFormat.AutoSize = true;
+            this.lbl_ArchiveFormat.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.lbl_ArchiveFormat.Location = new System.Drawing.Point(362, 15);
+            this.lbl_ArchiveFormat.Name = "lbl_ArchiveFormat";
+            this.lbl_ArchiveFormat.Size = new System.Drawing.Size(100, 16);
+            this.lbl_ArchiveFormat.TabIndex = 35;
+            this.lbl_ArchiveFormat.Text = "Archive Format:";
+            // 
+            // comboBox_ArchiveFormat
+            // 
+            this.comboBox_ArchiveFormat.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.comboBox_ArchiveFormat.FormattingEnabled = true;
+            this.comboBox_ArchiveFormat.Items.AddRange(new object[] {
+            ".adx",
+            ".hca",
+            ".at9",
+            ".wav"});
+            this.comboBox_ArchiveFormat.Location = new System.Drawing.Point(365, 35);
+            this.comboBox_ArchiveFormat.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.comboBox_ArchiveFormat.Name = "comboBox_ArchiveFormat";
+            this.comboBox_ArchiveFormat.Size = new System.Drawing.Size(135, 23);
+            this.comboBox_ArchiveFormat.TabIndex = 36;
+            // 
+            // lbl_ArchiveDir
+            // 
+            this.lbl_ArchiveDir.AutoSize = true;
+            this.lbl_ArchiveDir.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.lbl_ArchiveDir.Location = new System.Drawing.Point(10, 75);
+            this.lbl_ArchiveDir.Name = "lbl_ArchiveDir";
+            this.lbl_ArchiveDir.Size = new System.Drawing.Size(171, 16);
+            this.lbl_ArchiveDir.TabIndex = 29;
+            this.lbl_ArchiveDir.Text = "Extracted Archive Directory:";
+            // 
+            // txt_ArchiveDir
+            // 
+            this.txt_ArchiveDir.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
+            this.txt_ArchiveDir.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_ArchiveDir.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.txt_ArchiveDir.Location = new System.Drawing.Point(10, 94);
+            this.txt_ArchiveDir.Name = "txt_ArchiveDir";
+            this.txt_ArchiveDir.ReadOnly = true;
+            this.txt_ArchiveDir.Size = new System.Drawing.Size(282, 22);
+            this.txt_ArchiveDir.TabIndex = 30;
+            this.txt_ArchiveDir.DragDrop += new System.Windows.Forms.DragEventHandler(this.Txt_DragDrop);
+            this.txt_ArchiveDir.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
+            // 
+            // lbl_InputArchive
+            // 
+            this.lbl_InputArchive.AutoSize = true;
+            this.lbl_InputArchive.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.lbl_InputArchive.Location = new System.Drawing.Point(10, 15);
+            this.lbl_InputArchive.Name = "lbl_InputArchive";
+            this.lbl_InputArchive.Size = new System.Drawing.Size(111, 16);
+            this.lbl_InputArchive.TabIndex = 26;
+            this.lbl_InputArchive.Text = "Input Archive File:";
+            // 
+            // btn_ArchiveDir
+            // 
+            this.btn_ArchiveDir.Location = new System.Drawing.Point(298, 95);
+            this.btn_ArchiveDir.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btn_ArchiveDir.Name = "btn_ArchiveDir";
+            this.btn_ArchiveDir.Padding = new System.Windows.Forms.Padding(4);
+            this.btn_ArchiveDir.Size = new System.Drawing.Size(37, 21);
+            this.btn_ArchiveDir.TabIndex = 31;
+            this.btn_ArchiveDir.Text = "...";
+            this.btn_ArchiveDir.Click += new System.EventHandler(this.ExtractedArchiveDir_Click);
+            this.btn_ArchiveDir.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
+            // 
+            // btn_Unpack
+            // 
+            this.btn_Unpack.AllowDrop = true;
+            this.btn_Unpack.Enabled = false;
+            this.btn_Unpack.Location = new System.Drawing.Point(365, 67);
+            this.btn_Unpack.Name = "btn_Unpack";
+            this.btn_Unpack.Padding = new System.Windows.Forms.Padding(5);
+            this.btn_Unpack.Size = new System.Drawing.Size(134, 50);
+            this.btn_Unpack.TabIndex = 37;
+            this.btn_Unpack.Text = "Unpack Archive";
+            this.btn_Unpack.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
+            // 
+            // lbl_OutputArchive
+            // 
+            this.lbl_OutputArchive.AutoSize = true;
+            this.lbl_OutputArchive.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.lbl_OutputArchive.Location = new System.Drawing.Point(10, 131);
+            this.lbl_OutputArchive.Name = "lbl_OutputArchive";
+            this.lbl_OutputArchive.Size = new System.Drawing.Size(147, 16);
+            this.lbl_OutputArchive.TabIndex = 32;
+            this.lbl_OutputArchive.Text = "Repacked Archive File:";
+            // 
+            // btn_InputArchive
+            // 
+            this.btn_InputArchive.Location = new System.Drawing.Point(298, 35);
+            this.btn_InputArchive.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btn_InputArchive.Name = "btn_InputArchive";
+            this.btn_InputArchive.Padding = new System.Windows.Forms.Padding(4);
+            this.btn_InputArchive.Size = new System.Drawing.Size(37, 21);
+            this.btn_InputArchive.TabIndex = 28;
+            this.btn_InputArchive.Text = "...";
+            this.btn_InputArchive.Click += new System.EventHandler(this.InputArchive_Click);
+            this.btn_InputArchive.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
+            // 
+            // btn_OutputArchive
+            // 
+            this.btn_OutputArchive.Location = new System.Drawing.Point(298, 150);
+            this.btn_OutputArchive.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btn_OutputArchive.Name = "btn_OutputArchive";
+            this.btn_OutputArchive.Padding = new System.Windows.Forms.Padding(4);
+            this.btn_OutputArchive.Size = new System.Drawing.Size(37, 21);
+            this.btn_OutputArchive.TabIndex = 34;
+            this.btn_OutputArchive.Text = "...";
+            this.btn_OutputArchive.Click += new System.EventHandler(this.OutputArchive_Click);
+            this.btn_OutputArchive.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
+            // 
+            // btn_Repack
+            // 
+            this.btn_Repack.AllowDrop = true;
+            this.btn_Repack.Enabled = false;
+            this.btn_Repack.Location = new System.Drawing.Point(365, 123);
+            this.btn_Repack.Name = "btn_Repack";
+            this.btn_Repack.Padding = new System.Windows.Forms.Padding(5);
+            this.btn_Repack.Size = new System.Drawing.Size(134, 50);
+            this.btn_Repack.TabIndex = 38;
+            this.btn_Repack.Text = "Repack Archive";
+            this.btn_Repack.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
+            // 
+            // txt_OutputArchive
+            // 
+            this.txt_OutputArchive.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
+            this.txt_OutputArchive.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_OutputArchive.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.txt_OutputArchive.Location = new System.Drawing.Point(10, 150);
+            this.txt_OutputArchive.Name = "txt_OutputArchive";
+            this.txt_OutputArchive.ReadOnly = true;
+            this.txt_OutputArchive.Size = new System.Drawing.Size(282, 22);
+            this.txt_OutputArchive.TabIndex = 33;
+            this.txt_OutputArchive.DragDrop += new System.Windows.Forms.DragEventHandler(this.Txt_DragDrop);
+            this.txt_OutputArchive.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
+            // 
+            // txt_InputArchive
+            // 
+            this.txt_InputArchive.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
+            this.txt_InputArchive.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_InputArchive.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.txt_InputArchive.Location = new System.Drawing.Point(10, 34);
+            this.txt_InputArchive.Name = "txt_InputArchive";
+            this.txt_InputArchive.ReadOnly = true;
+            this.txt_InputArchive.Size = new System.Drawing.Size(282, 22);
+            this.txt_InputArchive.TabIndex = 27;
+            this.txt_InputArchive.DragDrop += new System.Windows.Forms.DragEventHandler(this.Txt_DragDrop);
+            this.txt_InputArchive.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
+            // 
+            // rtb_Log
+            // 
+            this.rtb_Log.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.rtb_Log.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.rtb_Log.ForeColor = System.Drawing.Color.Silver;
+            this.rtb_Log.Location = new System.Drawing.Point(3, 219);
+            this.rtb_Log.Name = "rtb_Log";
+            this.rtb_Log.ReadOnly = true;
+            this.rtb_Log.Size = new System.Drawing.Size(506, 165);
+            this.rtb_Log.TabIndex = 39;
+            this.rtb_Log.Text = "";
             // 
             // PersonaVoiceClipEditorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
-            this.ClientSize = new System.Drawing.Size(440, 361);
-            this.Controls.Add(this.lbl_Status);
-            this.Controls.Add(this.darkTextBox_AFSPath);
-            this.Controls.Add(this.darkTextBox_ACBPath);
-            this.Controls.Add(this.darkGroupBox_Replacement);
-            this.Controls.Add(this.lbl_ACBPath);
-            this.Controls.Add(this.lbl_AFS);
-            this.Controls.Add(this.btn_RepackCSB);
-            this.Controls.Add(this.btn_ExtractCSB);
-            this.Controls.Add(this.btn_RepackAFS);
-            this.Controls.Add(this.btn_ExtractAFS);
+            this.ClientSize = new System.Drawing.Size(512, 410);
+            this.Controls.Add(this.rtb_Log);
+            this.Controls.Add(this.tabControl_Main);
+            this.Controls.Add(this.progressBar_Main);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximumSize = new System.Drawing.Size(450, 400);
-            this.MinimumSize = new System.Drawing.Size(450, 400);
+            this.MaximumSize = new System.Drawing.Size(536, 468);
+            this.MinimumSize = new System.Drawing.Size(536, 468);
             this.Name = "PersonaVoiceClipEditorForm";
-            this.Text = "Persona Voice Clip Editor v0.2";
-            this.darkGroupBox_Replacement.ResumeLayout(false);
-            this.darkGroupBox_Replacement.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.darkNumericUpDown1)).EndInit();
+            this.Text = "Persona Voice Clip Editor";
+            this.tabControl_Main.ResumeLayout(false);
+            this.tabPage_Encoding.ResumeLayout(false);
+            this.tabPage_Encoding.PerformLayout();
+            this.tabPage_Renaming.ResumeLayout(false);
+            this.tabPage_Renaming.PerformLayout();
+            this.Archives.ResumeLayout(false);
+            this.Archives.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private DarkUI.Controls.DarkButton btn_ExtractAFS;
-        private DarkUI.Controls.DarkButton btn_RepackAFS;
-        private DarkUI.Controls.DarkButton btn_RepackCSB;
-        private DarkUI.Controls.DarkButton btn_ExtractCSB;
-        private DarkUI.Controls.DarkLabel lbl_AFS;
-        private DarkUI.Controls.DarkLabel lbl_ACBPath;
-        private DarkUI.Controls.DarkLabel lbl_SourceWavFolder;
-        private DarkUI.Controls.DarkLabel lbl_ReplacementFolder;
-        private DarkUI.Controls.DarkLabel lbl_Txt;
+        private DarkUI.Controls.DarkLabel lbl_InputDir;
         private DarkUI.Controls.DarkButton btn_Replace;
-        private DarkUI.Controls.DarkTextBox textBox_SourceWavFolder;
-        private DarkUI.Controls.DarkTextBox textBox_ReplaceAdxFolder;
-        private DarkUI.Controls.DarkTextBox textBox_Txt;
-        private DarkUI.Controls.DarkGroupBox darkGroupBox_Replacement;
-        private System.Windows.Forms.LinkLabel linkLabel_Help;
-        private DarkUI.Controls.DarkTextBox darkTextBox_ACBPath;
-        private DarkUI.Controls.DarkTextBox darkTextBox_AFSPath;
-        private DarkUI.Controls.DarkLabel darkLabel1;
-        private DarkUI.Controls.DarkNumericUpDown darkNumericUpDown1;
-        private DarkUI.Controls.DarkLabel lbl_Status;
+        private DarkUI.Controls.DarkTextBox txt_InputDir;
+        private DarkUI.Controls.DarkButton btn_InputDir;
+        private DarkUI.Controls.DarkButton btn_InputArchive;
+        private DarkUI.Controls.DarkTextBox txt_InputArchive;
+        private DarkUI.Controls.DarkLabel lbl_InputArchive;
+        private DarkUI.Controls.DarkButton btn_Unpack;
+        private DarkUI.Controls.DarkButton btn_TxtFile;
+        private DarkUI.Controls.DarkTextBox txt_TxtFile;
+        private DarkUI.Controls.DarkLabel lbl_TxtFile;
+        private DarkUI.Controls.DarkCheckBox chk_UseEncKey;
+        private DarkUI.Controls.DarkTextBox txt_Key;
+        private System.Windows.Forms.ProgressBar progressBar_Main;
+        private DarkUI.Controls.DarkButton btn_Repack;
+        private DarkUI.Controls.DarkTextBox txt_OutputDir;
+        private DarkUI.Controls.DarkButton btn_OutputDir;
+        private DarkUI.Controls.DarkLabel lbl_OutputDir;
+        private DarkUI.Controls.DarkLabel lbl_OutputArchive;
+        private DarkUI.Controls.DarkTextBox txt_OutputArchive;
+        private DarkUI.Controls.DarkButton btn_OutputArchive;
+        private DarkUI.Controls.DarkLabel lbl_ArchiveDir;
+        private DarkUI.Controls.DarkTextBox txt_ArchiveDir;
+        private DarkUI.Controls.DarkButton btn_ArchiveDir;
+        private DarkUI.Controls.DarkLabel lbl_TxtSuffix;
+        private DarkUI.Controls.DarkTextBox txt_Suffix;
+        private DarkUI.Controls.DarkLabel lbl_OutFormat;
+        private DarkUI.Controls.DarkComboBox comboBox_OutFormat;
+        private GrayIris.Utilities.UI.Controls.YaTabControl tabControl_Main;
+        private GrayIris.Utilities.UI.Controls.YaTabPage tabPage_Encoding;
+        private GrayIris.Utilities.UI.Controls.YaTabPage tabPage_Renaming;
+        private DarkUI.Controls.DarkButton btn_Rename;
+        private DarkUI.Controls.DarkButton btn_RenameDir;
+        private DarkUI.Controls.DarkTextBox txt_RenameDir;
+        private DarkUI.Controls.DarkLabel lbl_RenameDir;
+        private GrayIris.Utilities.UI.Controls.YaTabPage Archives;
+        private DarkUI.Controls.DarkButton btn_RenameOutput;
+        private DarkUI.Controls.DarkLabel lbl_RenameOutput;
+        private DarkUI.Controls.DarkTextBox txt_RenameOutput;
+        private System.Windows.Forms.RichTextBox rtb_Log;
+        private DarkUI.Controls.DarkLabel lbl_ArchiveFormat;
+        private DarkUI.Controls.DarkComboBox comboBox_ArchiveFormat;
     }
 }
