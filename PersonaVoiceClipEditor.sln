@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrayIris.Utilities", "..\ye
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AFSLib", "..\AFSLib\AFSLib\AFSLib.csproj", "{3A80E4D0-1FFD-4009-B349-88CCD33E50F6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcbEditor", "..\SonicAudioTools\Source\AcbEditor\AcbEditor.csproj", "{45A72DAF-370A-42D1-833E-CEE27EA5E311}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonicAudioLib", "..\SonicAudioTools\Source\SonicAudioLib\SonicAudioLib.csproj", "{63138773-1F47-474C-9345-15EB6183ECC6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{3A80E4D0-1FFD-4009-B349-88CCD33E50F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A80E4D0-1FFD-4009-B349-88CCD33E50F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A80E4D0-1FFD-4009-B349-88CCD33E50F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45A72DAF-370A-42D1-833E-CEE27EA5E311}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45A72DAF-370A-42D1-833E-CEE27EA5E311}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45A72DAF-370A-42D1-833E-CEE27EA5E311}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45A72DAF-370A-42D1-833E-CEE27EA5E311}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63138773-1F47-474C-9345-15EB6183ECC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63138773-1F47-474C-9345-15EB6183ECC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63138773-1F47-474C-9345-15EB6183ECC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63138773-1F47-474C-9345-15EB6183ECC6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

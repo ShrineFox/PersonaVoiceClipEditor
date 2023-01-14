@@ -16,6 +16,7 @@ using ShrineFox.IO;
 using System.Security.Cryptography;
 using DarkUI.Controls;
 using AFSLib;
+using AcbEditor;
 
 namespace PersonaVoiceClipEditor
 {
@@ -23,6 +24,12 @@ namespace PersonaVoiceClipEditor
     {
         public static List<string> supportedFormats = new List<string> { ".adx", ".hca", ".wav" };
         public static List<string> supportedArchives = new List<string> { ".acb", ".afs" };
+        public static List<string> presets = new List<string> { "None",
+            "P5R (PC/Switch)",
+            "P5R (ENG PS4)",
+            "P5R (JP PS4)",
+            "P5 (PS3)",
+            "P3/4" };
 
         public PersonaVoiceClipEditorForm()
         {
@@ -34,11 +41,13 @@ namespace PersonaVoiceClipEditor
             Output.VerboseLogging = true;
 #endif
             // Set up dropdown lists
-            comboBox_OutFormat.DataSource = supportedFormats;
-            comboBox_OutFormat.SelectedIndex = 0;
-            comboBox_ArchiveFormat.DataSource = supportedArchives;
-            comboBox_ArchiveFormat.SelectedIndex = 0;
-            comboBox_Preset.SelectedIndex = 0;
+            foreach (var item in supportedFormats)
+                dropDownList_OutFormat.Items.Add(new DarkDropdownItem() { Text = item });
+            foreach (var item in supportedArchives)
+                dropDownList_ArchiveFormat.Items.Add(new DarkDropdownItem() { Text = item });
+            foreach (var item in presets)
+                dropDownList_Preset.Items.Add(new DarkDropdownItem() { Text = item });
+
             // Load settings from settings.yml
             LoadSettings();
             // Allow settings.yml to be updated by user changes
@@ -55,12 +64,26 @@ namespace PersonaVoiceClipEditor
                 bool createdOutputDir = RecreateDirectory(outputDir);
                 if (!createdOutputDir)
                     return;
-                string outFormat = comboBox_OutFormat.Text;
+                string outFormat = dropDownList_OutFormat.SelectedItem.Text;
                 Output.Log($"[INFO] Encoding supported files in directory \"{inputDir}\" to format \"{outFormat}\" and outputting to directory: \"{outputDir}\"");
 
                 // Convert files to target format, output to specified directory
                 foreach (var file in Directory.GetFiles(inputDir).Where(x => supportedFormats.Any(y => y.Equals(Path.GetExtension(x.ToLower())))))
                 {
+                    bool encrypted = false;
+                    string extension = Path.GetExtension(file).ToLower();
+                    if (extension == ".adx")
+                    {
+                        using (FileStream fs = new FileStream(file, FileMode.Open))
+                        {
+                            using (BinaryReader reader = new BinaryReader(fs))
+                            {
+                                reader.BaseStream.Position = 19;
+                                if (reader.ReadByte() == Convert.ToByte(9))
+                                    encrypted = true;
+                            }
+                        }
+                    }
                     string outPath = Path.Combine(outputDir, Path.GetFileNameWithoutExtension(file) + outFormat);
                     string args = $"\"{file}\" \"{outPath}\"";
 
@@ -68,13 +91,30 @@ namespace PersonaVoiceClipEditor
                         args += $" --keycode {txt_Key.Text}";
 
                     Output.VerboseLog($"[INFO] Encoding \"{Path.GetFileName(file)}\" to \"{Path.GetFileName(outPath)}\"...");
-                    Exe.Run(".\\Dependencies\\VGAudioCli.exe", args);
+                    Exe.Run(".\\Dependencies\\VGAudio.exe", args);
                     if (File.Exists(outPath))
+                    {
+                        if (outFormat == ".adx")
+                        {
+                            using (FileStream fs = new FileStream(outPath, FileMode.Open))
+                            {
+                                using (BinaryWriter writer = new BinaryWriter(fs))
+                                {
+                                    writer.BaseStream.Position = 19;
+                                    byte newByte = Convert.ToByte(9);
+                                    if (args.Contains("--keycode") && encrypted)
+                                        newByte = Convert.ToByte(0);
+                                    Output.VerboseLog($"[INFO] Setting encryption byte to: {newByte.ToString("x2")}");
+                                    writer.Write(newByte);
+                                };
+                            }
+                        }
                         Output.VerboseLog($"[INFO] Encoded file successfully!", ConsoleColor.DarkGreen);
+                    }
                     else
                         Output.VerboseLog($"[INFO] Failed to encode file: \"{file}\"", ConsoleColor.DarkRed);
                 }
-                Output.Log($"[INFO] Done encoding {comboBox_OutFormat.Text} files to directory: \"{txt_OutputDir.Text}\"", ConsoleColor.Green);
+                Output.Log($"[INFO] Done encoding {dropDownList_OutFormat.Text} files to directory: \"{txt_OutputDir.Text}\"", ConsoleColor.Green);
             }
             else
                 Output.Log($"[ERROR] Encoding failed, input directory doesn't exist: \"{txt_InputDir.Text}\"", ConsoleColor.Red);
@@ -105,7 +145,7 @@ namespace PersonaVoiceClipEditor
                     {
                         var file = files.Single(x => Path.GetFileNameWithoutExtension(x).Equals(line.Trim()));
                         var ext = Path.GetExtension(file);
-                        string outPath = Path.Combine(outFolder, $"{i.ToString().PadLeft(5, '0')}{txt_Suffix}");
+                        string outPath = Path.Combine(outFolder, $"{i.ToString().PadLeft(Convert.ToInt32(num_Padding.Value), '0')}{txt_Suffix}");
                         File.Copy(file, outPath);
                         Output.VerboseLog($"[INFO] Copied \"{file}\" to:\n\t\"{outPath}\"", ConsoleColor.Green);
                     }
@@ -142,12 +182,12 @@ namespace PersonaVoiceClipEditor
             string archiveDir = txt_ArchiveDir.Text;
             if (Directory.Exists(archiveDir))
             {
-                if (comboBox_ArchiveFormat.Text == ".afs")
+                if (dropDownList_ArchiveFormat.SelectedItem.Text == ".afs")
                     RepackAFS(archiveDir);
-                else if (comboBox_ArchiveFormat.Text == ".acb")
+                else if (dropDownList_ArchiveFormat.SelectedItem.Text == ".acb")
                     RepackACB(archiveDir);
                 else
-                    Output.Log($"[ERROR] Could not repack archive, not a supported format: \"{comboBox_ArchiveFormat.Text}\"", ConsoleColor.Red);
+                    Output.Log($"[ERROR] Could not repack archive, not a supported format: \"{dropDownList_ArchiveFormat.Text}\"", ConsoleColor.Red);
             }
             else
                 Output.Log($"[ERROR] Could not repack archive, directory doesn't exist: \"{archiveDir}\"", ConsoleColor.Red);
@@ -215,40 +255,71 @@ namespace PersonaVoiceClipEditor
                 Output.Log($"[ERROR] AFS repack failed, extracted archive directory doesn't exist: \"{afsDir}\"", ConsoleColor.Red);
         }
 
-        private void ExtractACB(string acb)
+        private void ExtractACB(string acbPath)
         {
-            if (File.Exists(acb))
+            string outputDir = txt_ArchiveDir.Text;
+
+            if (File.Exists(acbPath))
             {
+                // Prompt user to recreate output directory
+                if (!RecreateDirectory(outputDir))
+                    return;
+
                 // Extract ADX from ACB
-                Exe.Run($".\\Dependencies\\AcbEditor.exe \"{acb}\"");
-                // Set ACB Path to extracted path for Repacking
-                string acbPath = Path.Combine(Path.GetDirectoryName(acb), Path.GetFileNameWithoutExtension(acb));
-                txt_ArchiveDir.Text = acbPath;
-                comboBox_ArchiveFormat.SelectedIndex = comboBox_ArchiveFormat.Items.IndexOf(".acb");
-                txt_OutputArchive.Text = acb;
+                AcbEditor.Program.Main(new string[] { acbPath });
+
+                // Move Files to Output Dir from Temp Path
+                string acbDir = Path.Combine(Path.GetDirectoryName(acbPath), Path.GetFileNameWithoutExtension(acbPath));
+                if (Directory.Exists(acbDir) && Directory.GetFiles(acbDir).Count() > 0)
+                {
+                    FileSys.CopyDir(acbDir, outputDir);
+                    Directory.Delete(acbDir, true);
+                    Output.Log($"[INFO] Done extracting archive contents to: \"{outputDir}\"", ConsoleColor.Green);
+                }
+                else
+                {
+                    Output.Log($"[ERROR] No files were extracted from ACB: \"{acbPath}\"", ConsoleColor.Red);
+                    if (Directory.Exists(acbDir))
+                        Directory.Delete(acbDir);
+                }
             }
             else
-                Output.Log($"[ERROR] ACB extract failed, input archive doesn't exist: \"{acb}\"", ConsoleColor.Red);
+                Output.Log($"[ERROR] ACB extract failed, input archive doesn't exist: \"{acbPath}\"", ConsoleColor.Red);
 
         }
 
         private void RepackACB(string acbDir)
         {
-            string acbFile = Path.Combine(Path.GetDirectoryName(acbDir), Path.GetFileName(acbDir) + ".acb");
+            string outputFile = txt_OutputArchive.Text;
+            string outputDir = Path.GetDirectoryName(outputFile);
+            string acbFile = txt_InputArchive.Text;
             string awbFile = acbFile.Replace(".acb",".awb");
+
             if (File.Exists(acbFile))
             {
                 if (File.Exists(awbFile))
                 {
                     if (Directory.Exists(acbDir))
                     {
-                        // Create Backup ACB/AWB
-                        BackupArchive(acbFile);
-                        BackupArchive(awbFile);
+                        // Prompt user to recreate output directory
+                        if (!RecreateDirectory(outputDir))
+                            return;
+
+                        // Copy input files to output dir
+                        string newAcbName = Path.Combine(outputDir, Path.GetFileName(outputFile));
+                        string newAwbName = Path.Combine(outputDir, Path.GetFileNameWithoutExtension(outputFile) + ".awb");
+                        File.Copy(acbFile, newAcbName, true);
+                        File.Copy(awbFile, newAwbName, true);
+                        // Copy extracted dir to temp output dir named after acb
+                        string extDirCopy = Path.Combine(outputDir, Path.GetFileNameWithoutExtension(outputFile));
+                        FileSys.CopyDir(acbDir, extDirCopy);
                         // Repack ACB
                         Output.Log($"[INFO] Repacking ACB/AWB file with files from: \"{acbDir}\"");
-                        Exe.Run($".\\Dependencies\\AcbEditor.exe \"{acbDir}\"");
-                        Output.Log($"[INFO] Done repacking!", ConsoleColor.Green);
+                        AcbEditor.Program.Main(new string[] { extDirCopy });
+                        // Delete temp output dir
+                        if (Directory.Exists(extDirCopy))
+                            Directory.Delete(extDirCopy, true);
+                        Output.Log($"[INFO] Done repacking AFS archive at: \"{newAcbName}\"", ConsoleColor.Green);
                     }
                     else
                         Output.Log($"[ERROR] ACB repack failed, extracted archive directory doesn't exist: \"{acbDir}\"", ConsoleColor.Red);

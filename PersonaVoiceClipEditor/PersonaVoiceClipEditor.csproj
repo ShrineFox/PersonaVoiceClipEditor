@@ -160,19 +160,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Dependencies\AcbEditor.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Dependencies\NAudio.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Dependencies\SonicAudioLib.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Dependencies\VGAudioCli.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Dependencies\vgmstream.dll">
+    <Content Include="Dependencies\VGAudio.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="icon.ico" />
@@ -185,6 +173,10 @@
     <ProjectReference Include="..\..\ShrineFox.IO\ShrineFox.IO.csproj">
       <Project>{7640412a-7372-4925-b20c-0178d8818a8f}</Project>
       <Name>ShrineFox.IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SonicAudioTools\Source\AcbEditor\AcbEditor.csproj">
+      <Project>{45a72daf-370a-42d1-833e-cee27ea5e311}</Project>
+      <Name>AcbEditor</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\yet-another-tab-control\GrayIris.Utilities.csproj">
       <Project>{38d57fe6-c75f-4b05-9e4f-d02a48caa21e}</Project>

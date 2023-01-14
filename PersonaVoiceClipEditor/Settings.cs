@@ -44,10 +44,10 @@ namespace PersonaVoiceClipEditor
             if (!updateSettings)
                 return;
 
-            settings.Preset = comboBox_Preset.SelectedItem.ToString();
+            settings.Preset = dropDownList_Preset.SelectedItem.Text;
             settings.InputDir = txt_InputDir.Text;
             settings.OutputDir = txt_OutputDir.Text;
-            settings.OutFormat = comboBox_OutFormat.SelectedItem.ToString();
+            settings.OutFormat = dropDownList_OutFormat.SelectedItem.Text;
             settings.UseKey = chk_UseEncKey.Checked;
             settings.Key = txt_Key.Text;
 
@@ -60,7 +60,7 @@ namespace PersonaVoiceClipEditor
             settings.InputArchive = txt_InputArchive.Text;
             settings.ArchiveDir = txt_ArchiveDir.Text;
             settings.OutputArchive = txt_OutputArchive.Text;
-            settings.ArchiveFormat = comboBox_ArchiveFormat.SelectedItem.ToString();
+            settings.ArchiveFormat = dropDownList_ArchiveFormat.SelectedItem.Text;
 
             Output.VerboseLog("[INFO] Updated settings object.");
             SaveSettings();
@@ -94,12 +94,12 @@ namespace PersonaVoiceClipEditor
 
         private void ApplySettingsToForm()
         {
-            if (comboBox_Preset.Items.Contains(settings.Preset))
-                comboBox_Preset.SelectedIndex = comboBox_Preset.Items.IndexOf(settings.Preset);
+            if (dropDownList_Preset.Items.Any(x => x.Text == settings.Preset))
+                dropDownList_Preset.SelectedItem = dropDownList_Preset.Items.Single(x => x.Text == settings.Preset);
             txt_InputDir.Text = settings.InputDir;
             txt_OutputDir.Text = settings.OutputDir;
-            if (comboBox_OutFormat.Items.Contains(settings.OutFormat))
-                comboBox_OutFormat.SelectedIndex = comboBox_OutFormat.Items.IndexOf(settings.OutFormat);
+            if (dropDownList_OutFormat.Items.Any(x => x.Text == settings.OutFormat))
+                dropDownList_OutFormat.SelectedItem = dropDownList_OutFormat.Items.Single(x => x.Text == settings.OutFormat);
             chk_UseEncKey.Checked = settings.UseKey;
             txt_Key.Text = settings.Key;
 
@@ -112,8 +112,8 @@ namespace PersonaVoiceClipEditor
             txt_InputArchive.Text = settings.InputArchive;
             txt_ArchiveDir.Text = settings.ArchiveDir;
             txt_OutputArchive.Text = settings.OutputArchive;
-            if (comboBox_ArchiveFormat.Items.Contains(settings.ArchiveFormat))
-                comboBox_ArchiveFormat.SelectedIndex = comboBox_ArchiveFormat.Items.IndexOf(settings.ArchiveFormat);
+            if (dropDownList_ArchiveFormat.Items.Any(x => x.Text == settings.ArchiveFormat))
+                dropDownList_ArchiveFormat.SelectedItem = dropDownList_ArchiveFormat.Items.Single(x => x.Text == settings.ArchiveFormat);
 
             Output.VerboseLog("[INFO] Done applying settings to form.");
         }

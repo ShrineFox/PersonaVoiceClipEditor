@@ -52,9 +52,9 @@ namespace PersonaVoiceClipEditor
             // Update output archive format based on input archive extension
             DarkTextBox txtBox = (DarkTextBox)sender;
             if (Path.GetExtension(txtBox.Text).ToLower().Equals(".afs"))
-                comboBox_ArchiveFormat.SelectedIndex = comboBox_ArchiveFormat.Items.IndexOf(".afs");
+                dropDownList_ArchiveFormat.SelectedItem = dropDownList_ArchiveFormat.Items.Single(x => x.Text.Equals(".afs"));
             else if (Path.GetExtension(txtBox.Text).ToLower().Equals(".acb"))
-                comboBox_ArchiveFormat.SelectedIndex = comboBox_ArchiveFormat.Items.IndexOf(".acb");
+                dropDownList_ArchiveFormat.SelectedItem = dropDownList_ArchiveFormat.Items.Single(x => x.Text.Equals(".acb"));
 
             ToggleArchiveBtns();
         }
@@ -93,9 +93,9 @@ namespace PersonaVoiceClipEditor
             if (!updateSettings)
                 return;
 
-            switch (comboBox_Preset.SelectedItem.ToString())
+            switch (dropDownList_Preset.SelectedItem.Text)
             {
-                case "P5R (PC/NX)":
+                case "P5R (PC/Switch)":
                     SetP5Defaults();
                     txt_Key.Text = "9923540143823782";
                     break;
@@ -115,7 +115,7 @@ namespace PersonaVoiceClipEditor
                     SetDefaults();
                     break;
             }
-            Output.Log($"[INFO] Loaded Preset: \"{comboBox_Preset.SelectedItem.ToString()}\"");
+            Output.Log($"[INFO] Loaded Preset: \"{dropDownList_Preset.SelectedItem.Text}\"");
 
             UpdateSettings();
         }
@@ -126,7 +126,7 @@ namespace PersonaVoiceClipEditor
             txt_Key.Text = "";
             txt_Suffix.Text = "";
             num_Padding.Value = 0;
-            comboBox_ArchiveFormat.SelectedIndex = comboBox_ArchiveFormat.Items.IndexOf(".afs");
+            dropDownList_ArchiveFormat.SelectedItem = dropDownList_ArchiveFormat.Items.Single(x => x.Text == ".afs");
         }
 
         private void SetP5Defaults()
@@ -135,10 +135,10 @@ namespace PersonaVoiceClipEditor
             txt_Key.Text = "";
             txt_Suffix.Text = "_streaming";
             num_Padding.Value = 5;
-            comboBox_ArchiveFormat.SelectedIndex = comboBox_ArchiveFormat.Items.IndexOf(".acb");
+            dropDownList_ArchiveFormat.SelectedItem = dropDownList_ArchiveFormat.Items.Single(x => x.Text == ".acb");
         }
 
-        private void ComboBox_Changed(object sender, EventArgs e)
+        private void dropDownList_Changed(object sender, EventArgs e)
         {
             UpdateSettings();
         }

@@ -35,7 +35,7 @@ namespace PersonaVoiceClipEditor
             this.tabControl_Main = new GrayIris.Utilities.UI.Controls.YaTabControl();
             this.tabPage_Encoding = new GrayIris.Utilities.UI.Controls.YaTabPage();
             this.lbl_OutFormat = new DarkUI.Controls.DarkLabel();
-            this.comboBox_OutFormat = new DarkUI.Controls.DarkComboBox();
+            this.dropDownList_OutFormat = new DarkUI.Controls.DarkDropdownList();
             this.lbl_InputDir = new DarkUI.Controls.DarkLabel();
             this.btn_Encode = new DarkUI.Controls.DarkButton();
             this.txt_Key = new DarkUI.Controls.DarkTextBox();
@@ -62,7 +62,7 @@ namespace PersonaVoiceClipEditor
             this.txt_RenameDir = new DarkUI.Controls.DarkTextBox();
             this.Archives = new GrayIris.Utilities.UI.Controls.YaTabPage();
             this.lbl_ArchiveFormat = new DarkUI.Controls.DarkLabel();
-            this.comboBox_ArchiveFormat = new DarkUI.Controls.DarkComboBox();
+            this.dropDownList_ArchiveFormat = new DarkUI.Controls.DarkDropdownList();
             this.lbl_ArchiveDir = new DarkUI.Controls.DarkLabel();
             this.txt_ArchiveDir = new DarkUI.Controls.DarkTextBox();
             this.lbl_InputArchive = new DarkUI.Controls.DarkLabel();
@@ -75,7 +75,7 @@ namespace PersonaVoiceClipEditor
             this.txt_OutputArchive = new DarkUI.Controls.DarkTextBox();
             this.txt_InputArchive = new DarkUI.Controls.DarkTextBox();
             this.rtb_Log = new System.Windows.Forms.RichTextBox();
-            this.comboBox_Preset = new DarkUI.Controls.DarkComboBox();
+            this.dropDownList_Preset = new DarkUI.Controls.DarkDropdownList();
             this.lbl_Preset = new DarkUI.Controls.DarkLabel();
             this.tabControl_Main.SuspendLayout();
             this.tabPage_Encoding.SuspendLayout();
@@ -113,8 +113,8 @@ namespace PersonaVoiceClipEditor
             this.tabControl_Main.NewTabButton = false;
             this.tabControl_Main.OverIndex = -1;
             this.tabControl_Main.ScrollButtonStyle = GrayIris.Utilities.UI.Controls.YaScrollButtonStyle.Always;
-            this.tabControl_Main.SelectedIndex = 1;
-            this.tabControl_Main.SelectedTab = this.tabPage_Renaming;
+            this.tabControl_Main.SelectedIndex = 0;
+            this.tabControl_Main.SelectedTab = this.tabPage_Encoding;
             this.tabControl_Main.Size = new System.Drawing.Size(578, 275);
             this.tabControl_Main.TabDock = System.Windows.Forms.DockStyle.Top;
             this.tabControl_Main.TabDrawer = null;
@@ -124,7 +124,7 @@ namespace PersonaVoiceClipEditor
             // tabPage_Encoding
             // 
             this.tabPage_Encoding.Controls.Add(this.lbl_OutFormat);
-            this.tabPage_Encoding.Controls.Add(this.comboBox_OutFormat);
+            this.tabPage_Encoding.Controls.Add(this.dropDownList_OutFormat);
             this.tabPage_Encoding.Controls.Add(this.lbl_InputDir);
             this.tabPage_Encoding.Controls.Add(this.btn_Encode);
             this.tabPage_Encoding.Controls.Add(this.txt_Key);
@@ -154,21 +154,14 @@ namespace PersonaVoiceClipEditor
             this.lbl_OutFormat.TabIndex = 10;
             this.lbl_OutFormat.Text = "Output Format:";
             // 
-            // comboBox_OutFormat
+            // dropDownList_OutFormat
             // 
-            this.comboBox_OutFormat.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.comboBox_OutFormat.FormattingEnabled = true;
-            this.comboBox_OutFormat.Items.AddRange(new object[] {
-            ".adx",
-            ".hca",
-            ".at9",
-            ".wav"});
-            this.comboBox_OutFormat.Location = new System.Drawing.Point(411, 44);
-            this.comboBox_OutFormat.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.comboBox_OutFormat.Name = "comboBox_OutFormat";
-            this.comboBox_OutFormat.Size = new System.Drawing.Size(151, 27);
-            this.comboBox_OutFormat.TabIndex = 11;
-            this.comboBox_OutFormat.SelectedIndexChanged += new System.EventHandler(this.ComboBox_Changed);
+            this.dropDownList_OutFormat.Location = new System.Drawing.Point(411, 44);
+            this.dropDownList_OutFormat.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dropDownList_OutFormat.Name = "dropDownList_OutFormat";
+            this.dropDownList_OutFormat.Size = new System.Drawing.Size(151, 27);
+            this.dropDownList_OutFormat.TabIndex = 11;
+            this.dropDownList_OutFormat.SelectedItemChanged += new System.EventHandler(this.dropDownList_Changed);
             // 
             // lbl_InputDir
             // 
@@ -482,7 +475,7 @@ namespace PersonaVoiceClipEditor
             // Archives
             // 
             this.Archives.Controls.Add(this.lbl_ArchiveFormat);
-            this.Archives.Controls.Add(this.comboBox_ArchiveFormat);
+            this.Archives.Controls.Add(this.dropDownList_ArchiveFormat);
             this.Archives.Controls.Add(this.lbl_ArchiveDir);
             this.Archives.Controls.Add(this.txt_ArchiveDir);
             this.Archives.Controls.Add(this.lbl_InputArchive);
@@ -513,16 +506,14 @@ namespace PersonaVoiceClipEditor
             this.lbl_ArchiveFormat.TabIndex = 35;
             this.lbl_ArchiveFormat.Text = "Archive Format:";
             // 
-            // comboBox_ArchiveFormat
+            // dropDownList_ArchiveFormat
             // 
-            this.comboBox_ArchiveFormat.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.comboBox_ArchiveFormat.FormattingEnabled = true;
-            this.comboBox_ArchiveFormat.Location = new System.Drawing.Point(411, 44);
-            this.comboBox_ArchiveFormat.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.comboBox_ArchiveFormat.Name = "comboBox_ArchiveFormat";
-            this.comboBox_ArchiveFormat.Size = new System.Drawing.Size(151, 27);
-            this.comboBox_ArchiveFormat.TabIndex = 36;
-            this.comboBox_ArchiveFormat.SelectedIndexChanged += new System.EventHandler(this.ComboBox_Changed);
+            this.dropDownList_ArchiveFormat.Location = new System.Drawing.Point(411, 44);
+            this.dropDownList_ArchiveFormat.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dropDownList_ArchiveFormat.Name = "dropDownList_ArchiveFormat";
+            this.dropDownList_ArchiveFormat.Size = new System.Drawing.Size(151, 27);
+            this.dropDownList_ArchiveFormat.TabIndex = 36;
+            this.dropDownList_ArchiveFormat.SelectedItemChanged += new System.EventHandler(this.dropDownList_Changed);
             // 
             // lbl_ArchiveDir
             // 
@@ -675,23 +666,14 @@ namespace PersonaVoiceClipEditor
             this.rtb_Log.TabIndex = 39;
             this.rtb_Log.Text = "";
             // 
-            // comboBox_Preset
+            // dropDownList_Preset
             // 
-            this.comboBox_Preset.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.comboBox_Preset.FormattingEnabled = true;
-            this.comboBox_Preset.Items.AddRange(new object[] {
-            "None",
-            "P5R (PC/NX)",
-            "P5R (ENG PS4)",
-            "P5R (JP PS4)",
-            "P5 (PS3)",
-            "P3/4"});
-            this.comboBox_Preset.Location = new System.Drawing.Point(414, 3);
-            this.comboBox_Preset.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.comboBox_Preset.Name = "comboBox_Preset";
-            this.comboBox_Preset.Size = new System.Drawing.Size(151, 27);
-            this.comboBox_Preset.TabIndex = 0;
-            this.comboBox_Preset.SelectedIndexChanged += new System.EventHandler(this.Preset_Changed);
+            this.dropDownList_Preset.Location = new System.Drawing.Point(414, 3);
+            this.dropDownList_Preset.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dropDownList_Preset.Name = "dropDownList_Preset";
+            this.dropDownList_Preset.Size = new System.Drawing.Size(151, 27);
+            this.dropDownList_Preset.TabIndex = 0;
+            this.dropDownList_Preset.SelectedItemChanged += new System.EventHandler(this.Preset_Changed);
             // 
             // lbl_Preset
             // 
@@ -710,7 +692,7 @@ namespace PersonaVoiceClipEditor
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.ClientSize = new System.Drawing.Size(578, 515);
             this.Controls.Add(this.lbl_Preset);
-            this.Controls.Add(this.comboBox_Preset);
+            this.Controls.Add(this.dropDownList_Preset);
             this.Controls.Add(this.rtb_Log);
             this.Controls.Add(this.tabControl_Main);
             this.Controls.Add(this.progressBar_Main);
@@ -761,7 +743,7 @@ namespace PersonaVoiceClipEditor
         private DarkUI.Controls.DarkLabel lbl_TxtSuffix;
         private DarkUI.Controls.DarkTextBox txt_Suffix;
         private DarkUI.Controls.DarkLabel lbl_OutFormat;
-        private DarkUI.Controls.DarkComboBox comboBox_OutFormat;
+        private DarkUI.Controls.DarkDropdownList dropDownList_OutFormat;
         private GrayIris.Utilities.UI.Controls.YaTabControl tabControl_Main;
         private GrayIris.Utilities.UI.Controls.YaTabPage tabPage_Encoding;
         private GrayIris.Utilities.UI.Controls.YaTabPage tabPage_Renaming;
@@ -775,10 +757,10 @@ namespace PersonaVoiceClipEditor
         private DarkUI.Controls.DarkTextBox txt_RenameOutput;
         private System.Windows.Forms.RichTextBox rtb_Log;
         private DarkUI.Controls.DarkLabel lbl_ArchiveFormat;
-        private DarkUI.Controls.DarkComboBox comboBox_ArchiveFormat;
+        private DarkUI.Controls.DarkDropdownList dropDownList_ArchiveFormat;
         private DarkUI.Controls.DarkLabel lbl_Padding;
         private DarkUI.Controls.DarkNumericUpDown num_Padding;
-        private DarkUI.Controls.DarkComboBox comboBox_Preset;
+        private DarkUI.Controls.DarkDropdownList dropDownList_Preset;
         private DarkUI.Controls.DarkLabel lbl_Preset;
     }
 }
