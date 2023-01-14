@@ -46,6 +46,8 @@ namespace PersonaVoiceClipEditor
             this.btn_OutputDir = new DarkUI.Controls.DarkButton();
             this.txt_OutputDir = new DarkUI.Controls.DarkTextBox();
             this.tabPage_Renaming = new GrayIris.Utilities.UI.Controls.YaTabPage();
+            this.num_Padding = new DarkUI.Controls.DarkNumericUpDown();
+            this.lbl_Padding = new DarkUI.Controls.DarkLabel();
             this.btn_RenameOutput = new DarkUI.Controls.DarkButton();
             this.lbl_RenameOutput = new DarkUI.Controls.DarkLabel();
             this.txt_RenameOutput = new DarkUI.Controls.DarkTextBox();
@@ -73,9 +75,12 @@ namespace PersonaVoiceClipEditor
             this.txt_OutputArchive = new DarkUI.Controls.DarkTextBox();
             this.txt_InputArchive = new DarkUI.Controls.DarkTextBox();
             this.rtb_Log = new System.Windows.Forms.RichTextBox();
+            this.comboBox_Preset = new DarkUI.Controls.DarkComboBox();
+            this.lbl_Preset = new DarkUI.Controls.DarkLabel();
             this.tabControl_Main.SuspendLayout();
             this.tabPage_Encoding.SuspendLayout();
             this.tabPage_Renaming.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Padding)).BeginInit();
             this.Archives.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -104,13 +109,12 @@ namespace PersonaVoiceClipEditor
             this.tabControl_Main.ImageList = null;
             this.tabControl_Main.InactiveColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.tabControl_Main.Location = new System.Drawing.Point(-1, -2);
-            this.tabControl_Main.Margin = 3;
             this.tabControl_Main.Name = "tabControl_Main";
             this.tabControl_Main.NewTabButton = false;
             this.tabControl_Main.OverIndex = -1;
             this.tabControl_Main.ScrollButtonStyle = GrayIris.Utilities.UI.Controls.YaScrollButtonStyle.Always;
-            this.tabControl_Main.SelectedIndex = 2;
-            this.tabControl_Main.SelectedTab = this.Archives;
+            this.tabControl_Main.SelectedIndex = 1;
+            this.tabControl_Main.SelectedTab = this.tabPage_Renaming;
             this.tabControl_Main.Size = new System.Drawing.Size(578, 275);
             this.tabControl_Main.TabDock = System.Windows.Forms.DockStyle.Top;
             this.tabControl_Main.TabDrawer = null;
@@ -132,11 +136,11 @@ namespace PersonaVoiceClipEditor
             this.tabPage_Encoding.Controls.Add(this.txt_OutputDir);
             this.tabPage_Encoding.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabPage_Encoding.ImageIndex = -1;
-            this.tabPage_Encoding.Location = new System.Drawing.Point(4, 45);
+            this.tabPage_Encoding.Location = new System.Drawing.Point(4, 36);
             this.tabPage_Encoding.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage_Encoding.Name = "tabPage_Encoding";
             this.tabPage_Encoding.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage_Encoding.Size = new System.Drawing.Size(569, 225);
+            this.tabPage_Encoding.Size = new System.Drawing.Size(570, 235);
             this.tabPage_Encoding.TabIndex = 1;
             this.tabPage_Encoding.Text = "Encoding";
             // 
@@ -164,6 +168,7 @@ namespace PersonaVoiceClipEditor
             this.comboBox_OutFormat.Name = "comboBox_OutFormat";
             this.comboBox_OutFormat.Size = new System.Drawing.Size(151, 27);
             this.comboBox_OutFormat.TabIndex = 11;
+            this.comboBox_OutFormat.SelectedIndexChanged += new System.EventHandler(this.ComboBox_Changed);
             // 
             // lbl_InputDir
             // 
@@ -182,7 +187,7 @@ namespace PersonaVoiceClipEditor
             this.btn_Encode.Location = new System.Drawing.Point(411, 135);
             this.btn_Encode.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_Encode.Name = "btn_Encode";
-            this.btn_Encode.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btn_Encode.Padding = new System.Windows.Forms.Padding(6);
             this.btn_Encode.Size = new System.Drawing.Size(152, 81);
             this.btn_Encode.TabIndex = 12;
             this.btn_Encode.Text = "Encode Files";
@@ -201,6 +206,7 @@ namespace PersonaVoiceClipEditor
             this.txt_Key.ReadOnly = true;
             this.txt_Key.Size = new System.Drawing.Size(269, 26);
             this.txt_Key.TabIndex = 9;
+            this.txt_Key.TextChanged += new System.EventHandler(this.Txt_Changed);
             // 
             // lbl_OutputDir
             // 
@@ -221,6 +227,7 @@ namespace PersonaVoiceClipEditor
             this.chk_UseEncKey.Size = new System.Drawing.Size(98, 24);
             this.chk_UseEncKey.TabIndex = 8;
             this.chk_UseEncKey.Text = "Use Key:";
+            this.chk_UseEncKey.CheckedChanged += new System.EventHandler(this.UseKey_CheckedChanged);
             // 
             // txt_InputDir
             // 
@@ -276,6 +283,8 @@ namespace PersonaVoiceClipEditor
             // 
             // tabPage_Renaming
             // 
+            this.tabPage_Renaming.Controls.Add(this.num_Padding);
+            this.tabPage_Renaming.Controls.Add(this.lbl_Padding);
             this.tabPage_Renaming.Controls.Add(this.btn_RenameOutput);
             this.tabPage_Renaming.Controls.Add(this.lbl_RenameOutput);
             this.tabPage_Renaming.Controls.Add(this.txt_RenameOutput);
@@ -290,15 +299,39 @@ namespace PersonaVoiceClipEditor
             this.tabPage_Renaming.Controls.Add(this.txt_RenameDir);
             this.tabPage_Renaming.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabPage_Renaming.ImageIndex = -1;
-            this.tabPage_Renaming.Location = new System.Drawing.Point(4, 45);
+            this.tabPage_Renaming.Location = new System.Drawing.Point(4, 36);
             this.tabPage_Renaming.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage_Renaming.Name = "tabPage_Renaming";
             this.tabPage_Renaming.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage_Renaming.Size = new System.Drawing.Size(569, 225);
+            this.tabPage_Renaming.Size = new System.Drawing.Size(570, 235);
             this.tabPage_Renaming.TabIndex = 13;
             this.tabPage_Renaming.Text = "Renaming";
             this.tabPage_Renaming.DragDrop += new System.Windows.Forms.DragEventHandler(this.Txt_DragDrop);
             this.tabPage_Renaming.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
+            // 
+            // num_Padding
+            // 
+            this.num_Padding.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.num_Padding.Location = new System.Drawing.Point(411, 99);
+            this.num_Padding.Maximum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.num_Padding.Name = "num_Padding";
+            this.num_Padding.Size = new System.Drawing.Size(152, 26);
+            this.num_Padding.TabIndex = 23;
+            this.num_Padding.ValueChanged += new System.EventHandler(this.Value_Changed);
+            // 
+            // lbl_Padding
+            // 
+            this.lbl_Padding.AutoSize = true;
+            this.lbl_Padding.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.lbl_Padding.Location = new System.Drawing.Point(407, 76);
+            this.lbl_Padding.Name = "lbl_Padding";
+            this.lbl_Padding.Size = new System.Drawing.Size(103, 20);
+            this.lbl_Padding.TabIndex = 23;
+            this.lbl_Padding.Text = "Left Padding:";
             // 
             // btn_RenameOutput
             // 
@@ -332,6 +365,7 @@ namespace PersonaVoiceClipEditor
             this.txt_RenameOutput.Name = "txt_RenameOutput";
             this.txt_RenameOutput.Size = new System.Drawing.Size(317, 26);
             this.txt_RenameOutput.TabIndex = 20;
+            this.txt_RenameOutput.TextChanged += new System.EventHandler(this.Txt_Changed);
             this.txt_RenameOutput.DragDrop += new System.Windows.Forms.DragEventHandler(this.Txt_DragDrop);
             this.txt_RenameOutput.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
             // 
@@ -362,7 +396,7 @@ namespace PersonaVoiceClipEditor
             this.btn_Rename.Location = new System.Drawing.Point(411, 135);
             this.btn_Rename.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_Rename.Name = "btn_Rename";
-            this.btn_Rename.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btn_Rename.Padding = new System.Windows.Forms.Padding(6);
             this.btn_Rename.Size = new System.Drawing.Size(152, 81);
             this.btn_Rename.TabIndex = 24;
             this.btn_Rename.Text = "Rename Files";
@@ -419,7 +453,7 @@ namespace PersonaVoiceClipEditor
             this.txt_Suffix.ReadOnly = true;
             this.txt_Suffix.Size = new System.Drawing.Size(152, 26);
             this.txt_Suffix.TabIndex = 23;
-            this.txt_Suffix.Text = "_streaming";
+            this.txt_Suffix.TextChanged += new System.EventHandler(this.Txt_Changed);
             // 
             // lbl_RenameDir
             // 
@@ -441,6 +475,7 @@ namespace PersonaVoiceClipEditor
             this.txt_RenameDir.Name = "txt_RenameDir";
             this.txt_RenameDir.Size = new System.Drawing.Size(317, 26);
             this.txt_RenameDir.TabIndex = 17;
+            this.txt_RenameDir.TextChanged += new System.EventHandler(this.Txt_Changed);
             this.txt_RenameDir.DragDrop += new System.Windows.Forms.DragEventHandler(this.Txt_DragDrop);
             this.txt_RenameDir.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
             // 
@@ -487,6 +522,7 @@ namespace PersonaVoiceClipEditor
             this.comboBox_ArchiveFormat.Name = "comboBox_ArchiveFormat";
             this.comboBox_ArchiveFormat.Size = new System.Drawing.Size(151, 27);
             this.comboBox_ArchiveFormat.TabIndex = 36;
+            this.comboBox_ArchiveFormat.SelectedIndexChanged += new System.EventHandler(this.ComboBox_Changed);
             // 
             // lbl_ArchiveDir
             // 
@@ -541,7 +577,7 @@ namespace PersonaVoiceClipEditor
             this.btn_Unpack.Location = new System.Drawing.Point(411, 84);
             this.btn_Unpack.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_Unpack.Name = "btn_Unpack";
-            this.btn_Unpack.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btn_Unpack.Padding = new System.Windows.Forms.Padding(6);
             this.btn_Unpack.Size = new System.Drawing.Size(151, 62);
             this.btn_Unpack.TabIndex = 37;
             this.btn_Unpack.Text = "Unpack Archive";
@@ -590,7 +626,7 @@ namespace PersonaVoiceClipEditor
             this.btn_Repack.Location = new System.Drawing.Point(411, 154);
             this.btn_Repack.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_Repack.Name = "btn_Repack";
-            this.btn_Repack.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btn_Repack.Padding = new System.Windows.Forms.Padding(6);
             this.btn_Repack.Size = new System.Drawing.Size(151, 62);
             this.btn_Repack.TabIndex = 38;
             this.btn_Repack.Text = "Repack Archive";
@@ -639,12 +675,42 @@ namespace PersonaVoiceClipEditor
             this.rtb_Log.TabIndex = 39;
             this.rtb_Log.Text = "";
             // 
+            // comboBox_Preset
+            // 
+            this.comboBox_Preset.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.comboBox_Preset.FormattingEnabled = true;
+            this.comboBox_Preset.Items.AddRange(new object[] {
+            "None",
+            "P5R (PC/NX)",
+            "P5R (ENG PS4)",
+            "P5R (JP PS4)",
+            "P5 (PS3)",
+            "P3/4"});
+            this.comboBox_Preset.Location = new System.Drawing.Point(414, 3);
+            this.comboBox_Preset.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.comboBox_Preset.Name = "comboBox_Preset";
+            this.comboBox_Preset.Size = new System.Drawing.Size(151, 27);
+            this.comboBox_Preset.TabIndex = 0;
+            this.comboBox_Preset.SelectedIndexChanged += new System.EventHandler(this.Preset_Changed);
+            // 
+            // lbl_Preset
+            // 
+            this.lbl_Preset.AutoSize = true;
+            this.lbl_Preset.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.lbl_Preset.Location = new System.Drawing.Point(349, 6);
+            this.lbl_Preset.Name = "lbl_Preset";
+            this.lbl_Preset.Size = new System.Drawing.Size(59, 20);
+            this.lbl_Preset.TabIndex = 0;
+            this.lbl_Preset.Text = "Preset:";
+            // 
             // PersonaVoiceClipEditorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.ClientSize = new System.Drawing.Size(578, 515);
+            this.Controls.Add(this.lbl_Preset);
+            this.Controls.Add(this.comboBox_Preset);
             this.Controls.Add(this.rtb_Log);
             this.Controls.Add(this.tabControl_Main);
             this.Controls.Add(this.progressBar_Main);
@@ -659,9 +725,11 @@ namespace PersonaVoiceClipEditor
             this.tabPage_Encoding.PerformLayout();
             this.tabPage_Renaming.ResumeLayout(false);
             this.tabPage_Renaming.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Padding)).EndInit();
             this.Archives.ResumeLayout(false);
             this.Archives.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -708,5 +776,9 @@ namespace PersonaVoiceClipEditor
         private System.Windows.Forms.RichTextBox rtb_Log;
         private DarkUI.Controls.DarkLabel lbl_ArchiveFormat;
         private DarkUI.Controls.DarkComboBox comboBox_ArchiveFormat;
+        private DarkUI.Controls.DarkLabel lbl_Padding;
+        private DarkUI.Controls.DarkNumericUpDown num_Padding;
+        private DarkUI.Controls.DarkComboBox comboBox_Preset;
+        private DarkUI.Controls.DarkLabel lbl_Preset;
     }
 }

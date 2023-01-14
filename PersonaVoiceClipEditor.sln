@@ -5,13 +5,11 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonaVoiceClipEditor", "PersonaVoiceClipEditor\PersonaVoiceClipEditor.csproj", "{03ADACD6-B314-4994-8C22-139B505D7791}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PuyoTools.Core", "..\puyotools\src\PuyoTools.Core\PuyoTools.Core.csproj", "{C6C147E2-B102-4CB9-8A12-83AD5847A956}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PuyoTools.App.UI", "..\puyotools\src\PuyoTools.App.UI\PuyoTools.App.UI.csproj", "{6578B2E7-583B-4300-8C42-8E7BBD500FA0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShrineFox.IO", "..\ShrineFox.IO\ShrineFox.IO.csproj", "{7640412A-7372-4925-B20C-0178D8818A8F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrayIris.Utilities", "..\yet-another-tab-control\GrayIris.Utilities.csproj", "{38D57FE6-C75F-4B05-9E4F-D02A48CAA21E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AFSLib", "..\AFSLib\AFSLib\AFSLib.csproj", "{3A80E4D0-1FFD-4009-B349-88CCD33E50F6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,14 +21,6 @@ Global
 		{03ADACD6-B314-4994-8C22-139B505D7791}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03ADACD6-B314-4994-8C22-139B505D7791}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03ADACD6-B314-4994-8C22-139B505D7791}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C6C147E2-B102-4CB9-8A12-83AD5847A956}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C6C147E2-B102-4CB9-8A12-83AD5847A956}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C6C147E2-B102-4CB9-8A12-83AD5847A956}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C6C147E2-B102-4CB9-8A12-83AD5847A956}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6578B2E7-583B-4300-8C42-8E7BBD500FA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6578B2E7-583B-4300-8C42-8E7BBD500FA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6578B2E7-583B-4300-8C42-8E7BBD500FA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6578B2E7-583B-4300-8C42-8E7BBD500FA0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7640412A-7372-4925-B20C-0178D8818A8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7640412A-7372-4925-B20C-0178D8818A8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7640412A-7372-4925-B20C-0178D8818A8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,14 +29,15 @@ Global
 		{38D57FE6-C75F-4B05-9E4F-D02A48CAA21E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38D57FE6-C75F-4B05-9E4F-D02A48CAA21E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38D57FE6-C75F-4B05-9E4F-D02A48CAA21E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A80E4D0-1FFD-4009-B349-88CCD33E50F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A80E4D0-1FFD-4009-B349-88CCD33E50F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A80E4D0-1FFD-4009-B349-88CCD33E50F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A80E4D0-1FFD-4009-B349-88CCD33E50F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1C308B83-A345-4E87-B34C-9E85D3C7ACD6}
-	EndGlobalSection
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		..\puyotools\src\PuyoTools.App.Shared\PuyoTools.App.Shared.projitems*{6578b2e7-583b-4300-8c42-8e7bbd500fa0}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal
