@@ -16,6 +16,7 @@ using NAudio.Wave;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using ShrineFox.IO;
 using System.Security.Cryptography;
+using DarkUI.Controls;
 
 namespace PersonaVoiceClipEditor
 {
@@ -79,15 +80,22 @@ namespace PersonaVoiceClipEditor
 
         }
 
-        private bool RecreateDirectory(string outputDir)
+        private bool RecreateDirectory(string outputDir, bool usePrompt = true)
         {
-            if (Directory.Exists(outputDir))
+            if (Directory.Exists(outputDir) && 
+                (Directory.GetFiles(outputDir).Count() > 0 || Directory.GetDirectories(outputDir).Count() > 0))
             {
-                bool prompt = WinFormsDialogs.YesNoMsgBox("Delete directory?",
+                if (usePrompt)
+                {
+                    bool userResponse = WinFormsDialogs.YesNoMsgBox("Delete directory?",
                     $"Any existing contents of the following directory will be deleted. " +
                     $"Are you sure you want to continue?\n\n\"{outputDir}\"");
-                if (!prompt)
-                    return false;
+                    if (!userResponse)
+                    {
+                        Output.Log($"[INFO] Operation cancelled by user.");
+                        return false;
+                    }
+                }
                 Output.Log($"[INFO] Deleting existing directory: \"{outputDir}\"");
                 Directory.Delete(outputDir, true);
             }
@@ -100,26 +108,36 @@ namespace PersonaVoiceClipEditor
         {
             var settings = new PuyoTools.GUI.ArchiveExtractor.Settings();
             var dialog = new PuyoTools.GUI.ProgressDialog();
+            string outputDir = txt_ArchiveDir.Text;
 
-            if (File.Exists(afs))
+            if (File.Exists(afs) && RecreateDirectory(outputDir))
             {
                 Output.Log($"[INFO] Extracting AFS archive: \"{afs}\"");
 
+                // Create temp extraction path
+                string tempPath = Path.Combine(Path.Combine(Path.GetDirectoryName(afs), "Extracted Files"), Path.GetFileNameWithoutExtension(afs));
+                RecreateDirectory(tempPath, false);
+                
                 // Create List for PuyoTools Extraction
                 List<string> files = new List<string>();
                 files.Add(afs);
                 PuyoTools.GUI.ToolForm.fileList = files;
-                settings.ExtractToSameNameDirectory = true;
                 settings.ExtractToSourceDirectory = false;
+                settings.ExtractToSameNameDirectory = false;
+                settings.FileNumberAsFilename = true;
+                
                 //Extract AFS
                 PuyoTools.GUI.ArchiveExtractor.Run(settings, dialog);
-                // TODO: Move to Extracted Dir
-
-                // Update interface
-                if (txt_OutputArchive.Text == "")
-                    comboBox_OutFormat.SelectedIndex = comboBox_OutFormat.Items.IndexOf(".afs");
-                Output.Log($"[INFO] Done extracting archive contents: \"{afs}\"");
-
+                
+                // Move to Extracted Dir
+                if (Directory.Exists(tempPath))
+                {
+                    FileSys.CopyDir(tempPath, outputDir);
+                    Directory.Delete(Path.GetDirectoryName(tempPath), true);
+                    Output.Log($"[INFO] Done extracting archive contents to: \"{outputDir}\"", ConsoleColor.Green);
+                }
+                else
+                    Output.Log($"[ERROR] No files were extracted from AFS file: \"{afs}\"", ConsoleColor.Red);
             }
             else
                 Output.Log($"[ERROR] AFS extraction failed, input archive doesn't exist: \"{afs}\"", ConsoleColor.Red);
@@ -152,9 +170,8 @@ namespace PersonaVoiceClipEditor
                 // Set ACB Path to extracted path for Repacking
                 string acbPath = Path.Combine(Path.GetDirectoryName(acb), Path.GetFileNameWithoutExtension(acb));
                 txt_ArchiveDir.Text = acbPath;
-                comboBox_OutFormat.SelectedIndex = comboBox_OutFormat.Items.IndexOf(".acb");
+                comboBox_ArchiveFormat.SelectedIndex = comboBox_ArchiveFormat.Items.IndexOf(".acb");
                 txt_OutputArchive.Text = acb;
-                EnableOutputArchiveSel();
             }
             else
                 Output.Log($"[ERROR] ACB extract failed, input archive doesn't exist: \"{acb}\"", ConsoleColor.Red);
@@ -205,9 +222,10 @@ namespace PersonaVoiceClipEditor
 
         private void Txt_DragDrop(object sender, DragEventArgs e)
         {
+            DarkTextBox txtBox = (DarkTextBox)sender;
             var data = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             if (File.Exists(data[0]))
-                this.Text = data[0];
+                txtBox.Text = data[0];
         }
 
         private void Encode_DragDrop(object sender, DragEventArgs e)
@@ -237,7 +255,7 @@ namespace PersonaVoiceClipEditor
             var data = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             if (File.Exists(data[0]))
                 txt_InputArchive.Text = data[0];
-            EnableUnpackBtn();
+            ToggleArchiveBtns();
             if (btn_Unpack.Enabled)
                 UnpackArchive();
         }
@@ -331,26 +349,29 @@ namespace PersonaVoiceClipEditor
             ValidateTextCtrls(new List<Control>() { txt_TxtFile, txt_RenameDir, txt_RenameOutput }, btn_Rename);
         }
 
-        private void InputArchive_Changed(object sender, EventArgs e)
+        private void ArchivePath_Changed(object sender, EventArgs e)
         {
-            EnableUnpackBtn();
+            // Update output archive format based on input archive extension
+            DarkTextBox txtBox = (DarkTextBox)sender;
+            if (Path.GetExtension(txtBox.Text).ToLower().Equals(".afs"))
+                comboBox_ArchiveFormat.SelectedIndex = comboBox_ArchiveFormat.Items.IndexOf(".afs");
+            else if (Path.GetExtension(txtBox.Text).ToLower().Equals(".acb"))
+                comboBox_ArchiveFormat.SelectedIndex = comboBox_ArchiveFormat.Items.IndexOf(".acb");
+
+            ToggleArchiveBtns();
         }
 
-        private void EnableUnpackBtn()
+        private void ToggleArchiveBtns()
         {
+            // Enable unpack if input archive & archive dir are filled out
             ValidateTextCtrls(new List<Control>() { txt_InputArchive, txt_ArchiveDir }, btn_Unpack);
+            // enable repack if output archive & archive dir are filled out
+            ValidateTextCtrls(new List<Control>() { txt_ArchiveDir, txt_OutputDir }, btn_Repack);
         }
 
         private void OutputArchive_Changed(object sender, EventArgs e)
         {
             EnableRepackBtn();
-
-            if (!string.IsNullOrEmpty(this.Text) && File.Exists(this.Text))
-            {
-                string ext = Path.GetExtension(this.Text);
-                if (supportedArchives.Any(x => x.Equals(ext)))
-                    comboBox_OutFormat.SelectedIndex = comboBox_OutFormat.Items.IndexOf(ext);
-            }
         }
 
         private void EnableRepackBtn()
@@ -445,34 +466,9 @@ namespace PersonaVoiceClipEditor
         
         }
 
-        private void ArchiveFormat_Changed(object sender, EventArgs e)
-        {
-            EnableOutputArchiveSel();
-        }
-
-        private void EnableOutputArchiveSel()
-        {
-            if (comboBox_ArchiveFormat.SelectedIndex == comboBox_ArchiveFormat.Items.IndexOf(".acb"))
-            {
-                txt_OutputArchive.Enabled = false;
-                btn_OutputArchive.Enabled = false;
-                txt_ArchiveDir.Enabled = false;
-                btn_ArchiveDir.Enabled = false;
-                Output.VerboseLog($"[INFO] Disabling output archive directory selection due to format ACB being selected.");
-            }
-            else
-            {
-                txt_OutputArchive.Enabled = true;
-                btn_OutputArchive.Enabled = true;
-                txt_ArchiveDir.Enabled = true;
-                btn_ArchiveDir.Enabled = true;
-                Output.VerboseLog($"[INFO] Enabling output archive directory selection due to format ACB being selected.");
-            }
-        }
-
         private void ValidateTextCtrls(List<Control> ctrls, Control ctrlToToggle)
         {
-            if (ctrls.All(x => x.Text != ""))
+            if (ctrls.All(x => !string.IsNullOrEmpty(x.Text)))
             {
                 Output.VerboseLog($"[INFO] Enabling control: \"{ctrlToToggle.Name}\"");
                 ctrlToToggle.Enabled = true;
