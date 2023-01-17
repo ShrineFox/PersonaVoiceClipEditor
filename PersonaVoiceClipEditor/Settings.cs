@@ -31,6 +31,7 @@ namespace PersonaVoiceClipEditor
             public string RenameDir { get; set; } = "";
             public string RenameOutDir { get; set; } = "";
             public string TxtSuffix { get; set; } = "";
+            public bool AppendFilename { get; set; } = false;
             public decimal LeftPadding { get; set; } = 0;
 
             public string InputArchive { get; set; } = "";
@@ -55,6 +56,7 @@ namespace PersonaVoiceClipEditor
             settings.RenameDir = txt_RenameDir.Text;
             settings.RenameOutDir = txt_RenameOutput.Text;
             settings.TxtSuffix = txt_Suffix.Text;
+            settings.AppendFilename = chk_AppendFilename.Checked;
             settings.LeftPadding = num_Padding.Value;
 
             settings.InputArchive = txt_InputArchive.Text;
@@ -107,6 +109,7 @@ namespace PersonaVoiceClipEditor
             txt_RenameDir.Text = settings.RenameDir;
             txt_RenameOutput.Text = settings.RenameOutDir;
             txt_Suffix.Text = settings.TxtSuffix;
+            chk_AppendFilename.Checked = settings.AppendFilename;
             num_Padding.Value = settings.LeftPadding;
 
             txt_InputArchive.Text = settings.InputArchive;

@@ -88,6 +88,11 @@ namespace PersonaVoiceClipEditor
             ToggleKey();
         }
 
+        private void AppendFilename_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateSettings();
+        }
+
         private void Preset_Changed(object sender, EventArgs e)
         {
             if (!updateSettings)

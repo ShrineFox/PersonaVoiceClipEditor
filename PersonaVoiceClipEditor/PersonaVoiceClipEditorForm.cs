@@ -91,10 +91,10 @@ namespace PersonaVoiceClipEditor
                         args += $" --keycode {txt_Key.Text}";
 
                     Output.VerboseLog($"[INFO] Encoding \"{Path.GetFileName(file)}\" to \"{Path.GetFileName(outPath)}\"...");
-                    Exe.Run(".\\Dependencies\\VGAudio.exe", args);
+                    Exe.Run(".\\VGAudio.exe", args);
                     if (File.Exists(outPath))
                     {
-                        if (outFormat == ".adx")
+                        if (outFormat == ".adx" && args.Contains("--keycode"))
                         {
                             using (FileStream fs = new FileStream(outPath, FileMode.Open))
                             {
@@ -102,7 +102,7 @@ namespace PersonaVoiceClipEditor
                                 {
                                     writer.BaseStream.Position = 19;
                                     byte newByte = Convert.ToByte(9);
-                                    if (args.Contains("--keycode") && encrypted)
+                                    if (encrypted)
                                         newByte = Convert.ToByte(0);
                                     Output.VerboseLog($"[INFO] Setting encryption byte to: {newByte.ToString("x2")}");
                                     writer.Write(newByte);
@@ -145,8 +145,13 @@ namespace PersonaVoiceClipEditor
                     {
                         var file = files.Single(x => Path.GetFileNameWithoutExtension(x).Equals(line.Trim()));
                         var ext = Path.GetExtension(file);
-                        string outPath = Path.Combine(outFolder, $"{i.ToString().PadLeft(Convert.ToInt32(num_Padding.Value), '0')}{txt_Suffix}");
-                        File.Copy(file, outPath);
+                        string outPath = Path.Combine(outFolder, $"{i.ToString().PadLeft(Convert.ToInt32(num_Padding.Value), '0')}{txt_Suffix.Text}");
+                        
+                        if (chk_AppendFilename.Checked)
+                            outPath += $"_{Path.GetFileNameWithoutExtension(file)}";
+                        outPath += Path.GetExtension(file);
+                        
+                        File.Copy(file, outPath, true);
                         Output.VerboseLog($"[INFO] Copied \"{file}\" to:\n\t\"{outPath}\"", ConsoleColor.Green);
                     }
                     else
@@ -330,7 +335,5 @@ namespace PersonaVoiceClipEditor
             else
                 Output.Log($"[ERROR] ACB repack failed, original ACB doesn't exist: \"{acbFile}\"", ConsoleColor.Red);
         }
-
-        
     }
 }

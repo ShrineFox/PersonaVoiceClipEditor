@@ -46,6 +46,7 @@ namespace PersonaVoiceClipEditor
             this.btn_OutputDir = new DarkUI.Controls.DarkButton();
             this.txt_OutputDir = new DarkUI.Controls.DarkTextBox();
             this.tabPage_Renaming = new GrayIris.Utilities.UI.Controls.YaTabPage();
+            this.chk_AppendFilename = new DarkUI.Controls.DarkCheckBox();
             this.num_Padding = new DarkUI.Controls.DarkNumericUpDown();
             this.lbl_Padding = new DarkUI.Controls.DarkLabel();
             this.btn_RenameOutput = new DarkUI.Controls.DarkButton();
@@ -113,8 +114,8 @@ namespace PersonaVoiceClipEditor
             this.tabControl_Main.NewTabButton = false;
             this.tabControl_Main.OverIndex = -1;
             this.tabControl_Main.ScrollButtonStyle = GrayIris.Utilities.UI.Controls.YaScrollButtonStyle.Always;
-            this.tabControl_Main.SelectedIndex = 0;
-            this.tabControl_Main.SelectedTab = this.tabPage_Encoding;
+            this.tabControl_Main.SelectedIndex = 1;
+            this.tabControl_Main.SelectedTab = this.tabPage_Renaming;
             this.tabControl_Main.Size = new System.Drawing.Size(578, 275);
             this.tabControl_Main.TabDock = System.Windows.Forms.DockStyle.Top;
             this.tabControl_Main.TabDrawer = null;
@@ -276,6 +277,7 @@ namespace PersonaVoiceClipEditor
             // 
             // tabPage_Renaming
             // 
+            this.tabPage_Renaming.Controls.Add(this.chk_AppendFilename);
             this.tabPage_Renaming.Controls.Add(this.num_Padding);
             this.tabPage_Renaming.Controls.Add(this.lbl_Padding);
             this.tabPage_Renaming.Controls.Add(this.btn_RenameOutput);
@@ -302,17 +304,28 @@ namespace PersonaVoiceClipEditor
             this.tabPage_Renaming.DragDrop += new System.Windows.Forms.DragEventHandler(this.Txt_DragDrop);
             this.tabPage_Renaming.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
             // 
+            // chk_AppendFilename
+            // 
+            this.chk_AppendFilename.AutoSize = true;
+            this.chk_AppendFilename.Location = new System.Drawing.Point(418, 72);
+            this.chk_AppendFilename.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.chk_AppendFilename.Name = "chk_AppendFilename";
+            this.chk_AppendFilename.Size = new System.Drawing.Size(160, 24);
+            this.chk_AppendFilename.TabIndex = 25;
+            this.chk_AppendFilename.Text = "Append Filename";
+            this.chk_AppendFilename.CheckedChanged += new System.EventHandler(this.AppendFilename_CheckedChanged);
+            // 
             // num_Padding
             // 
             this.num_Padding.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.num_Padding.Location = new System.Drawing.Point(411, 99);
+            this.num_Padding.Location = new System.Drawing.Point(512, 105);
             this.num_Padding.Maximum = new decimal(new int[] {
             5,
             0,
             0,
             0});
             this.num_Padding.Name = "num_Padding";
-            this.num_Padding.Size = new System.Drawing.Size(152, 26);
+            this.num_Padding.Size = new System.Drawing.Size(51, 26);
             this.num_Padding.TabIndex = 23;
             this.num_Padding.ValueChanged += new System.EventHandler(this.Value_Changed);
             // 
@@ -320,7 +333,7 @@ namespace PersonaVoiceClipEditor
             // 
             this.lbl_Padding.AutoSize = true;
             this.lbl_Padding.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.lbl_Padding.Location = new System.Drawing.Point(407, 76);
+            this.lbl_Padding.Location = new System.Drawing.Point(407, 107);
             this.lbl_Padding.Name = "lbl_Padding";
             this.lbl_Padding.Size = new System.Drawing.Size(103, 20);
             this.lbl_Padding.TabIndex = 23;
@@ -358,7 +371,7 @@ namespace PersonaVoiceClipEditor
             this.txt_RenameOutput.Name = "txt_RenameOutput";
             this.txt_RenameOutput.Size = new System.Drawing.Size(317, 26);
             this.txt_RenameOutput.TabIndex = 20;
-            this.txt_RenameOutput.TextChanged += new System.EventHandler(this.Txt_Changed);
+            this.txt_RenameOutput.TextChanged += new System.EventHandler(this.RenamePath_Changed);
             this.txt_RenameOutput.DragDrop += new System.Windows.Forms.DragEventHandler(this.Txt_DragDrop);
             this.txt_RenameOutput.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
             // 
@@ -443,7 +456,6 @@ namespace PersonaVoiceClipEditor
             this.txt_Suffix.Location = new System.Drawing.Point(411, 44);
             this.txt_Suffix.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txt_Suffix.Name = "txt_Suffix";
-            this.txt_Suffix.ReadOnly = true;
             this.txt_Suffix.Size = new System.Drawing.Size(152, 26);
             this.txt_Suffix.TabIndex = 23;
             this.txt_Suffix.TextChanged += new System.EventHandler(this.Txt_Changed);
@@ -468,7 +480,7 @@ namespace PersonaVoiceClipEditor
             this.txt_RenameDir.Name = "txt_RenameDir";
             this.txt_RenameDir.Size = new System.Drawing.Size(317, 26);
             this.txt_RenameDir.TabIndex = 17;
-            this.txt_RenameDir.TextChanged += new System.EventHandler(this.Txt_Changed);
+            this.txt_RenameDir.TextChanged += new System.EventHandler(this.RenamePath_Changed);
             this.txt_RenameDir.DragDrop += new System.Windows.Forms.DragEventHandler(this.Txt_DragDrop);
             this.txt_RenameDir.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
             // 
@@ -668,10 +680,10 @@ namespace PersonaVoiceClipEditor
             // 
             // dropDownList_Preset
             // 
-            this.dropDownList_Preset.Location = new System.Drawing.Point(414, 3);
+            this.dropDownList_Preset.Location = new System.Drawing.Point(376, 3);
             this.dropDownList_Preset.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dropDownList_Preset.Name = "dropDownList_Preset";
-            this.dropDownList_Preset.Size = new System.Drawing.Size(151, 27);
+            this.dropDownList_Preset.Size = new System.Drawing.Size(189, 27);
             this.dropDownList_Preset.TabIndex = 0;
             this.dropDownList_Preset.SelectedItemChanged += new System.EventHandler(this.Preset_Changed);
             // 
@@ -679,7 +691,7 @@ namespace PersonaVoiceClipEditor
             // 
             this.lbl_Preset.AutoSize = true;
             this.lbl_Preset.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.lbl_Preset.Location = new System.Drawing.Point(349, 6);
+            this.lbl_Preset.Location = new System.Drawing.Point(311, 9);
             this.lbl_Preset.Name = "lbl_Preset";
             this.lbl_Preset.Size = new System.Drawing.Size(59, 20);
             this.lbl_Preset.TabIndex = 0;
@@ -762,5 +774,6 @@ namespace PersonaVoiceClipEditor
         private DarkUI.Controls.DarkNumericUpDown num_Padding;
         private DarkUI.Controls.DarkDropdownList dropDownList_Preset;
         private DarkUI.Controls.DarkLabel lbl_Preset;
+        private DarkUI.Controls.DarkCheckBox chk_AppendFilename;
     }
 }
