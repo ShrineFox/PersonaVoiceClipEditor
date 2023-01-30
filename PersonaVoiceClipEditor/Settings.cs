@@ -33,6 +33,7 @@ namespace PersonaVoiceClipEditor
             public string TxtSuffix { get; set; } = "";
             public bool AppendFilename { get; set; } = false;
             public decimal LeftPadding { get; set; } = 0;
+            public decimal StartIndex { get; set; } = 0;
 
             public string InputArchive { get; set; } = "";
             public string ArchiveDir { get; set; } = "";
@@ -58,6 +59,7 @@ namespace PersonaVoiceClipEditor
             settings.TxtSuffix = txt_Suffix.Text;
             settings.AppendFilename = chk_AppendFilename.Checked;
             settings.LeftPadding = num_Padding.Value;
+            settings.StartIndex = num_StartIndex.Value;
 
             settings.InputArchive = txt_InputArchive.Text;
             settings.ArchiveDir = txt_ArchiveDir.Text;
@@ -111,6 +113,7 @@ namespace PersonaVoiceClipEditor
             txt_Suffix.Text = settings.TxtSuffix;
             chk_AppendFilename.Checked = settings.AppendFilename;
             num_Padding.Value = settings.LeftPadding;
+            num_StartIndex.Value = settings.StartIndex;
 
             txt_InputArchive.Text = settings.InputArchive;
             txt_ArchiveDir.Text = settings.ArchiveDir;

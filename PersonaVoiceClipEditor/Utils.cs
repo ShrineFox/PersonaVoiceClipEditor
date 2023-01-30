@@ -14,12 +14,12 @@ namespace PersonaVoiceClipEditor
         private bool RecreateDirectory(string outputDir, bool usePrompt = true)
         {
             if (Directory.Exists(outputDir) &&
-                (Directory.GetFiles(outputDir).Count() > 0 || Directory.GetDirectories(outputDir).Count() > 0))
+                (Directory.GetFiles(outputDir).Count() > 0))
             {
                 if (usePrompt)
                 {
-                    bool userResponse = WinFormsDialogs.YesNoMsgBox("Delete directory?",
-                    $"Any existing contents of the following directory will be deleted. " +
+                    bool userResponse = WinFormsDialogs.YesNoMsgBox("Delete directory contents?",
+                    $"Any existing files in the following directory will be deleted. " +
                     $"Are you sure you want to continue?\n\n\"{outputDir}\"");
                     if (!userResponse)
                     {
@@ -27,11 +27,16 @@ namespace PersonaVoiceClipEditor
                         return false;
                     }
                 }
-                Output.Log($"[INFO] Deleting existing directory: \"{outputDir}\"");
-                Directory.Delete(outputDir, true);
+                Output.Log($"[INFO] Deleting existing directory contents: \"{outputDir}\"");
+                foreach (var file in Directory.GetFiles(outputDir, "*", SearchOption.TopDirectoryOnly))
+                    File.Delete(file);
             }
-            Output.Log($"[INFO] Creating directory: \"{outputDir}\"");
-            Directory.CreateDirectory(outputDir);
+            else
+            {
+                Output.Log($"[INFO] Creating directory: \"{outputDir}\"");
+                Directory.CreateDirectory(outputDir);
+            }
+            
             return true;
         }
 

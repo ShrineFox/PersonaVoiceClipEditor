@@ -61,9 +61,7 @@ namespace PersonaVoiceClipEditor
             if (Directory.Exists(inputDir))
             {
                 string outputDir = txt_OutputDir.Text;
-                bool createdOutputDir = RecreateDirectory(outputDir);
-                if (!createdOutputDir)
-                    return;
+                Directory.CreateDirectory(outputDir);
                 string outFormat = dropDownList_OutFormat.SelectedItem.Text;
                 Output.Log($"[INFO] Encoding supported files in directory \"{inputDir}\" to format \"{outFormat}\" and outputting to directory: \"{outputDir}\"");
 
@@ -129,14 +127,12 @@ namespace PersonaVoiceClipEditor
             {
                 // Delete and recreate output directory
                 string outFolder = txt_RenameOutput.Text;
-                bool createDir = RecreateDirectory(outFolder);
-                if (!createDir)
-                    return;
+                Directory.CreateDirectory(outFolder);
 
                 Output.Log($"[INFO] Copying and renaming files based on order of filenames in: \"{txtFile}\"");
 
                 // Re-order based on .txt file
-                int i = 0;
+                int i = Convert.ToInt32(num_StartIndex.Value);
                 foreach (var line in File.ReadLines(txtFile))
                 {
                     var files = Directory.GetFiles(txt_RenameDir.Text);
@@ -150,7 +146,15 @@ namespace PersonaVoiceClipEditor
                         if (chk_AppendFilename.Checked)
                             outPath += $"_{Path.GetFileNameWithoutExtension(file)}";
                         outPath += Path.GetExtension(file);
-                        
+
+                        // Delete existing file
+                        if (File.Exists(outPath))
+                        {
+                            Output.VerboseLog($"[INFO] Deleting existing file at output path: {outPath}");
+                            File.Delete(outPath);
+                            using (FileSys.WaitForFile(outPath)) { };
+                        }
+                        // Copy to output path once available
                         File.Copy(file, outPath, true);
                         Output.VerboseLog($"[INFO] Copied \"{file}\" to:\n\t\"{outPath}\"", ConsoleColor.Green);
                     }
