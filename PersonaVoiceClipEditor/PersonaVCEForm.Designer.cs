@@ -156,8 +156,8 @@ namespace PersonaVoiceClipEditor
             this.tabControl_Main.NewTabButton = false;
             this.tabControl_Main.OverIndex = -1;
             this.tabControl_Main.ScrollButtonStyle = GrayIris.Utilities.UI.Controls.YaScrollButtonStyle.Always;
-            this.tabControl_Main.SelectedIndex = 0;
-            this.tabControl_Main.SelectedTab = this.tabPage_Encoding;
+            this.tabControl_Main.SelectedIndex = 1;
+            this.tabControl_Main.SelectedTab = this.tabPage_Renaming;
             this.tabControl_Main.Size = new System.Drawing.Size(676, 265);
             this.tabControl_Main.TabDock = System.Windows.Forms.DockStyle.Top;
             this.tabControl_Main.TabDrawer = null;
@@ -792,12 +792,12 @@ namespace PersonaVoiceClipEditor
             // 
             // chk_AppendFilename
             // 
-            this.chk_AppendFilename.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.chk_AppendFilename.AutoSize = true;
-            this.chk_AppendFilename.Location = new System.Drawing.Point(34, 47);
+            this.chk_AppendFilename.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.chk_AppendFilename.Location = new System.Drawing.Point(3, 47);
             this.chk_AppendFilename.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chk_AppendFilename.Name = "chk_AppendFilename";
-            this.chk_AppendFilename.Size = new System.Drawing.Size(185, 20);
+            this.chk_AppendFilename.Size = new System.Drawing.Size(216, 20);
             this.chk_AppendFilename.TabIndex = 25;
             this.chk_AppendFilename.Text = "Append Original Filename";
             this.chk_AppendFilename.CheckedChanged += new System.EventHandler(this.AppendFilename_CheckedChanged);
