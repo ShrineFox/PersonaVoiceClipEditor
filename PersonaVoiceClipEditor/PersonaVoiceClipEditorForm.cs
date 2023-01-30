@@ -17,6 +17,7 @@ using System.Security.Cryptography;
 using DarkUI.Controls;
 using AFSLib;
 using AcbEditor;
+using System.Media;
 
 namespace PersonaVoiceClipEditor
 {
@@ -60,59 +61,66 @@ namespace PersonaVoiceClipEditor
 
             if (Directory.Exists(inputDir))
             {
-                string outputDir = txt_OutputDir.Text;
-                Directory.CreateDirectory(outputDir);
-                string outFormat = dropDownList_OutFormat.SelectedItem.Text;
-                Output.Log($"[INFO] Encoding supported files in directory \"{inputDir}\" to format \"{outFormat}\" and outputting to directory: \"{outputDir}\"");
-
-                // Convert files to target format, output to specified directory
-                foreach (var file in Directory.GetFiles(inputDir).Where(x => supportedFormats.Any(y => y.Equals(Path.GetExtension(x.ToLower())))))
+                new Thread(() =>
                 {
-                    bool encrypted = false;
-                    string extension = Path.GetExtension(file).ToLower();
-                    if (extension == ".adx")
-                    {
-                        using (FileStream fs = new FileStream(file, FileMode.Open))
-                        {
-                            using (BinaryReader reader = new BinaryReader(fs))
-                            {
-                                reader.BaseStream.Position = 19;
-                                if (reader.ReadByte() == Convert.ToByte(9))
-                                    encrypted = true;
-                            }
-                        }
-                    }
-                    string outPath = Path.Combine(outputDir, Path.GetFileNameWithoutExtension(file) + outFormat);
-                    string args = $"\"{file}\" \"{outPath}\"";
+                    Thread.CurrentThread.IsBackground = true;
 
-                    if (chk_UseEncKey.Checked && txt_Key.Text != "" && txt_Key.Enabled)
-                        args += $" --keycode {txt_Key.Text}";
+                    string outputDir = txt_OutputDir.Text;
+                    Directory.CreateDirectory(outputDir);
+                    string outFormat = dropDownList_OutFormat.SelectedItem.Text;
+                    Output.Log($"[INFO] Encoding supported files in directory \"{inputDir}\" to format \"{outFormat}\" and outputting to directory: \"{outputDir}\"");
 
-                    Output.VerboseLog($"[INFO] Encoding \"{Path.GetFileName(file)}\" to \"{Path.GetFileName(outPath)}\"...");
-                    Exe.Run(".\\VGAudio.exe", args);
-                    if (File.Exists(outPath))
+                    // Convert files to target format, output to specified directory
+                    foreach (var file in Directory.GetFiles(inputDir).Where(x => supportedFormats.Any(y => y.Equals(Path.GetExtension(x.ToLower())))))
                     {
-                        if (outFormat == ".adx" && args.Contains("--keycode"))
+                        bool encrypted = false;
+                        string extension = Path.GetExtension(file).ToLower();
+                        if (extension == ".adx")
                         {
-                            using (FileStream fs = new FileStream(outPath, FileMode.Open))
+                            using (FileStream fs = new FileStream(file, FileMode.Open))
                             {
-                                using (BinaryWriter writer = new BinaryWriter(fs))
+                                using (BinaryReader reader = new BinaryReader(fs))
                                 {
-                                    writer.BaseStream.Position = 19;
-                                    byte newByte = Convert.ToByte(9);
-                                    if (encrypted)
-                                        newByte = Convert.ToByte(0);
-                                    Output.VerboseLog($"[INFO] Setting encryption byte to: {newByte.ToString("x2")}");
-                                    writer.Write(newByte);
-                                };
+                                    reader.BaseStream.Position = 19;
+                                    if (reader.ReadByte() == Convert.ToByte(9))
+                                        encrypted = true;
+                                }
                             }
                         }
-                        Output.VerboseLog($"[INFO] Encoded file successfully!", ConsoleColor.DarkGreen);
+                        string outPath = Path.Combine(outputDir, Path.GetFileNameWithoutExtension(file) + outFormat);
+                        string args = $"\"{file}\" \"{outPath}\"";
+
+                        if (chk_UseEncKey.Checked && txt_Key.Text != "" && txt_Key.Enabled)
+                            args += $" --keycode {txt_Key.Text}";
+
+                        Output.VerboseLog($"[INFO] Encoding \"{Path.GetFileName(file)}\" to \"{Path.GetFileName(outPath)}\"...");
+                        Exe.Run(".\\VGAudio.exe", args);
+                        if (File.Exists(outPath))
+                        {
+                            if (outFormat == ".adx" && args.Contains("--keycode"))
+                            {
+                                using (FileStream fs = new FileStream(outPath, FileMode.Open))
+                                {
+                                    using (BinaryWriter writer = new BinaryWriter(fs))
+                                    {
+                                        writer.BaseStream.Position = 19;
+                                        byte newByte = Convert.ToByte(9);
+                                        if (encrypted)
+                                            newByte = Convert.ToByte(0);
+                                        Output.VerboseLog($"[INFO] Setting encryption byte to: {newByte.ToString("x2")}");
+                                        writer.Write(newByte);
+                                    };
+                                }
+                            }
+                            Output.VerboseLog($"[INFO] Encoded file successfully!", ConsoleColor.DarkGreen);
+                        }
+                        else
+                            Output.VerboseLog($"[INFO] Failed to encode file: \"{file}\"", ConsoleColor.DarkRed);
                     }
-                    else
-                        Output.VerboseLog($"[INFO] Failed to encode file: \"{file}\"", ConsoleColor.DarkRed);
-                }
-                Output.Log($"[INFO] Done encoding {dropDownList_OutFormat.Text} files to directory: \"{txt_OutputDir.Text}\"", ConsoleColor.Green);
+                    Output.Log($"[INFO] Done encoding {dropDownList_OutFormat.Text} files to directory: \"{txt_OutputDir.Text}\"", ConsoleColor.Green);
+
+                    SystemSounds.Exclamation.Play();
+                }).Start();
             }
             else
                 Output.Log($"[ERROR] Encoding failed, input directory doesn't exist: \"{txt_InputDir.Text}\"", ConsoleColor.Red);
@@ -125,45 +133,51 @@ namespace PersonaVoiceClipEditor
 
             if (File.Exists(txtFile))
             {
-                // Delete and recreate output directory
-                string outFolder = txt_RenameOutput.Text;
-                Directory.CreateDirectory(outFolder);
-
-                Output.Log($"[INFO] Copying and renaming files based on order of filenames in: \"{txtFile}\"");
-
-                // Re-order based on .txt file
-                int i = Convert.ToInt32(num_StartIndex.Value);
-                foreach (var line in File.ReadLines(txtFile))
+                new Thread(() =>
                 {
-                    var files = Directory.GetFiles(txt_RenameDir.Text);
-                    // If file found, copy to output folder with new name
-                    if (files.Any(x => Path.GetFileNameWithoutExtension(x).Equals(line.Trim())))
-                    {
-                        var file = files.Single(x => Path.GetFileNameWithoutExtension(x).Equals(line.Trim()));
-                        var ext = Path.GetExtension(file);
-                        string outPath = Path.Combine(outFolder, $"{i.ToString().PadLeft(Convert.ToInt32(num_Padding.Value), '0')}{txt_Suffix.Text}");
-                        
-                        if (chk_AppendFilename.Checked)
-                            outPath += $"_{Path.GetFileNameWithoutExtension(file)}";
-                        outPath += Path.GetExtension(file);
+                    Thread.CurrentThread.IsBackground = true;
 
-                        // Delete existing file
-                        if (File.Exists(outPath))
+                    // Delete and recreate output directory
+                    string outFolder = txt_RenameOutput.Text;
+                    Directory.CreateDirectory(outFolder);
+
+                    Output.Log($"[INFO] Copying and renaming files based on order of filenames in: \"{txtFile}\"");
+
+                    // Re-order based on .txt file
+                    int i = Convert.ToInt32(num_StartIndex.Value);
+                    foreach (var line in File.ReadLines(txtFile))
+                    {
+                        var files = Directory.GetFiles(txt_RenameDir.Text);
+                        // If file found, copy to output folder with new name
+                        if (files.Any(x => Path.GetFileNameWithoutExtension(x).Equals(line.Trim())))
                         {
-                            Output.VerboseLog($"[INFO] Deleting existing file at output path: {outPath}");
-                            File.Delete(outPath);
-                            using (FileSys.WaitForFile(outPath)) { };
+                            var file = files.Single(x => Path.GetFileNameWithoutExtension(x).Equals(line.Trim()));
+                            var ext = Path.GetExtension(file);
+                            string outPath = Path.Combine(outFolder, $"{i.ToString().PadLeft(Convert.ToInt32(num_Padding.Value), '0')}{txt_Suffix.Text}");
+                        
+                            if (chk_AppendFilename.Checked)
+                                outPath += $"_{Path.GetFileNameWithoutExtension(file)}";
+                            outPath += Path.GetExtension(file);
+
+                            // Delete existing file
+                            if (File.Exists(outPath))
+                            {
+                                Output.VerboseLog($"[INFO] Deleting existing file at output path: {outPath}");
+                                File.Delete(outPath);
+                                using (FileSys.WaitForFile(outPath)) { };
+                            }
+                            // Copy to output path once available
+                            File.Copy(file, outPath, true);
+                            Output.VerboseLog($"[INFO] Copied \"{file}\" to:\n\t\"{outPath}\"", ConsoleColor.Green);
                         }
-                        // Copy to output path once available
-                        File.Copy(file, outPath, true);
-                        Output.VerboseLog($"[INFO] Copied \"{file}\" to:\n\t\"{outPath}\"", ConsoleColor.Green);
+                        else
+                            Output.VerboseLog($"[WARNING] File with name \"{line}\" not found in directory \"{txt_RenameDir.Text}\", " +
+                                $"skipping index {i}.", ConsoleColor.Yellow);
+                        i++;
                     }
-                    else
-                        Output.VerboseLog($"[WARNING] File with name \"{line}\" not found in directory \"{txt_RenameDir.Text}\", " +
-                            $"skipping index {i}.", ConsoleColor.Yellow);
-                    i++;
-                }
-                Output.Log($"[INFO] Done copying and renaming files to: \"{outFolder}\"", ConsoleColor.Green);
+                    Output.Log($"[INFO] Done copying and renaming files to: \"{outFolder}\"", ConsoleColor.Green);
+                    SystemSounds.Exclamation.Play();
+                }).Start();
             }
             else
                 Output.Log($"[ERROR] Rename failed, could not find file: \"{txtFile}\"", ConsoleColor.Red);
@@ -208,29 +222,34 @@ namespace PersonaVoiceClipEditor
 
             if (File.Exists(afsPath))
             {
-                // Prompt user to recreate output directory
-                if (!RecreateDirectory(outputDir))
+                new Thread(() =>
+                {
+                    Thread.CurrentThread.IsBackground = true;
+
+                    // Prompt user to recreate output directory
+                    if (!RecreateDirectory(outputDir))
                     return;
 
-                Output.Log($"[INFO] Extracting AFS archive: \"{afsPath}\"");
+                    Output.Log($"[INFO] Extracting AFS archive: \"{afsPath}\"");
 
-                //Extract AFS
-                using (AFS afs = new AFS(afsPath))
-                {
-                    for (int i = 0; i < afs.EntryCount; i++)
+                    //Extract AFS
+                    using (AFS afs = new AFS(afsPath))
                     {
-                        if (!(afs.Entries[i] is NullEntry))
+                        for (int i = 0; i < afs.EntryCount; i++)
                         {
-                            DataEntry dataEntry = afs.Entries[i] as DataEntry;
-                            string outPath = Path.Combine(outputDir, i + Path.GetExtension(dataEntry.SanitizedName));
-                            afs.ExtractEntryToFile(afs.Entries[i], outPath);
-                            Output.VerboseLog($"[INFO] Extracted from AFS: \"{outPath}\"");
+                            if (!(afs.Entries[i] is NullEntry))
+                            {
+                                DataEntry dataEntry = afs.Entries[i] as DataEntry;
+                                string outPath = Path.Combine(outputDir, i + Path.GetExtension(dataEntry.SanitizedName));
+                                afs.ExtractEntryToFile(afs.Entries[i], outPath);
+                                Output.VerboseLog($"[INFO] Extracted from AFS: \"{outPath}\"");
+                            }
+                            else
+                                Output.VerboseLog($"[INFO] Skipping null entry in AFS: {i}");
                         }
-                        else
-                            Output.VerboseLog($"[INFO] Skipping null entry in AFS: {i}");
                     }
-                }
-
+                    SystemSounds.Exclamation.Play();
+                }).Start();
                 Output.Log($"[INFO] Done extracting archive contents to: \"{outputDir}\"", ConsoleColor.Green);
             }
             else
@@ -243,21 +262,26 @@ namespace PersonaVoiceClipEditor
             
             if (Directory.Exists(afsDir))
             {
-                // Get input files from AFS directory
-                List<string> files = Directory.GetFiles(afsDir).ToList();
-
-                // Create new AFS
-                using (AFS afs = new AFS())
+                new Thread(() =>
                 {
-                    for (int i = 0; i < files.Count; i++)
-                    {
-                        FileEntry entry = afs.AddEntryFromFile(files[i], i + Path.GetExtension(files[i]));
-                        entry.UnknownAttribute = 7;
-                        Output.VerboseLog($"[INFO] Added entry to AFS: \"{files[i]}\"");
-                    }
-                    afs.SaveToFile(outputFile);
-                }
+                    Thread.CurrentThread.IsBackground = true;
+                    // Get input files from AFS directory
+                    List<string> files = Directory.GetFiles(afsDir).ToList();
 
+                    // Create new AFS
+                    using (AFS afs = new AFS())
+                    {
+                        for (int i = 0; i < files.Count; i++)
+                        {
+                            FileEntry entry = afs.AddEntryFromFile(files[i], i + Path.GetExtension(files[i]));
+                            entry.UnknownAttribute = 7;
+                            Output.VerboseLog($"[INFO] Added entry to AFS: \"{files[i]}\"");
+                        }
+                        afs.SaveToFile(outputFile);
+                    }
+
+                    SystemSounds.Exclamation.Play();
+                }).Start();
                 Output.Log($"[INFO] Done creating AFS archive at: \"{outputFile}\"", ConsoleColor.Green);
             }
             else
@@ -270,27 +294,32 @@ namespace PersonaVoiceClipEditor
 
             if (File.Exists(acbPath))
             {
-                // Prompt user to recreate output directory
-                if (!RecreateDirectory(outputDir))
+                new Thread(() =>
+                {
+                    Thread.CurrentThread.IsBackground = true;
+                    // Prompt user to recreate output directory
+                    if (!RecreateDirectory(outputDir))
                     return;
 
-                // Extract ADX from ACB
-                AcbEditor.Program.Main(new string[] { acbPath });
+                    // Extract ADX from ACB
+                    AcbEditor.Program.Main(new string[] { acbPath });
 
-                // Move Files to Output Dir from Temp Path
-                string acbDir = Path.Combine(Path.GetDirectoryName(acbPath), Path.GetFileNameWithoutExtension(acbPath));
-                if (Directory.Exists(acbDir) && Directory.GetFiles(acbDir).Count() > 0)
-                {
-                    FileSys.CopyDir(acbDir, outputDir);
-                    Directory.Delete(acbDir, true);
-                    Output.Log($"[INFO] Done extracting archive contents to: \"{outputDir}\"", ConsoleColor.Green);
-                }
-                else
-                {
-                    Output.Log($"[ERROR] No files were extracted from ACB: \"{acbPath}\"", ConsoleColor.Red);
-                    if (Directory.Exists(acbDir))
-                        Directory.Delete(acbDir);
-                }
+                    // Move Files to Output Dir from Temp Path
+                    string acbDir = Path.Combine(Path.GetDirectoryName(acbPath), Path.GetFileNameWithoutExtension(acbPath));
+                    if (Directory.Exists(acbDir) && Directory.GetFiles(acbDir).Count() > 0)
+                    {
+                        FileSys.CopyDir(acbDir, outputDir);
+                        Directory.Delete(acbDir, true);
+                        Output.Log($"[INFO] Done extracting archive contents to: \"{outputDir}\"", ConsoleColor.Green);
+                    }
+                    else
+                    {
+                        Output.Log($"[ERROR] No files were extracted from ACB: \"{acbPath}\"", ConsoleColor.Red);
+                        if (Directory.Exists(acbDir))
+                            Directory.Delete(acbDir);
+                    }
+                    SystemSounds.Exclamation.Play();
+                }).Start();
             }
             else
                 Output.Log($"[ERROR] ACB extract failed, input archive doesn't exist: \"{acbPath}\"", ConsoleColor.Red);
@@ -310,25 +339,30 @@ namespace PersonaVoiceClipEditor
                 {
                     if (Directory.Exists(acbDir))
                     {
-                        // Prompt user to recreate output directory
-                        if (!RecreateDirectory(outputDir))
+                        new Thread(() =>
+                        {
+                            Thread.CurrentThread.IsBackground = true;
+                            // Prompt user to recreate output directory
+                            if (!RecreateDirectory(outputDir))
                             return;
 
-                        // Copy input files to output dir
-                        string newAcbName = Path.Combine(outputDir, Path.GetFileName(outputFile));
-                        string newAwbName = Path.Combine(outputDir, Path.GetFileNameWithoutExtension(outputFile) + ".awb");
-                        File.Copy(acbFile, newAcbName, true);
-                        File.Copy(awbFile, newAwbName, true);
-                        // Copy extracted dir to temp output dir named after acb
-                        string extDirCopy = Path.Combine(outputDir, Path.GetFileNameWithoutExtension(outputFile));
-                        FileSys.CopyDir(acbDir, extDirCopy);
-                        // Repack ACB
-                        Output.Log($"[INFO] Repacking ACB/AWB file with files from: \"{acbDir}\"");
-                        AcbEditor.Program.Main(new string[] { extDirCopy });
-                        // Delete temp output dir
-                        if (Directory.Exists(extDirCopy))
-                            Directory.Delete(extDirCopy, true);
-                        Output.Log($"[INFO] Done repacking AFS archive at: \"{newAcbName}\"", ConsoleColor.Green);
+                            // Copy input files to output dir
+                            string newAcbName = Path.Combine(outputDir, Path.GetFileName(outputFile));
+                            string newAwbName = Path.Combine(outputDir, Path.GetFileNameWithoutExtension(outputFile) + ".awb");
+                            File.Copy(acbFile, newAcbName, true);
+                            File.Copy(awbFile, newAwbName, true);
+                            // Copy extracted dir to temp output dir named after acb
+                            string extDirCopy = Path.Combine(outputDir, Path.GetFileNameWithoutExtension(outputFile));
+                            FileSys.CopyDir(acbDir, extDirCopy);
+                            // Repack ACB
+                            Output.Log($"[INFO] Repacking ACB/AWB file with files from: \"{acbDir}\"");
+                            AcbEditor.Program.Main(new string[] { extDirCopy });
+                            // Delete temp output dir
+                            if (Directory.Exists(extDirCopy))
+                                Directory.Delete(extDirCopy, true);
+                            Output.Log($"[INFO] Done repacking AFS archive at: \"{newAcbName}\"", ConsoleColor.Green);
+                            SystemSounds.Exclamation.Play();
+                        }).Start();
                     }
                     else
                         Output.Log($"[ERROR] ACB repack failed, extracted archive directory doesn't exist: \"{acbDir}\"", ConsoleColor.Red);
