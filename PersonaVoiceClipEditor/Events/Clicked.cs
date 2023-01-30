@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace PersonaVoiceClipEditor
 {
-    public partial class PersonaVoiceClipEditorForm : Form
+    public partial class PersonaVCEForm : Form
     {
         private void Encode_Click(object sender, EventArgs e)
         {
@@ -32,8 +32,11 @@ namespace PersonaVoiceClipEditor
 
         private void InputArchive_Click(object sender, EventArgs e)
         {
-            var files = WinFormsEvents.FilePath_Click("Choose Input Archive File...", false,
-                new string[] { "ACB Archive (.acb)", "AFS Archive (.afs)" });
+            string[] formats = new string[] { "ACB Archive (.acb)", "AFS Archive (.afs)" };
+            if (dropDownList_ArchiveFormat.SelectedItem.Text == ".afs")
+                formats = formats.Reverse().ToArray();
+
+            var files = WinFormsEvents.FilePath_Click("Choose Input Archive File...", false, formats);
             if (files.Count > 0)
                 txt_InputArchive.Text = files[0];
         }
@@ -47,8 +50,11 @@ namespace PersonaVoiceClipEditor
 
         private void OutputArchive_Click(object sender, EventArgs e)
         {
-            var files = WinFormsEvents.FilePath_Click("Choose Output Archive File Location...", false,
-                new string[] { "ACB Archive (.acb)", "AFS Archive (.afs)" });
+            string[] formats = new string[] { "ACB Archive (.acb)", "AFS Archive (.afs)" };
+            if (dropDownList_ArchiveFormat.SelectedItem.Text == ".afs")
+                formats = formats.Reverse().ToArray();
+
+            var files = WinFormsEvents.FilePath_Click("Choose Output Archive File Location...", false, formats);
             if (files.Count > 0)
                 txt_OutputArchive.Text = files[0];
         }
@@ -89,6 +95,9 @@ namespace PersonaVoiceClipEditor
                 txt_RenameOutput.Text = path;
         }
 
-
+        private void Link_Click(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/ShrineFox/PersonaVoiceClipEditor");
+        }
     }
 }

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace PersonaVoiceClipEditor
 {
-    public partial class PersonaVoiceClipEditorForm : Form
+    public partial class PersonaVCEForm : Form
     {
         private void EncodeDir_Changed(object sender, EventArgs e)
         {
@@ -141,6 +141,34 @@ namespace PersonaVoiceClipEditor
             txt_Suffix.Text = "_streaming";
             num_Padding.Value = 5;
             dropDownList_ArchiveFormat.SelectedItem = dropDownList_ArchiveFormat.Items.Single(x => x.Text == ".acb");
+        }
+
+        private void UseLoops_Checked(object sender, EventArgs e)
+        {
+            if (chk_UseLoops.Checked)
+                chk_LoopAll.Enabled = true;
+            else
+                chk_LoopAll.Enabled = false;
+            EnableLoopEntry();
+        }
+
+        private void LoopAll_Checked(object sender, EventArgs e)
+        {
+            EnableLoopEntry();
+        }
+
+        private void EnableLoopEntry()
+        {
+            if (!chk_LoopAll.Checked && chk_UseLoops.Checked)
+            {
+                num_LoopStart.Enabled = true;
+                num_LoopEnd.Enabled = true;
+            }
+            else
+            {
+                num_LoopStart.Enabled = false;
+                num_LoopEnd.Enabled = false;
+            }
         }
 
         private void dropDownList_Changed(object sender, EventArgs e)

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace PersonaVoiceClipEditor
 {
-    public partial class PersonaVoiceClipEditorForm : Form
+    public partial class PersonaVCEForm : Form
     {
         private bool RecreateDirectory(string outputDir, bool usePrompt = true)
         {

@@ -6,12 +6,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{03ADACD6-B314-4994-8C22-139B505D7791}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>PersonaVoiceClipEditor</RootNamespace>
-    <AssemblyName>PersonaVoiceClipEditor</AssemblyName>
+    <RootNamespace>PersonaVCE</RootNamespace>
+    <AssemblyName>PersonaVCE</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -23,8 +24,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <ApplicationVersion>2.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -121,11 +121,11 @@
     <Compile Include="Events\Clicked.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PersonaVoiceClipEditorForm.cs">
+    <Compile Include="PersonaVCEForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PersonaVoiceClipEditorForm.Designer.cs">
-      <DependentUpon>PersonaVoiceClipEditorForm.cs</DependentUpon>
+    <Compile Include="PersonaVCEForm.Designer.cs">
+      <DependentUpon>PersonaVCEForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -142,8 +142,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="PersonaVoiceClipEditorForm.resx">
-      <DependentUpon>PersonaVoiceClipEditorForm.cs</DependentUpon>
+    <EmbeddedResource Include="PersonaVCEForm.resx">
+      <DependentUpon>PersonaVCEForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

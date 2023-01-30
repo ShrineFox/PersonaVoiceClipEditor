@@ -16,7 +16,7 @@ namespace PersonaVoiceClipEditor
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new PersonaVoiceClipEditorForm());
+            Application.Run(new PersonaVCEForm());
         }
     }
 }

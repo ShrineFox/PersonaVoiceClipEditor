@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonaVoiceClipEditor", "PersonaVoiceClipEditor\PersonaVoiceClipEditor.csproj", "{03ADACD6-B314-4994-8C22-139B505D7791}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonaVCE", "PersonaVoiceClipEditor\PersonaVCE.csproj", "{03ADACD6-B314-4994-8C22-139B505D7791}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShrineFox.IO", "..\ShrineFox.IO\ShrineFox.IO.csproj", "{7640412A-7372-4925-B20C-0178D8818A8F}"
 EndProject

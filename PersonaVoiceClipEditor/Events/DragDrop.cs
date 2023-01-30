@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace PersonaVoiceClipEditor
 {
-    public partial class PersonaVoiceClipEditorForm : Form
+    public partial class PersonaVCEForm : Form
     {
         private void DragEnter(object sender, DragEventArgs e)
         {

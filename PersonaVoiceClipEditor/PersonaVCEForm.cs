@@ -18,10 +18,11 @@ using DarkUI.Controls;
 using AFSLib;
 using AcbEditor;
 using System.Media;
+using System.Security.Policy;
 
 namespace PersonaVoiceClipEditor
 {
-    public partial class PersonaVoiceClipEditorForm : Form
+    public partial class PersonaVCEForm : Form
     {
         public static List<string> supportedFormats = new List<string> { ".adx", ".hca", ".wav" };
         public static List<string> supportedArchives = new List<string> { ".acb", ".afs" };
@@ -32,7 +33,7 @@ namespace PersonaVoiceClipEditor
             "P5 (PS3)",
             "P3/4" };
 
-        public PersonaVoiceClipEditorForm()
+        public PersonaVCEForm()
         {
             InitializeComponent();
             // Set up log
@@ -75,6 +76,7 @@ namespace PersonaVoiceClipEditor
                     {
                         bool encrypted = false;
                         string extension = Path.GetExtension(file).ToLower();
+                        // Check if adx is already encrypted
                         if (extension == ".adx")
                         {
                             using (FileStream fs = new FileStream(file, FileMode.Open))
@@ -90,8 +92,16 @@ namespace PersonaVoiceClipEditor
                         string outPath = Path.Combine(outputDir, Path.GetFileNameWithoutExtension(file) + outFormat);
                         string args = $"\"{file}\" \"{outPath}\"";
 
+                        // If file is encrypted, remove encryption with key.
+                        // Otherwise, output will be encrypted with key
                         if (chk_UseEncKey.Checked && txt_Key.Text != "" && txt_Key.Enabled)
                             args += $" --keycode {txt_Key.Text}";
+
+                        // If loops are specified, use loops
+                        if (chk_UseLoops.Checked)
+                        {
+                            args += $" -l {Convert.ToInt32(num_LoopStart.Value)}-{Convert.ToInt32(num_LoopEnd.Value)}";
+                        }
 
                         Output.VerboseLog($"[INFO] Encoding \"{Path.GetFileName(file)}\" to \"{Path.GetFileName(outPath)}\"...");
                         Exe.Run(".\\VGAudio.exe", args);
@@ -103,8 +113,11 @@ namespace PersonaVoiceClipEditor
                                 {
                                     using (BinaryWriter writer = new BinaryWriter(fs))
                                     {
+                                        // Add encryption flag to file if using keycode
                                         writer.BaseStream.Position = 19;
                                         byte newByte = Convert.ToByte(9);
+                                        // Remove encryption flag if input is encrypted,
+                                        // and therefore output is no longer encrypted
                                         if (encrypted)
                                             newByte = Convert.ToByte(0);
                                         Output.VerboseLog($"[INFO] Setting encryption byte to: {newByte.ToString("x2")}");

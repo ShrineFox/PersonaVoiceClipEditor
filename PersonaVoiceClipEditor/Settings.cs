@@ -13,7 +13,7 @@ using YamlDotNet.Serialization.NamingConventions;
 
 namespace PersonaVoiceClipEditor
 {
-    public partial class PersonaVoiceClipEditorForm : Form
+    public partial class PersonaVCEForm : Form
     {
         public static Settings settings = new Settings();
         public static bool updateSettings = false;
@@ -26,6 +26,10 @@ namespace PersonaVoiceClipEditor
             public string OutFormat { get; set; } = ".adx";
             public bool UseKey { get; set; } = false;
             public string Key { get; set; } = "";
+            public bool UseLoops { get; set; } = false;
+            public bool LoopAll { get; set; } = false;
+            public decimal LoopStart { get; set; } = 0;
+            public decimal LoopEnd { get; set; } = 0;
 
             public string TxtFile { get; set; } = "";
             public string RenameDir { get; set; } = "";
@@ -52,6 +56,10 @@ namespace PersonaVoiceClipEditor
             settings.OutFormat = dropDownList_OutFormat.SelectedItem.Text;
             settings.UseKey = chk_UseEncKey.Checked;
             settings.Key = txt_Key.Text;
+            settings.UseLoops = chk_UseLoops.Checked;
+            settings.LoopAll = chk_LoopAll.Checked;
+            settings.LoopStart = num_LoopStart.Value;
+            settings.LoopEnd = num_LoopEnd.Value;
 
             settings.TxtFile = txt_TxtFile.Text;
             settings.RenameDir = txt_RenameDir.Text;
@@ -106,6 +114,10 @@ namespace PersonaVoiceClipEditor
                 dropDownList_OutFormat.SelectedItem = dropDownList_OutFormat.Items.Single(x => x.Text == settings.OutFormat);
             chk_UseEncKey.Checked = settings.UseKey;
             txt_Key.Text = settings.Key;
+            chk_UseLoops.Checked = settings.UseLoops;
+            chk_LoopAll.Checked = settings.LoopAll;
+            num_LoopStart.Value = settings.LoopStart;
+            num_LoopEnd.Value = settings.LoopEnd;
 
             txt_TxtFile.Text = settings.TxtFile;
             txt_RenameDir.Text = settings.RenameDir;
