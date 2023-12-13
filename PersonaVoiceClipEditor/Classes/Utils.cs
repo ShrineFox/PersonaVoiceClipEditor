@@ -1,4 +1,5 @@
-﻿using ShrineFox.IO;
+﻿using MetroSet_UI.Forms;
+using ShrineFox.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PersonaVoiceClipEditor
+namespace PersonaVCE
 {
-    public partial class PersonaVCEForm : Form
+    public partial class PersonaVCE : MetroSetForm
     {
         private bool RecreateDirectory(string outputDir, bool usePrompt = true)
         {
@@ -18,9 +19,9 @@ namespace PersonaVoiceClipEditor
             {
                 if (usePrompt)
                 {
-                    bool userResponse = WinFormsDialogs.YesNoMsgBox("Delete directory contents?",
+                    bool userResponse = WinFormsDialogs.ShowMessageBox("Delete directory contents?",
                     $"Any existing files in the following directory will be deleted. " +
-                    $"Are you sure you want to continue?\n\n\"{outputDir}\"");
+                    $"Are you sure you want to continue?\n\n\"{outputDir}\"", MessageBoxButtons.YesNo);
                     if (!userResponse)
                     {
                         Output.Log($"[INFO] Operation cancelled by user.");

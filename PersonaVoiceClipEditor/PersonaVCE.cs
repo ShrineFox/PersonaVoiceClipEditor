@@ -1,28 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Threading;
-using System.Diagnostics;
-using NAudio.Wave;
-using Microsoft.WindowsAPICodePack.Dialogs;
 using ShrineFox.IO;
-using System.Security.Cryptography;
 using DarkUI.Controls;
 using AFSLib;
-using AcbEditor;
 using System.Media;
-using System.Security.Policy;
+using MetroSet_UI.Forms;
+using System.Windows.Forms;
 
-namespace PersonaVoiceClipEditor
+namespace PersonaVCE
 {
-    public partial class PersonaVCEForm : Form
+    public partial class PersonaVCE : MetroSetForm
     {
         public static List<string> supportedFormats = new List<string> { ".adx", ".hca", ".wav" };
         public static List<string> supportedArchives = new List<string> { ".acb", ".afs" };
@@ -33,111 +24,124 @@ namespace PersonaVoiceClipEditor
             "P5 (PS3)",
             "P3/4" };
 
-        public PersonaVCEForm()
+        public PersonaVCE()
         {
             InitializeComponent();
-            // Set up log
-            Output.Logging = true;
-            Output.LogControl = rtb_Log;
-#if DEBUG
-            Output.VerboseLogging = true;
-#endif
-            // Set up dropdown lists
-            foreach (var item in supportedFormats)
-                dropDownList_OutFormat.Items.Add(new DarkDropdownItem() { Text = item });
-            foreach (var item in supportedArchives)
-                dropDownList_ArchiveFormat.Items.Add(new DarkDropdownItem() { Text = item });
-            foreach (var item in presets)
-                dropDownList_Preset.Items.Add(new DarkDropdownItem() { Text = item });
 
-            // Load settings from settings.yml
+            SetupLogging();
+            SetupDropdowns();
+            SetupTheme();
+
             LoadSettings();
             // Allow settings.yml to be updated by user changes
             updateSettings = true;
         }
 
-        private void Encode()
+        private void SetupTheme()
         {
-            string inputDir = txt_InputDir.Text;
+            Theme.ThemeStyle = MetroSet_UI.Enums.Style.Dark;
+            Theme.ApplyToForm(this);
+        }
 
-            if (Directory.Exists(inputDir))
+        private void SetupDropdowns()
+        {
+            var bs_Formats = new BindingSource();
+            bs_Formats.DataSource = supportedFormats;
+            comboBox_SoundFormat.ComboBox.DataSource = bs_Formats;
+
+            var bs_Archives = new BindingSource();
+            bs_Archives.DataSource = supportedArchives;
+            comboBox_ArchiveFormat.ComboBox.DataSource = bs_Archives;
+
+            var bs_Presets = new BindingSource();
+            bs_Presets.DataSource = presets;
+            comboBox_EncryptionPreset.ComboBox.DataSource = bs_Presets;
+        }
+
+        private void SetupLogging()
+        {
+            Output.Logging = true;
+#if DEBUG
+            Output.VerboseLogging = true;
+#endif
+        }
+
+        private void Encode(string[] inputFiles)
+        {
+            new Thread(() =>
             {
-                new Thread(() =>
+                Thread.CurrentThread.IsBackground = true;
+
+                
+                string outFormat = comboBox_SoundFormat.SelectedText;
+                Output.Log($"[INFO] Encoding supported files to format \"{outFormat}\".");
+
+                // Convert files to target format, output to specified directory
+                foreach (var file in inputFiles.Where(x => supportedFormats.Any(y => y.Equals(Path.GetExtension(x.ToLower())))))
                 {
-                    Thread.CurrentThread.IsBackground = true;
-
-                    string outputDir = txt_OutputDir.Text;
-                    Directory.CreateDirectory(outputDir);
-                    string outFormat = dropDownList_OutFormat.SelectedItem.Text;
-                    Output.Log($"[INFO] Encoding supported files in directory \"{inputDir}\" to format \"{outFormat}\" and outputting to directory: \"{outputDir}\"");
-
-                    // Convert files to target format, output to specified directory
-                    foreach (var file in Directory.GetFiles(inputDir).Where(x => supportedFormats.Any(y => y.Equals(Path.GetExtension(x.ToLower())))))
+                    string outputDir = FileSys.CreateUniqueDir(Path.Combine(Path.GetDirectoryName(file), "Encoded"));
+                    
+                    bool encrypted = false;
+                    string extension = Path.GetExtension(file).ToLower();
+                    // Check if adx is already encrypted
+                    if (extension == ".adx")
                     {
-                        bool encrypted = false;
-                        string extension = Path.GetExtension(file).ToLower();
-                        // Check if adx is already encrypted
-                        if (extension == ".adx")
+                        using (FileStream fs = new FileStream(file, FileMode.Open))
                         {
-                            using (FileStream fs = new FileStream(file, FileMode.Open))
+                            using (BinaryReader reader = new BinaryReader(fs))
                             {
-                                using (BinaryReader reader = new BinaryReader(fs))
-                                {
-                                    reader.BaseStream.Position = 19;
-                                    if (reader.ReadByte() == Convert.ToByte(9))
-                                        encrypted = true;
-                                }
+                                reader.BaseStream.Position = 19;
+                                if (reader.ReadByte() == Convert.ToByte(9))
+                                    encrypted = true;
                             }
                         }
-                        string outPath = Path.Combine(outputDir, Path.GetFileNameWithoutExtension(file) + outFormat);
-                        string args = $"\"{file}\" \"{outPath}\"";
-
-                        // If file is encrypted, remove encryption with key.
-                        // Otherwise, output will be encrypted with key
-                        if (chk_UseEncKey.Checked && txt_Key.Text != "" && txt_Key.Enabled)
-                            args += $" --keycode {txt_Key.Text}";
-
-                        // If loops are specified, use loops
-                        if (chk_UseLoops.Checked)
-                        {
-                            args += $" -l {Convert.ToInt32(num_LoopStart.Value)}-{Convert.ToInt32(num_LoopEnd.Value)}";
-                        }
-
-                        Output.VerboseLog($"[INFO] Encoding \"{Path.GetFileName(file)}\" to \"{Path.GetFileName(outPath)}\"...");
-                        Exe.Run(".\\VGAudio.exe", args);
-                        if (File.Exists(outPath))
-                        {
-                            if (outFormat == ".adx" && args.Contains("--keycode"))
-                            {
-                                using (FileStream fs = new FileStream(outPath, FileMode.Open))
-                                {
-                                    using (BinaryWriter writer = new BinaryWriter(fs))
-                                    {
-                                        // Add encryption flag to file if using keycode
-                                        writer.BaseStream.Position = 19;
-                                        byte newByte = Convert.ToByte(9);
-                                        // Remove encryption flag if input is encrypted,
-                                        // and therefore output is no longer encrypted
-                                        if (encrypted)
-                                            newByte = Convert.ToByte(0);
-                                        Output.VerboseLog($"[INFO] Setting encryption byte to: {newByte.ToString("x2")}");
-                                        writer.Write(newByte);
-                                    };
-                                }
-                            }
-                            Output.VerboseLog($"[INFO] Encoded file successfully!", ConsoleColor.DarkGreen);
-                        }
-                        else
-                            Output.VerboseLog($"[INFO] Failed to encode file: \"{file}\"", ConsoleColor.DarkRed);
                     }
-                    Output.Log($"[INFO] Done encoding {dropDownList_OutFormat.Text} files to directory: \"{txt_OutputDir.Text}\"", ConsoleColor.Green);
+                    string outPath = Path.Combine(outputDir, Path.GetFileNameWithoutExtension(file) + outFormat);
+                    string args = $"\"{file}\" \"{outPath}\"";
 
-                    SystemSounds.Exclamation.Play();
-                }).Start();
-            }
-            else
-                Output.Log($"[ERROR] Encoding failed, input directory doesn't exist: \"{txt_InputDir.Text}\"", ConsoleColor.Red);
+                    // If file is encrypted, remove encryption with key.
+                    // Otherwise, output will be encrypted with key
+                    if (chk_UseEncryption.Checked && txt_EncryptionKey.Text != "" && txt_EncryptionKey.Enabled)
+                        args += $" --keycode {txt_EncryptionKey.Text}";
 
+                    // If loops are specified, use loops
+                    if (chk_UseLoopPoints.Checked)
+                    {
+                        args += $" -l {Convert.ToInt32(txt_LoopStart)}-{Convert.ToInt32(txt_LoopEnd)}";
+                    }
+
+                    Output.VerboseLog($"[INFO] Encoding \"{Path.GetFileName(file)}\" to \"{Path.GetFileName(outPath)}\"...");
+                    Exe.Run(".\\VGAudio.exe", args);
+                    if (File.Exists(outPath))
+                    {
+                        if (outFormat == ".adx" && args.Contains("--keycode"))
+                        {
+                            using (FileStream fs = new FileStream(outPath, FileMode.Open))
+                            {
+                                using (BinaryWriter writer = new BinaryWriter(fs))
+                                {
+                                    // Add encryption flag to file if using keycode
+                                    writer.BaseStream.Position = 19;
+                                    byte newByte = Convert.ToByte(9);
+                                    // Remove encryption flag if input is encrypted,
+                                    // and therefore output is no longer encrypted
+                                    if (encrypted)
+                                        newByte = Convert.ToByte(0);
+                                    Output.VerboseLog($"[INFO] Setting encryption byte to: {newByte.ToString("x2")}");
+                                    writer.Write(newByte);
+                                };
+                            }
+                        }
+                        Output.VerboseLog($"[INFO] Encoded file successfully!", ConsoleColor.DarkGreen);
+                    }
+                    else
+                        Output.VerboseLog($"[INFO] Failed to encode file: \"{file}\"", ConsoleColor.DarkRed);
+                }
+                Output.Log($"[INFO] Done encoding {comboBox_SoundFormat.Text} files.", ConsoleColor.Green);
+
+                SystemSounds.Exclamation.Play();
+            }).Start();
+            
         }
 
         private void Rename()
@@ -166,8 +170,8 @@ namespace PersonaVoiceClipEditor
                         {
                             var file = files.Single(x => Path.GetFileNameWithoutExtension(x).Equals(line.Trim()));
                             var ext = Path.GetExtension(file);
-                            string outPath = Path.Combine(outFolder, $"{i.ToString().PadLeft(Convert.ToInt32(num_Padding.Value), '0')}{txt_Suffix.Text}");
-                        
+                            string outPath = Path.Combine(outFolder, $"{i.ToString().PadLeft(Convert.ToInt32(num_LeftPadding.Value), '0')}{txt_RenameSuffix.Text}");
+
                             if (chk_AppendFilename.Checked)
                                 outPath += $"_{Path.GetFileNameWithoutExtension(file)}";
                             outPath += Path.GetExtension(file);
@@ -218,12 +222,12 @@ namespace PersonaVoiceClipEditor
             string archiveDir = txt_ArchiveDir.Text;
             if (Directory.Exists(archiveDir))
             {
-                if (dropDownList_ArchiveFormat.SelectedItem.Text == ".afs")
+                if (comboBox_ArchiveFormat.SelectedText == ".afs")
                     RepackAFS(archiveDir);
-                else if (dropDownList_ArchiveFormat.SelectedItem.Text == ".acb")
+                else if (comboBox_ArchiveFormat.SelectedText == ".acb")
                     RepackACB(archiveDir);
                 else
-                    Output.Log($"[ERROR] Could not repack archive, not a supported format: \"{dropDownList_ArchiveFormat.Text}\"", ConsoleColor.Red);
+                    Output.Log($"[ERROR] Could not repack archive, not a supported format: \"{comboBox_ArchiveFormat.Text}\"", ConsoleColor.Red);
             }
             else
                 Output.Log($"[ERROR] Could not repack archive, directory doesn't exist: \"{archiveDir}\"", ConsoleColor.Red);
@@ -241,7 +245,7 @@ namespace PersonaVoiceClipEditor
 
                     // Prompt user to recreate output directory
                     if (!RecreateDirectory(outputDir))
-                    return;
+                        return;
 
                     Output.Log($"[INFO] Extracting AFS archive: \"{afsPath}\"");
 
@@ -272,7 +276,7 @@ namespace PersonaVoiceClipEditor
         private void RepackAFS(string afsDir)
         {
             string outputFile = txt_OutputArchive.Text;
-            
+
             if (Directory.Exists(afsDir))
             {
                 new Thread(() =>
@@ -287,7 +291,7 @@ namespace PersonaVoiceClipEditor
                         for (int i = 0; i < files.Count; i++)
                         {
                             FileEntry entry = afs.AddEntryFromFile(files[i], i + Path.GetExtension(files[i]));
-                            entry.UnknownAttribute = 7;
+                            entry.CustomData = 7;
                             Output.VerboseLog($"[INFO] Added entry to AFS: \"{files[i]}\"");
                         }
                         afs.SaveToFile(outputFile);
@@ -312,7 +316,7 @@ namespace PersonaVoiceClipEditor
                     Thread.CurrentThread.IsBackground = true;
                     // Prompt user to recreate output directory
                     if (!RecreateDirectory(outputDir))
-                    return;
+                        return;
 
                     // Extract ADX from ACB
                     AcbEditor.Program.Main(new string[] { acbPath });
@@ -344,7 +348,7 @@ namespace PersonaVoiceClipEditor
             string outputFile = txt_OutputArchive.Text;
             string outputDir = Path.GetDirectoryName(outputFile);
             string acbFile = txt_InputArchive.Text;
-            string awbFile = acbFile.Replace(".acb",".awb");
+            string awbFile = acbFile.Replace(".acb", ".awb");
 
             if (File.Exists(acbFile))
             {
@@ -357,7 +361,7 @@ namespace PersonaVoiceClipEditor
                             Thread.CurrentThread.IsBackground = true;
                             // Prompt user to recreate output directory
                             if (!RecreateDirectory(outputDir))
-                            return;
+                                return;
 
                             // Copy input files to output dir
                             string newAcbName = Path.Combine(outputDir, Path.GetFileName(outputFile));
@@ -385,6 +389,15 @@ namespace PersonaVoiceClipEditor
             }
             else
                 Output.Log($"[ERROR] ACB repack failed, original ACB doesn't exist: \"{acbFile}\"", ConsoleColor.Red);
+        }
+
+        private void ToggleTheme_Click(object sender, EventArgs e)
+        {
+            if (Theme.ThemeStyle == MetroSet_UI.Enums.Style.Dark)
+                Theme.ThemeStyle = MetroSet_UI.Enums.Style.Light;
+            else
+                Theme.ThemeStyle = MetroSet_UI.Enums.Style.Dark;
+            Theme.ApplyToForm(this);
         }
     }
 }

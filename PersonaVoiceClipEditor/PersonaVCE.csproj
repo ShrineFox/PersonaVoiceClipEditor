@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>PersonaVCE</RootNamespace>
     <AssemblyName>PersonaVCE</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -27,6 +27,7 @@
     <ApplicationVersion>2.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -56,6 +57,9 @@
     </Reference>
     <Reference Include="Dotnetrix.TabControl">
       <HintPath>..\..\ShrineFox.IO\Classes\WinForms\Extensions\Dotnetrix.TabControl.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroSet UI, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroSet_UI.2.0.0\lib\net45\MetroSet UI.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Win32.Registry, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Win32.Registry.4.7.0\lib\net461\Microsoft.Win32.Registry.dll</HintPath>
@@ -89,6 +93,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Security.AccessControl, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.AccessControl.4.7.0\lib\net461\System.Security.AccessControl.dll</HintPath>
     </Reference>
@@ -109,29 +114,32 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Settings.cs">
+    <Compile Include="PersonaVCE.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Events\DragDrop.cs">
+    <Compile Include="PersonaVCE.Designer.cs">
+      <DependentUpon>PersonaVCE.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Settings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Events\Changed.cs">
+    <Compile Include="Classes\Events\DragDrop.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Events\Clicked.cs">
+    <Compile Include="Classes\Events\Changed.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PersonaVCEForm.cs">
+    <Compile Include="Classes\Events\Clicked.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PersonaVCEForm.Designer.cs">
-      <DependentUpon>PersonaVCEForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils.cs">
+    <Compile Include="Classes\Utils.cs">
       <SubType>Form</SubType>
     </Compile>
+    <EmbeddedResource Include="PersonaVCE.resx">
+      <DependentUpon>PersonaVCE.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -142,9 +150,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="PersonaVCEForm.resx">
-      <DependentUpon>PersonaVCEForm.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -157,7 +162,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="Classes\App.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="VGAudio.exe">
@@ -177,10 +182,6 @@
     <ProjectReference Include="..\..\SonicAudioTools\Source\AcbEditor\AcbEditor.csproj">
       <Project>{45a72daf-370a-42d1-833e-cee27ea5e311}</Project>
       <Name>AcbEditor</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\yet-another-tab-control\GrayIris.Utilities.csproj">
-      <Project>{38d57fe6-c75f-4b05-9e4f-d02a48caa21e}</Project>
-      <Name>GrayIris.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

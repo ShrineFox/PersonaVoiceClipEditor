@@ -1,4 +1,5 @@
 ﻿using DarkUI.Controls;
+using MetroSet_UI.Forms;
 using ShrineFox.IO;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PersonaVoiceClipEditor
+namespace PersonaVCE
 {
-    public partial class PersonaVCEForm : Form
+    public partial class PersonaVCE : MetroSetForm
     {
         private void DragEnter(object sender, DragEventArgs e)
         {
@@ -27,12 +28,12 @@ namespace PersonaVoiceClipEditor
 
         private void Encode_DragDrop(object sender, DragEventArgs e)
         {
+            // Encode dragged files or files in dragged folder
             var data = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             if (Directory.Exists(data[0]))
-                txt_InputDir.Text = data[0];
-            EnableEncodeBtn();
-            if (btn_Encode.Enabled)
-                Encode();
+                Encode(Directory.GetFiles(data[0]).ToArray());
+            else if (File.Exists(data[0]))
+                Encode(data);
         }
 
         private void Rename_DragDrop(object sender, DragEventArgs e)

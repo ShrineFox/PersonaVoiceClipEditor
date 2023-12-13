@@ -1,4 +1,5 @@
 ﻿using DarkUI.Controls;
+using MetroSet_UI.Forms;
 using ShrineFox.IO;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,9 @@ using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace PersonaVoiceClipEditor
+namespace PersonaVCE
 {
-    public partial class PersonaVCEForm : Form
+    public partial class PersonaVCE : MetroSetForm
     {
         public static Settings settings = new Settings();
         public static bool updateSettings = false;
@@ -50,29 +51,29 @@ namespace PersonaVoiceClipEditor
             if (!updateSettings)
                 return;
 
-            settings.Preset = dropDownList_Preset.SelectedItem.Text;
+            settings.Preset = comboBox_EncryptionPreset.SelectedText;
             settings.InputDir = txt_InputDir.Text;
             settings.OutputDir = txt_OutputDir.Text;
-            settings.OutFormat = dropDownList_OutFormat.SelectedItem.Text;
-            settings.UseKey = chk_UseEncKey.Checked;
-            settings.Key = txt_Key.Text;
-            settings.UseLoops = chk_UseLoops.Checked;
+            settings.OutFormat = comboBox_SoundFormat.SelectedText;
+            settings.UseKey = chk_UseEncryption.Checked;
+            settings.Key = txt_EncryptionKey.Text;
+            settings.UseLoops = chk_UseLoopPoints.Checked;
             settings.LoopAll = chk_LoopAll.Checked;
-            settings.LoopStart = num_LoopStart.Value;
-            settings.LoopEnd = num_LoopEnd.Value;
+            settings.LoopStart = txt_LoopStart.Value;
+            settings.LoopEnd = txt_LoopEnd.Value;
 
             settings.TxtFile = txt_TxtFile.Text;
             settings.RenameDir = txt_RenameDir.Text;
             settings.RenameOutDir = txt_RenameOutput.Text;
-            settings.TxtSuffix = txt_Suffix.Text;
+            settings.TxtSuffix = txt_RenameSuffix.Text;
             settings.AppendFilename = chk_AppendFilename.Checked;
-            settings.LeftPadding = num_Padding.Value;
+            settings.LeftPadding = num_LeftPadding.Value;
             settings.StartIndex = num_StartIndex.Value;
 
             settings.InputArchive = txt_InputArchive.Text;
             settings.ArchiveDir = txt_ArchiveDir.Text;
             settings.OutputArchive = txt_OutputArchive.Text;
-            settings.ArchiveFormat = dropDownList_ArchiveFormat.SelectedItem.Text;
+            settings.ArchiveFormat = comboBox_ArchiveFormat.SelectedText;
 
             Output.VerboseLog("[INFO] Updated settings object.");
             SaveSettings();
@@ -106,32 +107,29 @@ namespace PersonaVoiceClipEditor
 
         private void ApplySettingsToForm()
         {
-            if (dropDownList_Preset.Items.Any(x => x.Text == settings.Preset))
-                dropDownList_Preset.SelectedItem = dropDownList_Preset.Items.Single(x => x.Text == settings.Preset);
+            comboBox_EncryptionPreset.SelectedItem = settings.Preset;
             txt_InputDir.Text = settings.InputDir;
             txt_OutputDir.Text = settings.OutputDir;
-            if (dropDownList_OutFormat.Items.Any(x => x.Text == settings.OutFormat))
-                dropDownList_OutFormat.SelectedItem = dropDownList_OutFormat.Items.Single(x => x.Text == settings.OutFormat);
-            chk_UseEncKey.Checked = settings.UseKey;
-            txt_Key.Text = settings.Key;
-            chk_UseLoops.Checked = settings.UseLoops;
+            comboBox_SoundFormat.SelectedItem = settings.OutFormat;
+            chk_UseEncryption.Checked = settings.UseKey;
+            txt_EncryptionKey.Text = settings.Key;
+            chk_UseLoopPoints.Checked = settings.UseLoops;
             chk_LoopAll.Checked = settings.LoopAll;
-            num_LoopStart.Value = settings.LoopStart;
-            num_LoopEnd.Value = settings.LoopEnd;
+            txt_LoopStart.Value = settings.LoopStart;
+            txt_LoopEnd.Value = settings.LoopEnd;
 
             txt_TxtFile.Text = settings.TxtFile;
             txt_RenameDir.Text = settings.RenameDir;
             txt_RenameOutput.Text = settings.RenameOutDir;
-            txt_Suffix.Text = settings.TxtSuffix;
+            txt_RenameSuffix.Text = settings.TxtSuffix;
             chk_AppendFilename.Checked = settings.AppendFilename;
-            num_Padding.Value = settings.LeftPadding;
+            num_LeftPadding.Value = settings.LeftPadding;
             num_StartIndex.Value = settings.StartIndex;
 
             txt_InputArchive.Text = settings.InputArchive;
             txt_ArchiveDir.Text = settings.ArchiveDir;
             txt_OutputArchive.Text = settings.OutputArchive;
-            if (dropDownList_ArchiveFormat.Items.Any(x => x.Text == settings.ArchiveFormat))
-                dropDownList_ArchiveFormat.SelectedItem = dropDownList_ArchiveFormat.Items.Single(x => x.Text == settings.ArchiveFormat);
+            comboBox_ArchiveFormat.SelectedItem = settings.ArchiveFormat;
 
             Output.VerboseLog("[INFO] Done applying settings to form.");
         }
