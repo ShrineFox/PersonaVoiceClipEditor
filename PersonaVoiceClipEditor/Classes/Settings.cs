@@ -26,7 +26,7 @@ namespace PersonaVCE
             public string OutputDir { get; set; } = "";
             public string OutFormat { get; set; } = ".adx";
             public bool UseKey { get; set; } = false;
-            public string Key { get; set; } = "";
+            public decimal Key { get; set; } = 0;
             public bool UseLoops { get; set; } = false;
             public bool LoopAll { get; set; } = false;
             public decimal LoopStart { get; set; } = 0;
@@ -52,28 +52,20 @@ namespace PersonaVCE
                 return;
 
             settings.Preset = comboBox_EncryptionPreset.SelectedText;
-            settings.InputDir = txt_InputDir.Text;
-            settings.OutputDir = txt_OutputDir.Text;
             settings.OutFormat = comboBox_SoundFormat.SelectedText;
+            settings.ArchiveFormat = comboBox_ArchiveFormat.SelectedText;
+
             settings.UseKey = chk_UseEncryption.Checked;
-            settings.Key = txt_EncryptionKey.Text;
+            settings.Key = num_EncryptionKey.Value;
             settings.UseLoops = chk_UseLoopPoints.Checked;
             settings.LoopAll = chk_LoopAll.Checked;
-            settings.LoopStart = txt_LoopStart.Value;
-            settings.LoopEnd = txt_LoopEnd.Value;
+            settings.LoopStart = num_LoopStart.Value;
+            settings.LoopEnd = num_LoopEnd.Value;
 
-            settings.TxtFile = txt_TxtFile.Text;
-            settings.RenameDir = txt_RenameDir.Text;
-            settings.RenameOutDir = txt_RenameOutput.Text;
             settings.TxtSuffix = txt_RenameSuffix.Text;
-            settings.AppendFilename = chk_AppendFilename.Checked;
+            settings.AppendFilename = chk_AppendOGName.Checked;
             settings.LeftPadding = num_LeftPadding.Value;
-            settings.StartIndex = num_StartIndex.Value;
-
-            settings.InputArchive = txt_InputArchive.Text;
-            settings.ArchiveDir = txt_ArchiveDir.Text;
-            settings.OutputArchive = txt_OutputArchive.Text;
-            settings.ArchiveFormat = comboBox_ArchiveFormat.SelectedText;
+            settings.StartIndex = num_StartID.Value;
 
             Output.VerboseLog("[INFO] Updated settings object.");
             SaveSettings();
@@ -108,28 +100,20 @@ namespace PersonaVCE
         private void ApplySettingsToForm()
         {
             comboBox_EncryptionPreset.SelectedItem = settings.Preset;
-            txt_InputDir.Text = settings.InputDir;
-            txt_OutputDir.Text = settings.OutputDir;
             comboBox_SoundFormat.SelectedItem = settings.OutFormat;
+            comboBox_ArchiveFormat.SelectedItem = settings.ArchiveFormat;
+
             chk_UseEncryption.Checked = settings.UseKey;
-            txt_EncryptionKey.Text = settings.Key;
+            num_EncryptionKey.Value = settings.Key;
             chk_UseLoopPoints.Checked = settings.UseLoops;
             chk_LoopAll.Checked = settings.LoopAll;
-            txt_LoopStart.Value = settings.LoopStart;
-            txt_LoopEnd.Value = settings.LoopEnd;
+            num_LoopStart.Value = settings.LoopStart;
+            num_LoopEnd.Value = settings.LoopEnd;
 
-            txt_TxtFile.Text = settings.TxtFile;
-            txt_RenameDir.Text = settings.RenameDir;
-            txt_RenameOutput.Text = settings.RenameOutDir;
             txt_RenameSuffix.Text = settings.TxtSuffix;
-            chk_AppendFilename.Checked = settings.AppendFilename;
+            chk_AppendOGName.Checked = settings.AppendFilename;
             num_LeftPadding.Value = settings.LeftPadding;
-            num_StartIndex.Value = settings.StartIndex;
-
-            txt_InputArchive.Text = settings.InputArchive;
-            txt_ArchiveDir.Text = settings.ArchiveDir;
-            txt_OutputArchive.Text = settings.OutputArchive;
-            comboBox_ArchiveFormat.SelectedItem = settings.ArchiveFormat;
+            num_StartID.Value = settings.StartIndex;
 
             Output.VerboseLog("[INFO] Done applying settings to form.");
         }

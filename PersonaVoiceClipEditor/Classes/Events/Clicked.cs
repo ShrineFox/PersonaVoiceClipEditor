@@ -13,7 +13,19 @@ namespace PersonaVCE
     {
         private void Encode_Click(object sender, EventArgs e)
         {
-            Encode();
+            string[] formats = new string[] { "ADX (.adx)", "HCA (.hca)", "WAV (.wav)" };
+            var files = WinFormsDialogs.SelectFile("Choose files to encode", true, formats).ToArray();
+
+            Encode(files);
+        }
+
+
+        private void Decode_Click(object sender, EventArgs e)
+        {
+            string[] formats = new string[] { "ADX (.adx)", "HCA (.hca)" };
+            var files = WinFormsDialogs.SelectFile("Choose files to decode to WAV", true, formats).ToArray();
+
+            Encode(files, ".wav");
         }
 
         private void Rename_Click(object sender, EventArgs e)
@@ -21,17 +33,7 @@ namespace PersonaVCE
             Rename();
         }
 
-        private void Unpack_Click(object sender, EventArgs e)
-        {
-            UnpackArchive();
-        }
-
-        private void Repack_Click(object sender, EventArgs e)
-        {
-            RepackArchive();
-        }
-
-        private void InputArchive_Click(object sender, EventArgs e)
+        private void ExtractArchive_Click(object sender, EventArgs e)
         {
             string[] formats = new string[] { "ACB Archive (.acb)", "AFS Archive (.afs)" };
             if (comboBox_ArchiveFormat.SelectedText == ".afs")
@@ -44,36 +46,11 @@ namespace PersonaVCE
             }
         }
 
-        private void ExtractArchive(string v)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void OutputArchive_Click(object sender, EventArgs e)
+        private void RepackArchive_Click(object sender, EventArgs e)
         {
             string path = WinFormsDialogs.SelectFolder("Choose Input Audio Files Folder...");
             if (!string.IsNullOrEmpty(path))
                 RepackArchive(path);
-        }
-
-        private void RepackArchive(string path)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void Txt_Click(object sender, EventArgs e)
-        {
-            var files = WinFormsDialogs.SelectFile("Choose Output Name Order File Location...", false,
-                new string[] { "Text file (.txt)" });
-            if (files.Count > 0)
-            {
-                LoadRenameTxt(files[0]);
-            }
-        }
-
-        private void LoadRenameTxt(string v)
-        {
-            throw new NotImplementedException();
         }
 
         private void RenameDir_Click(object sender, EventArgs e)
@@ -81,13 +58,32 @@ namespace PersonaVCE
             string path = WinFormsDialogs.SelectFolder("Choose Directory of Files to Rename...");
             if (!string.IsNullOrEmpty(path))
             {
-                // TODO: Set rename source dir in project settings
+                settings.RenameDir = path;
+            }
+        }
+
+        private void RenameOutput_Click(object sender, EventArgs e)
+        {
+            string path = WinFormsDialogs.SelectFolder("Choose Directory for Renamed Files...");
+            if (!string.IsNullOrEmpty(path))
+            {
+                settings.RenameOutDir = path;
             }
         }
 
         private void Link_Click(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/ShrineFox/PersonaVoiceClipEditor");
+        }
+
+
+        private void ToggleTheme_Click(object sender, EventArgs e)
+        {
+            if (Theme.ThemeStyle == MetroSet_UI.Enums.Style.Dark)
+                Theme.ThemeStyle = MetroSet_UI.Enums.Style.Light;
+            else
+                Theme.ThemeStyle = MetroSet_UI.Enums.Style.Dark;
+            Theme.ApplyToForm(this);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace PersonaVCE
 {
     public partial class PersonaVCE : MetroSetForm
     {
-        public static List<string> supportedFormats = new List<string> { ".adx", ".hca", ".wav" };
+        public static List<string> supportedFormats = new List<string> { ".adx", ".hca" };
         public static List<string> supportedArchives = new List<string> { ".acb", ".afs" };
         public static List<string> presets = new List<string> { "None",
             "P5R (PC/Switch)",
@@ -45,17 +45,14 @@ namespace PersonaVCE
 
         private void SetupDropdowns()
         {
-            var bs_Formats = new BindingSource();
-            bs_Formats.DataSource = supportedFormats;
-            comboBox_SoundFormat.ComboBox.DataSource = bs_Formats;
+            comboBox_SoundFormat.ComboBox.DataSource = supportedFormats;
+            comboBox_SoundFormat.ComboBox.BindingContext = this.BindingContext;
 
-            var bs_Archives = new BindingSource();
-            bs_Archives.DataSource = supportedArchives;
-            comboBox_ArchiveFormat.ComboBox.DataSource = bs_Archives;
+            comboBox_ArchiveFormat.ComboBox.BindingContext = this.BindingContext;
+            comboBox_ArchiveFormat.ComboBox.DataSource = supportedArchives;
 
-            var bs_Presets = new BindingSource();
-            bs_Presets.DataSource = presets;
-            comboBox_EncryptionPreset.ComboBox.DataSource = bs_Presets;
+            comboBox_EncryptionPreset.ComboBox.DataSource = presets;
+            comboBox_EncryptionPreset.ComboBox.BindingContext = this.BindingContext;
         }
 
         private void SetupLogging()
@@ -63,17 +60,18 @@ namespace PersonaVCE
             Output.Logging = true;
 #if DEBUG
             Output.VerboseLogging = true;
+            Output.LogControl = rtb_Log;
 #endif
         }
 
-        private void Encode(string[] inputFiles)
+        private void Encode(string[] inputFiles, string outFormat = "")
         {
             new Thread(() =>
             {
                 Thread.CurrentThread.IsBackground = true;
 
-                
-                string outFormat = comboBox_SoundFormat.SelectedText;
+                if (outFormat == "")
+                    outFormat = comboBox_SoundFormat.SelectedText;
                 Output.Log($"[INFO] Encoding supported files to format \"{outFormat}\".");
 
                 // Convert files to target format, output to specified directory
@@ -101,13 +99,13 @@ namespace PersonaVCE
 
                     // If file is encrypted, remove encryption with key.
                     // Otherwise, output will be encrypted with key
-                    if (chk_UseEncryption.Checked && txt_EncryptionKey.Text != "" && txt_EncryptionKey.Enabled)
-                        args += $" --keycode {txt_EncryptionKey.Text}";
+                    if (chk_UseEncryption.Checked && num_EncryptionKey.Value != 0 && num_EncryptionKey.Enabled)
+                        args += $" --keycode {num_EncryptionKey.Value}";
 
                     // If loops are specified, use loops
                     if (chk_UseLoopPoints.Checked)
                     {
-                        args += $" -l {Convert.ToInt32(txt_LoopStart)}-{Convert.ToInt32(txt_LoopEnd)}";
+                        args += $" -l {Convert.ToInt32(num_LoopStart.Value)}-{Convert.ToInt32(num_LoopEnd.Value)}";
                     }
 
                     Output.VerboseLog($"[INFO] Encoding \"{Path.GetFileName(file)}\" to \"{Path.GetFileName(outPath)}\"...");
@@ -146,33 +144,33 @@ namespace PersonaVCE
 
         private void Rename()
         {
-            string txtFile = txt_TxtFile.Text;
-
-            if (File.Exists(txtFile))
+            if (Directory.Exists(settings.RenameDir))
             {
                 new Thread(() =>
                 {
                     Thread.CurrentThread.IsBackground = true;
 
                     // Delete and recreate output directory
-                    string outFolder = txt_RenameOutput.Text;
+                    string outFolder = settings.RenameOutDir;
                     Directory.CreateDirectory(outFolder);
 
-                    Output.Log($"[INFO] Copying and renaming files based on order of filenames in: \"{txtFile}\"");
+                    Output.Log($"[INFO] Copying and renaming files based on order of filenames in: \"{settings.TxtFile}\"");
 
                     // Re-order based on .txt file
-                    int i = Convert.ToInt32(num_StartIndex.Value);
-                    foreach (var line in File.ReadLines(txtFile))
+                    int i = Convert.ToInt32(num_StartID.Value);
+
+                    var files = Directory.GetFiles(settings.RenameDir);
+                    foreach (DataGridViewRow row in dgv_RenameTxt.Rows)
                     {
-                        var files = Directory.GetFiles(txt_RenameDir.Text);
+                        string fileName = Path.GetFileNameWithoutExtension(row.Cells[0].Value.ToString().Trim());
                         // If file found, copy to output folder with new name
-                        if (files.Any(x => Path.GetFileNameWithoutExtension(x).Equals(line.Trim())))
+                        if (files.Any(x => Path.GetFileNameWithoutExtension(x).Equals(fileName)))
                         {
-                            var file = files.Single(x => Path.GetFileNameWithoutExtension(x).Equals(line.Trim()));
+                            var file = files.First(x => Path.GetFileNameWithoutExtension(x).Equals(fileName));
                             var ext = Path.GetExtension(file);
                             string outPath = Path.Combine(outFolder, $"{i.ToString().PadLeft(Convert.ToInt32(num_LeftPadding.Value), '0')}{txt_RenameSuffix.Text}");
 
-                            if (chk_AppendFilename.Checked)
+                            if (chk_AppendOGName.Checked)
                                 outPath += $"_{Path.GetFileNameWithoutExtension(file)}";
                             outPath += Path.GetExtension(file);
 
@@ -188,7 +186,7 @@ namespace PersonaVCE
                             Output.VerboseLog($"[INFO] Copied \"{file}\" to:\n\t\"{outPath}\"", ConsoleColor.Green);
                         }
                         else
-                            Output.VerboseLog($"[WARNING] File with name \"{line}\" not found in directory \"{txt_RenameDir.Text}\", " +
+                            Output.VerboseLog($"[WARNING] File with name \"{fileName}\" not found in directory \"{settings.RenameDir}\", " +
                                 $"skipping index {i}.", ConsoleColor.Yellow);
                         i++;
                     }
@@ -197,55 +195,51 @@ namespace PersonaVCE
                 }).Start();
             }
             else
-                Output.Log($"[ERROR] Rename failed, could not find file: \"{txtFile}\"", ConsoleColor.Red);
+                Output.Log($"[ERROR] Rename failed, could not find file: \"{settings.RenameDir}\"", ConsoleColor.Red);
 
         }
 
-        private void UnpackArchive()
+        private void ExtractArchive(string archivePath)
         {
-            string archive = txt_InputArchive.Text;
-            if (File.Exists(archive))
+            if (File.Exists(archivePath))
             {
-                if (Path.GetExtension(archive).ToLower() == ".afs")
-                    ExtractAFS(archive);
-                else if (Path.GetExtension(archive).ToLower() == ".acb")
-                    ExtractACB(archive);
+                if (Path.GetExtension(archivePath).ToLower() == ".afs")
+                    ExtractAFS(archivePath);
+                else if (Path.GetExtension(archivePath).ToLower() == ".acb")
+                    ExtractACB(archivePath);
                 else
-                    Output.Log($"[ERROR] Could not extract archive, not a supported format: \"{archive}\"", ConsoleColor.Red);
+                    Output.Log($"[ERROR] Could not extract archive, not a supported format: \"{archivePath}\"", ConsoleColor.Red);
             }
             else
-                Output.Log($"[ERROR] Could not unpack archive, file doesn't exist: \"{archive}\"", ConsoleColor.Red);
+                Output.Log($"[ERROR] Could not unpack archive, file doesn't exist: \"{archivePath}\"", ConsoleColor.Red);
         }
 
-        private void RepackArchive()
+        private void RepackArchive(string folderPath)
         {
-            string archiveDir = txt_ArchiveDir.Text;
-            if (Directory.Exists(archiveDir))
+            if (Directory.Exists(folderPath))
             {
                 if (comboBox_ArchiveFormat.SelectedText == ".afs")
-                    RepackAFS(archiveDir);
+                    RepackAFS(folderPath);
                 else if (comboBox_ArchiveFormat.SelectedText == ".acb")
-                    RepackACB(archiveDir);
+                    RepackACB(folderPath);
                 else
                     Output.Log($"[ERROR] Could not repack archive, not a supported format: \"{comboBox_ArchiveFormat.Text}\"", ConsoleColor.Red);
             }
             else
-                Output.Log($"[ERROR] Could not repack archive, directory doesn't exist: \"{archiveDir}\"", ConsoleColor.Red);
+                Output.Log($"[ERROR] Could not repack archive, directory doesn't exist: \"{folderPath}\"", ConsoleColor.Red);
         }
 
         private void ExtractAFS(string afsPath)
         {
-            string outputDir = txt_ArchiveDir.Text;
-
             if (File.Exists(afsPath))
             {
+                string outputDir = FileSys.CreateUniqueDir(afsPath + "_extracted");
+                Directory.CreateDirectory(outputDir);
+
                 new Thread(() =>
                 {
                     Thread.CurrentThread.IsBackground = true;
 
-                    // Prompt user to recreate output directory
-                    if (!RecreateDirectory(outputDir))
-                        return;
 
                     Output.Log($"[INFO] Extracting AFS archive: \"{afsPath}\"");
 
@@ -275,7 +269,7 @@ namespace PersonaVCE
 
         private void RepackAFS(string afsDir)
         {
-            string outputFile = txt_OutputArchive.Text;
+            string outputFile = afsDir + ".AFS";
 
             if (Directory.Exists(afsDir))
             {
@@ -307,34 +301,16 @@ namespace PersonaVCE
 
         private void ExtractACB(string acbPath)
         {
-            string outputDir = txt_ArchiveDir.Text;
-
             if (File.Exists(acbPath))
             {
                 new Thread(() =>
                 {
                     Thread.CurrentThread.IsBackground = true;
-                    // Prompt user to recreate output directory
-                    if (!RecreateDirectory(outputDir))
-                        return;
 
                     // Extract ADX from ACB
                     AcbEditor.Program.Main(new string[] { acbPath });
-
-                    // Move Files to Output Dir from Temp Path
-                    string acbDir = Path.Combine(Path.GetDirectoryName(acbPath), Path.GetFileNameWithoutExtension(acbPath));
-                    if (Directory.Exists(acbDir) && Directory.GetFiles(acbDir).Count() > 0)
-                    {
-                        FileSys.CopyDir(acbDir, outputDir);
-                        Directory.Delete(acbDir, true);
-                        Output.Log($"[INFO] Done extracting archive contents to: \"{outputDir}\"", ConsoleColor.Green);
-                    }
-                    else
-                    {
-                        Output.Log($"[ERROR] No files were extracted from ACB: \"{acbPath}\"", ConsoleColor.Red);
-                        if (Directory.Exists(acbDir))
-                            Directory.Delete(acbDir);
-                    }
+                    Output.Log($"[INFO] Done extracting archive contents from: \"{acbPath}\"", ConsoleColor.Green);
+                    
                     SystemSounds.Exclamation.Play();
                 }).Start();
             }
@@ -345,59 +321,35 @@ namespace PersonaVCE
 
         private void RepackACB(string acbDir)
         {
-            string outputFile = txt_OutputArchive.Text;
-            string outputDir = Path.GetDirectoryName(outputFile);
-            string acbFile = txt_InputArchive.Text;
+            string acbFile = acbDir + ".acb";
             string awbFile = acbFile.Replace(".acb", ".awb");
 
-            if (File.Exists(acbFile))
+            if (!File.Exists(acbFile))
             {
-                if (File.Exists(awbFile))
+                Output.Log($"[ERROR] ACB repack failed, original ACB doesn't exist: \"{acbFile}\"", ConsoleColor.Red);
+                return;
+            }
+            if (!File.Exists(awbFile))
+            {
+                Output.Log($"[ERROR] ACB repack failed, original AWB doesn't exist: \"{awbFile}\"", ConsoleColor.Red);
+                return;
+            }
+                
+            if (Directory.Exists(acbDir))
+            {
+                new Thread(() =>
                 {
-                    if (Directory.Exists(acbDir))
-                    {
-                        new Thread(() =>
-                        {
-                            Thread.CurrentThread.IsBackground = true;
-                            // Prompt user to recreate output directory
-                            if (!RecreateDirectory(outputDir))
-                                return;
+                    Thread.CurrentThread.IsBackground = true;
 
-                            // Copy input files to output dir
-                            string newAcbName = Path.Combine(outputDir, Path.GetFileName(outputFile));
-                            string newAwbName = Path.Combine(outputDir, Path.GetFileNameWithoutExtension(outputFile) + ".awb");
-                            File.Copy(acbFile, newAcbName, true);
-                            File.Copy(awbFile, newAwbName, true);
-                            // Copy extracted dir to temp output dir named after acb
-                            string extDirCopy = Path.Combine(outputDir, Path.GetFileNameWithoutExtension(outputFile));
-                            FileSys.CopyDir(acbDir, extDirCopy);
-                            // Repack ACB
-                            Output.Log($"[INFO] Repacking ACB/AWB file with files from: \"{acbDir}\"");
-                            AcbEditor.Program.Main(new string[] { extDirCopy });
-                            // Delete temp output dir
-                            if (Directory.Exists(extDirCopy))
-                                Directory.Delete(extDirCopy, true);
-                            Output.Log($"[INFO] Done repacking AFS archive at: \"{newAcbName}\"", ConsoleColor.Green);
-                            SystemSounds.Exclamation.Play();
-                        }).Start();
-                    }
-                    else
-                        Output.Log($"[ERROR] ACB repack failed, extracted archive directory doesn't exist: \"{acbDir}\"", ConsoleColor.Red);
-                }
-                else
-                    Output.Log($"[ERROR] ACB repack failed, original AWB doesn't exist: \"{awbFile}\"", ConsoleColor.Red);
+                    // Repack ACB
+                    Output.Log($"[INFO] Repacking ACB/AWB file with files from: \"{acbDir}\"");
+                    AcbEditor.Program.Main(new string[] { acbDir });
+                    Output.Log($"[INFO] Done repacking ACB archive: \"{acbFile}\"", ConsoleColor.Green);
+                    SystemSounds.Exclamation.Play();
+                }).Start();
             }
             else
-                Output.Log($"[ERROR] ACB repack failed, original ACB doesn't exist: \"{acbFile}\"", ConsoleColor.Red);
-        }
-
-        private void ToggleTheme_Click(object sender, EventArgs e)
-        {
-            if (Theme.ThemeStyle == MetroSet_UI.Enums.Style.Dark)
-                Theme.ThemeStyle = MetroSet_UI.Enums.Style.Light;
-            else
-                Theme.ThemeStyle = MetroSet_UI.Enums.Style.Dark;
-            Theme.ApplyToForm(this);
+                Output.Log($"[ERROR] ACB repack failed, extracted archive directory doesn't exist: \"{acbDir}\"", ConsoleColor.Red);
         }
     }
 }

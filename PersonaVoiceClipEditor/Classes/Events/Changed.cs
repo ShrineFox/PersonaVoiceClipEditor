@@ -16,21 +16,11 @@ namespace PersonaVCE
         private void ToggleKey()
         {
             if (chk_UseEncryption.Checked)
-                txt_EncryptionKey.Enabled = true;
+                num_EncryptionKey.Enabled = true;
             else
-                txt_EncryptionKey.Enabled = false;
+                num_EncryptionKey.Enabled = false;
 
             UpdateSettings();
-        }
-
-        private void ArchivePath_Changed(object sender, EventArgs e)
-        {
-            // Update output archive format based on input archive extension
-            DarkTextBox txtBox = (DarkTextBox)sender;
-            if (Path.GetExtension(txtBox.Text).ToLower().Equals(".afs"))
-                comboBox_ArchiveFormat.SelectedItem = ".afs";
-            else if (Path.GetExtension(txtBox.Text).ToLower().Equals(".acb"))
-                comboBox_ArchiveFormat.SelectedItem = ".acb";
         }
 
         private void UseKey_CheckedChanged(object sender, EventArgs e)
@@ -52,15 +42,15 @@ namespace PersonaVCE
             {
                 case "P5R (PC/Switch)":
                     SetP5Defaults();
-                    txt_EncryptionKey.Text = "9923540143823782";
+                    num_EncryptionKey.Value = 9923540143823782;
                     break;
                 case "P5R (ENG PS4)":
                     SetP5Defaults();
-                    txt_EncryptionKey.Text = "022759300";
+                    num_EncryptionKey.Value = 022759300;
                     break;
                 case "P5R (JP PS4)":
                     SetP5Defaults();
-                    txt_EncryptionKey.Text = "10882899";
+                    num_EncryptionKey.Value = 10882899;
                     break;
                 case "P5 (PS3)":
                     SetP5Defaults();
@@ -78,7 +68,7 @@ namespace PersonaVCE
         private void SetDefaults()
         {
             chk_UseEncryption.Checked = false;
-            txt_EncryptionKey.Text = "";
+            num_EncryptionKey.Value = 0;
             txt_RenameSuffix.Text = "";
             num_LeftPadding.Value = 0;
             comboBox_ArchiveFormat.SelectedItem = ".afs";
@@ -87,7 +77,7 @@ namespace PersonaVCE
         private void SetP5Defaults()
         {
             chk_UseEncryption.Checked = true;
-            txt_EncryptionKey.Text = "";
+            num_EncryptionKey.Value = 0;
             txt_RenameSuffix.Text = "_streaming";
             num_LeftPadding.Value = 5;
             comboBox_ArchiveFormat.SelectedItem = ".acb";
@@ -111,17 +101,17 @@ namespace PersonaVCE
         {
             if (!chk_LoopAll.Checked && chk_UseLoopPoints.Checked)
             {
-                txt_LoopStart.Enabled = true;
-                txt_LoopEnd.Enabled = true;
+                num_LoopStart.Enabled = true;
+                num_LoopEnd.Enabled = true;
             }
             else
             {
-                txt_LoopStart.Enabled = false;
-                txt_LoopEnd.Enabled = false;
+                num_LoopStart.Enabled = false;
+                num_LoopEnd.Enabled = false;
             }
         }
 
-        private void dropDownList_Changed(object sender, EventArgs e)
+        private void DropDownList_Changed(object sender, EventArgs e)
         {
             UpdateSettings();
         }
