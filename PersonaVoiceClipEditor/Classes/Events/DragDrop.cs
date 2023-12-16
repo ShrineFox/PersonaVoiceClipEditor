@@ -63,7 +63,7 @@ namespace PersonaVCE
             if (Directory.Exists(data[0]))
             {
                 Encode(Directory.GetFiles(data[0]).ToArray());
-                settings.RenameDir = data[0];
+                txt_RenameSourcePath.Text = data[0];
             }
         }
 
@@ -73,7 +73,7 @@ namespace PersonaVCE
             if (Directory.Exists(data[0]))
             {
                 Encode(Directory.GetFiles(data[0]).ToArray());
-                settings.RenameOutDir = data[0];
+                txt_RenameOutputPath.Text = data[0];
             }
         }
 

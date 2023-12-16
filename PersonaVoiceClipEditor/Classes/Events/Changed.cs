@@ -35,8 +35,7 @@ namespace PersonaVCE
 
         private void Preset_Changed(object sender, EventArgs e)
         {
-            if (!updateSettings)
-                return;
+            updateSettings = false;
 
             switch (comboBox_EncryptionPreset.SelectedText)
             {
@@ -62,6 +61,8 @@ namespace PersonaVCE
             }
             Output.Log($"[INFO] Loaded Preset: \"{comboBox_EncryptionPreset.SelectedText}\"");
 
+            updateSettings = true;
+
             UpdateSettings();
         }
 
@@ -77,6 +78,7 @@ namespace PersonaVCE
         private void SetP5Defaults()
         {
             chk_UseEncryption.Checked = true;
+            num_EncryptionKey.Enabled = true;
             num_EncryptionKey.Value = 0;
             txt_RenameSuffix.Text = "_streaming";
             num_LeftPadding.Value = 5;

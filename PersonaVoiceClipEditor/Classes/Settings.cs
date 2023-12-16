@@ -62,6 +62,8 @@ namespace PersonaVCE
             settings.LoopStart = num_LoopStart.Value;
             settings.LoopEnd = num_LoopEnd.Value;
 
+            settings.RenameDir = txt_RenameSourcePath.Text;
+            settings.RenameOutDir = txt_RenameOutputPath.Text;
             settings.TxtSuffix = txt_RenameSuffix.Text;
             settings.AppendFilename = chk_AppendOGName.Checked;
             settings.LeftPadding = num_LeftPadding.Value;
@@ -110,6 +112,8 @@ namespace PersonaVCE
             num_LoopStart.Value = settings.LoopStart;
             num_LoopEnd.Value = settings.LoopEnd;
 
+            txt_RenameSourcePath.Text = settings.RenameDir;
+            txt_RenameOutputPath.Text = settings.RenameOutDir;
             txt_RenameSuffix.Text = settings.TxtSuffix;
             chk_AppendOGName.Checked = settings.AppendFilename;
             num_LeftPadding.Value = settings.LeftPadding;

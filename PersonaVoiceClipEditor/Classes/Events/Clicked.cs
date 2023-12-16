@@ -58,7 +58,7 @@ namespace PersonaVCE
             string path = WinFormsDialogs.SelectFolder("Choose Directory of Files to Rename...");
             if (!string.IsNullOrEmpty(path))
             {
-                settings.RenameDir = path;
+                txt_RenameSourcePath.Text = path;
             }
         }
 
@@ -67,7 +67,7 @@ namespace PersonaVCE
             string path = WinFormsDialogs.SelectFolder("Choose Directory for Renamed Files...");
             if (!string.IsNullOrEmpty(path))
             {
-                settings.RenameOutDir = path;
+                txt_RenameOutputPath.Text = path;
             }
         }
 
