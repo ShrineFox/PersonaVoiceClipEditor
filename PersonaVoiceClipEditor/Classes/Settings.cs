@@ -1,5 +1,4 @@
-﻿using DarkUI.Controls;
-using MetroSet_UI.Forms;
+﻿using MetroSet_UI.Forms;
 using Newtonsoft.Json;
 using ShrineFox.IO;
 using System;
@@ -9,9 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using YamlDotNet.Core;
-using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
 
 namespace PersonaVCE
 {

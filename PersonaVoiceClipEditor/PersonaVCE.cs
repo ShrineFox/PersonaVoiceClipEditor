@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using ShrineFox.IO;
-using DarkUI.Controls;
 using AFSLib;
 using System.Media;
 using MetroSet_UI.Forms;
