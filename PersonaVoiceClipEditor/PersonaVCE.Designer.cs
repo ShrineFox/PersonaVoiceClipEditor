@@ -150,14 +150,16 @@ namespace PersonaVCE
             // loadProjectToolStripMenuItem
             // 
             this.loadProjectToolStripMenuItem.Name = "loadProjectToolStripMenuItem";
-            this.loadProjectToolStripMenuItem.Size = new System.Drawing.Size(175, 26);
+            this.loadProjectToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.loadProjectToolStripMenuItem.Text = "Load Project";
+            this.loadProjectToolStripMenuItem.Click += new System.EventHandler(this.LoadProject_Click);
             // 
             // saveProjectToolStripMenuItem
             // 
             this.saveProjectToolStripMenuItem.Name = "saveProjectToolStripMenuItem";
-            this.saveProjectToolStripMenuItem.Size = new System.Drawing.Size(175, 26);
+            this.saveProjectToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.saveProjectToolStripMenuItem.Text = "Save Project";
+            this.saveProjectToolStripMenuItem.Click += new System.EventHandler(this.SaveSettings_Click);
             // 
             // toggleThemeToolStripMenuItem
             // 
@@ -195,7 +197,7 @@ namespace PersonaVCE
             this.comboBox_ArchiveFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_ArchiveFormat.Name = "comboBox_ArchiveFormat";
             this.comboBox_ArchiveFormat.Size = new System.Drawing.Size(161, 28);
-            this.comboBox_ArchiveFormat.SelectedIndexChanged += new System.EventHandler(this.DropDownList_Changed);
+            this.comboBox_ArchiveFormat.SelectedIndexChanged += new System.EventHandler(this.ArchiveFormat_Changed);
             // 
             // soundFormatToolStripMenuItem
             // 
@@ -210,7 +212,7 @@ namespace PersonaVCE
             this.comboBox_SoundFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_SoundFormat.Name = "comboBox_SoundFormat";
             this.comboBox_SoundFormat.Size = new System.Drawing.Size(161, 28);
-            this.comboBox_SoundFormat.SelectedIndexChanged += new System.EventHandler(this.DropDownList_Changed);
+            this.comboBox_SoundFormat.SelectedIndexChanged += new System.EventHandler(this.SoundFormat_Changed);
             // 
             // splitContainer_Main
             // 
@@ -238,13 +240,13 @@ namespace PersonaVCE
             this.metroSetTabControl_Main.Controls.Add(this.tabPage_Encoding);
             this.metroSetTabControl_Main.Controls.Add(this.tabPage_Renaming);
             this.metroSetTabControl_Main.Controls.Add(this.tabPage_Archives);
-            this.metroSetTabControl_Main.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.metroSetTabControl_Main.Cursor = System.Windows.Forms.Cursors.Default;
             this.metroSetTabControl_Main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.metroSetTabControl_Main.IsDerivedStyle = true;
             this.metroSetTabControl_Main.ItemSize = new System.Drawing.Size(100, 38);
             this.metroSetTabControl_Main.Location = new System.Drawing.Point(0, 0);
             this.metroSetTabControl_Main.Name = "metroSetTabControl_Main";
-            this.metroSetTabControl_Main.SelectedIndex = 1;
+            this.metroSetTabControl_Main.SelectedIndex = 0;
             this.metroSetTabControl_Main.SelectedTextColor = System.Drawing.Color.White;
             this.metroSetTabControl_Main.Size = new System.Drawing.Size(735, 446);
             this.metroSetTabControl_Main.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
@@ -327,7 +329,7 @@ namespace PersonaVCE
             this.num_EncryptionKey.Name = "num_EncryptionKey";
             this.num_EncryptionKey.Size = new System.Drawing.Size(346, 26);
             this.num_EncryptionKey.TabIndex = 1;
-            this.num_EncryptionKey.ValueChanged += new System.EventHandler(this.Value_Changed);
+            this.num_EncryptionKey.ValueChanged += new System.EventHandler(this.EncKeyValue_Changed);
             // 
             // chk_UseEncryption
             // 
@@ -339,7 +341,7 @@ namespace PersonaVCE
             this.chk_UseEncryption.TabIndex = 0;
             this.chk_UseEncryption.Text = "Use New Encryption Key";
             this.chk_UseEncryption.UseVisualStyleBackColor = true;
-            this.chk_UseEncryption.CheckedChanged += new System.EventHandler(this.UseKey_CheckedChanged);
+            this.chk_UseEncryption.CheckedChanged += new System.EventHandler(this.UseEncKey_CheckedChanged);
             // 
             // btn_Decode
             // 
@@ -415,7 +417,7 @@ namespace PersonaVCE
             this.num_LoopStart.Name = "num_LoopStart";
             this.num_LoopStart.Size = new System.Drawing.Size(151, 26);
             this.num_LoopStart.TabIndex = 6;
-            this.num_LoopStart.ValueChanged += new System.EventHandler(this.Value_Changed);
+            this.num_LoopStart.ValueChanged += new System.EventHandler(this.LoopStartValue_Changed);
             // 
             // num_LoopEnd
             // 
@@ -429,18 +431,20 @@ namespace PersonaVCE
             this.num_LoopEnd.Name = "num_LoopEnd";
             this.num_LoopEnd.Size = new System.Drawing.Size(153, 26);
             this.num_LoopEnd.TabIndex = 5;
-            this.num_LoopEnd.ValueChanged += new System.EventHandler(this.Value_Changed);
+            this.num_LoopEnd.ValueChanged += new System.EventHandler(this.LoopEndValue_Changed);
             // 
             // chk_LoopAll
             // 
             this.chk_LoopAll.AutoSize = true;
+            this.tlp_LoopSettings.SetColumnSpan(this.chk_LoopAll, 3);
             this.chk_LoopAll.ForeColor = System.Drawing.Color.DimGray;
             this.chk_LoopAll.Location = new System.Drawing.Point(3, 59);
             this.chk_LoopAll.Name = "chk_LoopAll";
-            this.chk_LoopAll.Size = new System.Drawing.Size(92, 24);
+            this.chk_LoopAll.Size = new System.Drawing.Size(164, 24);
             this.chk_LoopAll.TabIndex = 4;
-            this.chk_LoopAll.Text = "Loop All";
+            this.chk_LoopAll.Text = "Loop Entire Track";
             this.chk_LoopAll.UseVisualStyleBackColor = true;
+            this.chk_LoopAll.CheckedChanged += new System.EventHandler(this.LoopAll_CheckedChanged);
             // 
             // chk_UseLoopPoints
             // 
@@ -507,6 +511,7 @@ namespace PersonaVCE
             this.btn_Rename.TabIndex = 8;
             this.btn_Rename.Text = "Copy and Rename Files";
             this.btn_Rename.UseVisualStyleBackColor = true;
+            this.btn_Rename.Click += new System.EventHandler(this.Rename_Click);
             // 
             // groupBox_RenameTxt
             // 
@@ -583,6 +588,7 @@ namespace PersonaVCE
             this.num_StartID.Name = "num_StartID";
             this.num_StartID.Size = new System.Drawing.Size(201, 26);
             this.num_StartID.TabIndex = 0;
+            this.num_StartID.ValueChanged += new System.EventHandler(this.StartIDValue_Changed);
             // 
             // groupBox_LeftPadding
             // 
@@ -608,6 +614,7 @@ namespace PersonaVCE
             0,
             0,
             0});
+            this.num_LeftPadding.ValueChanged += new System.EventHandler(this.LeftPaddingValue_Changed);
             // 
             // groupBox_Suffix
             // 
@@ -648,6 +655,7 @@ namespace PersonaVCE
             this.chk_AppendOGName.TabIndex = 5;
             this.chk_AppendOGName.Text = "Append OG Name";
             this.chk_AppendOGName.UseVisualStyleBackColor = true;
+            this.chk_AppendOGName.CheckedChanged += new System.EventHandler(this.AppendOGName_CheckedChanged);
             // 
             // txt_RenameSuffix
             // 
@@ -658,6 +666,7 @@ namespace PersonaVCE
             this.txt_RenameSuffix.Size = new System.Drawing.Size(195, 26);
             this.txt_RenameSuffix.TabIndex = 4;
             this.txt_RenameSuffix.Text = "_streaming";
+            this.txt_RenameSuffix.TextChanged += new System.EventHandler(this.Suffix_Changed);
             // 
             // tlp_RenamePaths
             // 
@@ -713,6 +722,7 @@ namespace PersonaVCE
             this.btn_RenameOutput.TabIndex = 7;
             this.btn_RenameOutput.Text = "...";
             this.btn_RenameOutput.UseVisualStyleBackColor = true;
+            this.btn_RenameOutput.Click += new System.EventHandler(this.RenameOutput_Click);
             // 
             // txt_RenameOutputPath
             // 
@@ -722,7 +732,7 @@ namespace PersonaVCE
             this.txt_RenameOutputPath.Name = "txt_RenameOutputPath";
             this.txt_RenameOutputPath.Size = new System.Drawing.Size(410, 26);
             this.txt_RenameOutputPath.TabIndex = 6;
-            this.txt_RenameOutputPath.TextChanged += new System.EventHandler(this.Txt_Changed);
+            this.txt_RenameOutputPath.TextChanged += new System.EventHandler(this.RenameOutputPath_Changed);
             // 
             // groupBox_RenameSourcePath
             // 
@@ -762,6 +772,7 @@ namespace PersonaVCE
             this.btn_RenameSource.TabIndex = 7;
             this.btn_RenameSource.Text = "...";
             this.btn_RenameSource.UseVisualStyleBackColor = true;
+            this.btn_RenameSource.Click += new System.EventHandler(this.RenameDir_Click);
             // 
             // txt_RenameSourcePath
             // 
@@ -771,7 +782,7 @@ namespace PersonaVCE
             this.txt_RenameSourcePath.Name = "txt_RenameSourcePath";
             this.txt_RenameSourcePath.Size = new System.Drawing.Size(410, 26);
             this.txt_RenameSourcePath.TabIndex = 6;
-            this.txt_RenameSourcePath.TextChanged += new System.EventHandler(this.Txt_Changed);
+            this.txt_RenameSourcePath.TextChanged += new System.EventHandler(this.RenameSourcePath_Changed);
             // 
             // tabPage_Archives
             // 

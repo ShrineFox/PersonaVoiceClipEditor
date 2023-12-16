@@ -11,6 +11,16 @@ namespace PersonaVCE
 {
     public partial class PersonaVCE : MetroSetForm
     {
+        private void LoadProject_Click(object sender, EventArgs e)
+        {
+            LoadSettings();
+        }
+
+        private void SaveSettings_Click(object sender, EventArgs e)
+        {
+            SaveSettings();
+        }
+
         private void Encode_Click(object sender, EventArgs e)
         {
             string[] formats = new string[] { "ADX (.adx)", "HCA (.hca)", "WAV (.wav)" };

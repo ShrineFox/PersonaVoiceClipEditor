@@ -31,10 +31,6 @@ namespace PersonaVCE
             SetupLogging();
             SetupDropdowns();
             SetupTheme();
-
-            LoadSettings();
-            // Allow settings.yml to be updated by user changes
-            updateSettings = true;
         }
 
         private void SetupTheme()

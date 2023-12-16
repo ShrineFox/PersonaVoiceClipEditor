@@ -1,5 +1,6 @@
 ﻿using DarkUI.Controls;
 using MetroSet_UI.Forms;
+using Newtonsoft.Json;
 using ShrineFox.IO;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,6 @@ namespace PersonaVCE
     public partial class PersonaVCE : MetroSetForm
     {
         public static Settings settings = new Settings();
-        public static bool updateSettings = false;
 
         public class Settings
         {
@@ -46,57 +46,33 @@ namespace PersonaVCE
             public string ArchiveFormat { get; set; } = ".afs";
         }
 
-        public void UpdateSettings()
-        {
-            if (!updateSettings)
-                return;
-
-            settings.Preset = comboBox_EncryptionPreset.SelectedText;
-            settings.OutFormat = comboBox_SoundFormat.SelectedText;
-            settings.ArchiveFormat = comboBox_ArchiveFormat.SelectedText;
-
-            settings.UseKey = chk_UseEncryption.Checked;
-            settings.Key = num_EncryptionKey.Value;
-            settings.UseLoops = chk_UseLoopPoints.Checked;
-            settings.LoopAll = chk_LoopAll.Checked;
-            settings.LoopStart = num_LoopStart.Value;
-            settings.LoopEnd = num_LoopEnd.Value;
-
-            settings.RenameDir = txt_RenameSourcePath.Text;
-            settings.RenameOutDir = txt_RenameOutputPath.Text;
-            settings.TxtSuffix = txt_RenameSuffix.Text;
-            settings.AppendFilename = chk_AppendOGName.Checked;
-            settings.LeftPadding = num_LeftPadding.Value;
-            settings.StartIndex = num_StartID.Value;
-
-            Output.VerboseLog("[INFO] Updated settings object.");
-            SaveSettings();
-        }
-
         private void SaveSettings()
         {
-            var serializer = new SerializerBuilder().Build();
+            // Get output path from file select prompt
+            var outPaths = WinFormsDialogs.SelectFile("Save Project...", true, new string[] { "Project JSON (.json)" }, true);
+            if (outPaths == null || outPaths.Count == 0 || string.IsNullOrEmpty(outPaths.First()))
+                return;
 
-            File.WriteAllText(".\\settings.yml", serializer.Serialize(settings));
-            Output.VerboseLog("[INFO] Saved settings to \".\\settings.yml\".");
+            // Ensure output path ends with .json
+            string outPath = outPaths.First();
+            if (!outPath.ToLower().EndsWith(".json"))
+                outPath += ".json";
+
+            // Save to .json file
+            string jsonText = JsonConvert.SerializeObject(settings, Newtonsoft.Json.Formatting.Indented);
+            File.WriteAllText(outPath, jsonText);
+            MessageBox.Show($"Saved project file to:\n{outPath}", "Project Saved");
         }
 
         public void LoadSettings()
         {
-            var deserializer = new DeserializerBuilder().Build();
+            var filePaths = WinFormsDialogs.SelectFile("Load Project...", true, new string[] { "Project JSON (.json)" });
+            if (filePaths == null || filePaths.Count == 0 || string.IsNullOrEmpty(filePaths.First()))
+                return;
 
-            if (File.Exists(".\\settings.yml"))
-            {
-                settings = deserializer.Deserialize<Settings>(File.ReadAllText(".\\settings.yml"));
-                Output.Log("[INFO] Loaded previous settings from \".\\settings.yml\".", ConsoleColor.Green);
+            settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(filePaths.First()));
 
-                updateSettings = false;
-                ApplySettingsToForm();
-                updateSettings = true;
-            }
-            else
-                Output.Log("[WARNING] Settings were not loaded since \".\\settings.yml\" was not found.", ConsoleColor.Yellow);
-
+            ApplySettingsToForm();
         }
 
         private void ApplySettingsToForm()
