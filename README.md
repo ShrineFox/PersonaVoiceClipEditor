@@ -4,6 +4,9 @@
 This tool is for batch converting ``.wav`` audio files to/from ``.adx``/``.hca`` formats, for games that use CriWare audio such as the Persona series.  
 This may be useful for [automatically making dual-language mods](https://shrinefox.com/news/p5-adachi-mod-development-blog-1-dual-language/), encrypting audio, unpacking/repacking ``.afs``/``.acb`` archives, or quickly renaming audio files.
 
+# Requirements
+- Install [.NET Framework 4.8 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-web-installer)
+
 # Settings
 ## Menu Strip
 **File**: Save/load the current state of form controls to/from ``.json``.  
