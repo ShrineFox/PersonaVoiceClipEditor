@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using PersonaVCE;
 
 namespace PersonaVoiceClipEditor
 {
@@ -16,7 +17,7 @@ namespace PersonaVoiceClipEditor
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new PersonaVCEForm());
+            Application.Run(new PersonaVCE.PersonaVCE());
         }
     }
 }
