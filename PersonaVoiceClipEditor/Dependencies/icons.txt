@@ -1,0 +1,7 @@
+fileToolStripMenuItem disk
+saveProjectToolStripMenuItem disk_multiple
+loadProjectToolStripMenuItem folder_page
+archiveFormatToolStripMenuItem package_green
+toggleThemeToolStripMenuItem weather_cloudy
+soundFormatToolStripMenuItem music
+encryptionPresetToolStripMenuItem page_code

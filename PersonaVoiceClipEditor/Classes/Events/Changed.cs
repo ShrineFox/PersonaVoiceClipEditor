@@ -15,9 +15,15 @@ namespace PersonaVCE
         private void ToggleKey()
         {
             if (chk_UseEncryption.Checked)
+            {
                 num_EncryptionKey.Enabled = true;
+                settings.UseKey = true;
+            }
             else
+            {
+                settings.UseKey = false;
                 num_EncryptionKey.Enabled = false;
+            }
         }
 
         private void UseEncKey_CheckedChanged(object sender, EventArgs e)
@@ -137,15 +143,26 @@ namespace PersonaVCE
         private void UseLoops_Checked(object sender, EventArgs e)
         {
             if (chk_UseLoopPoints.Checked)
+            {
                 chk_LoopAll.Enabled = true;
+                settings.UseLoops = true;
+            }
             else
+            {
+                settings.UseLoops = false;
                 chk_LoopAll.Enabled = false;
+            }
 
             EnableLoopEntry();
         }
 
         private void LoopAll_Checked(object sender, EventArgs e)
         {
+            if (chk_LoopAll.Checked)
+                settings.LoopAll = true;
+            else
+                settings.LoopAll = false;
+
             EnableLoopEntry();
         }
 

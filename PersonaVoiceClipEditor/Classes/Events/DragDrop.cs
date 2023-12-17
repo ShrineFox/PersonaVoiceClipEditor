@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.LinkLabel;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace PersonaVCE
@@ -22,15 +23,24 @@ namespace PersonaVCE
         {
             DataGridView dgv = (DataGridView)sender;
             var data = (string[])e.Data.GetData(DataFormats.FileDrop, false);
-            if (File.Exists(data[0]) && Path.GetExtension(data[0]) == ".txt")
+            if (File.Exists(data[0]) && (Path.GetExtension(data[0]) == ".txt" || Path.GetExtension(data[0]) == ".tsv"))
             {
-                dgv.Rows.Clear();
-                settings.TxtFile = data[0];
-                var lines = File.ReadAllLines(data[0]);
-                for (int i = 0; i < lines.Count(); i++)
-                {
-                    dgv.Rows.Insert(i, lines[i], "");
-                }
+                AddTxtLinesToSettings(data[0]);
+                LoadDGVCellsFromSettings();
+            }
+        }
+
+        private void AddTxtLinesToSettings(string txtFilePath)
+        {
+            var lines = File.ReadAllLines(txtFilePath);
+            settings.RenameTxtList.Clear();
+            foreach (var line in lines)
+            {
+                string[] splitLine = line.Split('\t');
+                if (splitLine.Length > 1)
+                    settings.RenameTxtList.Add(new RenameTxt() { FileName = splitLine[0], Transcription = splitLine[1] });
+                else
+                    settings.RenameTxtList.Add(new RenameTxt() { FileName = line });
             }
         }
 

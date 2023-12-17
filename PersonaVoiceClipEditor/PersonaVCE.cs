@@ -40,6 +40,8 @@ namespace PersonaVCE
 
         private void SetupDropdowns()
         {
+            MenuStripHelper.SetMenuStripIcons(MenuStripHelper.GetMenuStripIconPairs(".\\Dependencies\\icons.txt"), this);
+
             comboBox_SoundFormat.ComboBox.DataSource = supportedFormats;
             comboBox_SoundFormat.ComboBox.BindingContext = this.BindingContext;
 

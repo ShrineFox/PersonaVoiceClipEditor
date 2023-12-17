@@ -127,6 +127,9 @@
     <None Include="Classes\App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Dependencies\icons.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="VGAudio.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
