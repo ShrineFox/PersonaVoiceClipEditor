@@ -14,7 +14,7 @@ namespace PersonaVCE
 {
     public partial class PersonaVCE : MetroSetForm
     {
-        public static List<string> supportedFormats = new List<string> { ".adx", ".hca" };
+        public static List<string> supportedFormats = new List<string> { ".adx", ".hca", ".wav" };
         public static List<string> supportedArchives = new List<string> { ".acb", ".afs" };
         public static List<string> presets = new List<string> { "None",
             "P5R (PC/Switch)",
@@ -61,19 +61,22 @@ namespace PersonaVCE
 
         private void Encode(string[] inputFiles, string outFormat = "")
         {
+            if (inputFiles.Length == 0)
+                return;
+
             new Thread(() =>
             {
                 Thread.CurrentThread.IsBackground = true;
 
                 if (outFormat == "")
-                    outFormat = comboBox_SoundFormat.SelectedText;
+                    outFormat = comboBox_SoundFormat.SelectedItem.ToString();
                 Output.Log($"[INFO] Encoding supported files to format \"{outFormat}\".");
+
+                string outputDir = FileSys.CreateUniqueDir(Path.Combine(Path.GetDirectoryName(inputFiles[0]), "Encoded"));
 
                 // Convert files to target format, output to specified directory
                 foreach (var file in inputFiles.Where(x => supportedFormats.Any(y => y.Equals(Path.GetExtension(x.ToLower())))))
                 {
-                    string outputDir = FileSys.CreateUniqueDir(Path.Combine(Path.GetDirectoryName(file), "Encoded"));
-                    
                     bool encrypted = false;
                     string extension = Path.GetExtension(file).ToLower();
                     // Check if adx is already encrypted
@@ -130,11 +133,10 @@ namespace PersonaVCE
                     else
                         Output.VerboseLog($"[INFO] Failed to encode file: \"{file}\"", ConsoleColor.DarkRed);
                 }
-                Output.Log($"[INFO] Done encoding {comboBox_SoundFormat.Text} files.", ConsoleColor.Green);
 
                 SystemSounds.Exclamation.Play();
             }).Start();
-            
+            Output.Log($"[INFO] Done encoding files to \"{comboBox_SoundFormat.SelectedItem}\".", ConsoleColor.Green);
         }
 
         private void Rename()
@@ -157,7 +159,11 @@ namespace PersonaVCE
                     var files = Directory.GetFiles(settings.RenameDir);
                     foreach (DataGridViewRow row in dgv_RenameTxt.Rows)
                     {
+                        if (row.Cells[0].Value == null)
+                            break;
+
                         string fileName = Path.GetFileNameWithoutExtension(row.Cells[0].Value.ToString().Trim());
+
                         // If file found, copy to output folder with new name
                         if (files.Any(x => Path.GetFileNameWithoutExtension(x).Equals(fileName)))
                         {
@@ -169,13 +175,6 @@ namespace PersonaVCE
                                 outPath += $"_{Path.GetFileNameWithoutExtension(file)}";
                             outPath += Path.GetExtension(file);
 
-                            // Delete existing file
-                            if (File.Exists(outPath))
-                            {
-                                Output.VerboseLog($"[INFO] Deleting existing file at output path: {outPath}");
-                                File.Delete(outPath);
-                                using (FileSys.WaitForFile(outPath)) { };
-                            }
                             // Copy to output path once available
                             File.Copy(file, outPath, true);
                             Output.VerboseLog($"[INFO] Copied \"{file}\" to:\n\t\"{outPath}\"", ConsoleColor.Green);
@@ -213,12 +212,12 @@ namespace PersonaVCE
         {
             if (Directory.Exists(folderPath))
             {
-                if (comboBox_ArchiveFormat.SelectedText == ".afs")
+                if (comboBox_ArchiveFormat.SelectedItem.ToString() == ".afs")
                     RepackAFS(folderPath);
-                else if (comboBox_ArchiveFormat.SelectedText == ".acb")
+                else if (comboBox_ArchiveFormat.SelectedItem.ToString() == ".acb")
                     RepackACB(folderPath);
                 else
-                    Output.Log($"[ERROR] Could not repack archive, not a supported format: \"{comboBox_ArchiveFormat.Text}\"", ConsoleColor.Red);
+                    Output.Log($"[ERROR] Could not repack archive, not a supported format: \"{comboBox_ArchiveFormat.SelectedItem}\"", ConsoleColor.Red);
             }
             else
                 Output.Log($"[ERROR] Could not repack archive, directory doesn't exist: \"{folderPath}\"", ConsoleColor.Red);

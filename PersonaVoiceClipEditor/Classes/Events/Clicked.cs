@@ -46,7 +46,7 @@ namespace PersonaVCE
         private void ExtractArchive_Click(object sender, EventArgs e)
         {
             string[] formats = new string[] { "ACB Archive (.acb)", "AFS Archive (.afs)" };
-            if (comboBox_ArchiveFormat.SelectedText == ".afs")
+            if (comboBox_ArchiveFormat.SelectedItem.ToString() == ".afs")
                 formats = formats.Reverse().ToArray();
 
             var files = WinFormsDialogs.SelectFile("Choose Input Archive File...", false, formats);
@@ -69,6 +69,7 @@ namespace PersonaVCE
             if (!string.IsNullOrEmpty(path))
             {
                 txt_RenameSourcePath.Text = path;
+                settings.RenameDir = path;
             }
         }
 
@@ -78,6 +79,7 @@ namespace PersonaVCE
             if (!string.IsNullOrEmpty(path))
             {
                 txt_RenameOutputPath.Text = path;
+                settings.RenameOutDir = path;
             }
         }
 

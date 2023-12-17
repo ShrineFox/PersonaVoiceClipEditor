@@ -65,6 +65,8 @@ namespace PersonaVCE
             this.btn_Rename = new System.Windows.Forms.Button();
             this.groupBox_RenameTxt = new System.Windows.Forms.GroupBox();
             this.dgv_RenameTxt = new System.Windows.Forms.DataGridView();
+            this.Filename = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Transcription = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlp_RenameTxtSettings = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox_RenameStartID = new System.Windows.Forms.GroupBox();
             this.num_StartID = new System.Windows.Forms.NumericUpDown();
@@ -246,7 +248,7 @@ namespace PersonaVCE
             this.metroSetTabControl_Main.ItemSize = new System.Drawing.Size(100, 38);
             this.metroSetTabControl_Main.Location = new System.Drawing.Point(0, 0);
             this.metroSetTabControl_Main.Name = "metroSetTabControl_Main";
-            this.metroSetTabControl_Main.SelectedIndex = 0;
+            this.metroSetTabControl_Main.SelectedIndex = 1;
             this.metroSetTabControl_Main.SelectedTextColor = System.Drawing.Color.White;
             this.metroSetTabControl_Main.Size = new System.Drawing.Size(735, 446);
             this.metroSetTabControl_Main.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
@@ -345,6 +347,7 @@ namespace PersonaVCE
             // 
             // btn_Decode
             // 
+            this.btn_Decode.AllowDrop = true;
             this.btn_Decode.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_Decode.ForeColor = System.Drawing.Color.DimGray;
             this.btn_Decode.Location = new System.Drawing.Point(366, 3);
@@ -359,6 +362,7 @@ namespace PersonaVCE
             // 
             // btn_Encode
             // 
+            this.btn_Encode.AllowDrop = true;
             this.btn_Encode.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_Encode.ForeColor = System.Drawing.Color.DimGray;
             this.btn_Encode.Location = new System.Drawing.Point(3, 3);
@@ -528,7 +532,12 @@ namespace PersonaVCE
             // 
             // dgv_RenameTxt
             // 
+            this.dgv_RenameTxt.AllowDrop = true;
+            this.dgv_RenameTxt.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_RenameTxt.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_RenameTxt.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Filename,
+            this.Transcription});
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
@@ -546,6 +555,18 @@ namespace PersonaVCE
             this.dgv_RenameTxt.TabIndex = 0;
             this.dgv_RenameTxt.DragDrop += new System.Windows.Forms.DragEventHandler(this.Dgv_DragDrop);
             this.dgv_RenameTxt.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
+            // 
+            // Filename
+            // 
+            this.Filename.HeaderText = "Filename";
+            this.Filename.MinimumWidth = 6;
+            this.Filename.Name = "Filename";
+            // 
+            // Transcription
+            // 
+            this.Transcription.HeaderText = "Transcription";
+            this.Transcription.MinimumWidth = 6;
+            this.Transcription.Name = "Transcription";
             // 
             // tlp_RenameTxtSettings
             // 
@@ -713,6 +734,7 @@ namespace PersonaVCE
             // 
             // btn_RenameOutput
             // 
+            this.btn_RenameOutput.AllowDrop = true;
             this.btn_RenameOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_RenameOutput.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.btn_RenameOutput.ForeColor = System.Drawing.Color.DimGray;
@@ -763,6 +785,7 @@ namespace PersonaVCE
             // 
             // btn_RenameSource
             // 
+            this.btn_RenameSource.AllowDrop = true;
             this.btn_RenameSource.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_RenameSource.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.btn_RenameSource.ForeColor = System.Drawing.Color.DimGray;
@@ -811,6 +834,7 @@ namespace PersonaVCE
             // 
             // btn_ExtractArchive
             // 
+            this.btn_ExtractArchive.AllowDrop = true;
             this.btn_ExtractArchive.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_ExtractArchive.ForeColor = System.Drawing.Color.DimGray;
             this.btn_ExtractArchive.Location = new System.Drawing.Point(3, 3);
@@ -825,6 +849,7 @@ namespace PersonaVCE
             // 
             // btn_RepackArchive
             // 
+            this.btn_RepackArchive.AllowDrop = true;
             this.btn_RepackArchive.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_RepackArchive.ForeColor = System.Drawing.Color.DimGray;
             this.btn_RepackArchive.Location = new System.Drawing.Point(366, 3);
@@ -853,6 +878,7 @@ namespace PersonaVCE
             // 
             // PersonaVCE
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 26F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
@@ -976,5 +1002,7 @@ namespace PersonaVCE
         private System.Windows.Forms.TextBox txt_RenameOutputPath;
         private System.Windows.Forms.Button btn_RenameOutput;
         private System.Windows.Forms.Button btn_Rename;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Filename;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Transcription;
     }
 }

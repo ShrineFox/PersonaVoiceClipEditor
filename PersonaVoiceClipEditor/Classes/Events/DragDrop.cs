@@ -24,14 +24,12 @@ namespace PersonaVCE
             var data = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             if (File.Exists(data[0]) && Path.GetExtension(data[0]) == ".txt")
             {
-                settings.TxtFile = data[0];
                 dgv.Rows.Clear();
-                dgv.Columns.Clear();
-                dgv.Columns.Add(new DataGridViewColumn() { HeaderText = "Filename" });
-                dgv.Columns.Add(new DataGridViewColumn() { HeaderText = "Transcription" });
-                foreach (var line in File.ReadAllLines(data[0]))
+                settings.TxtFile = data[0];
+                var lines = File.ReadAllLines(data[0]);
+                for (int i = 0; i < lines.Count(); i++)
                 {
-                    dgv.Rows.Add(new DataGridViewRow().Cells[0].Value = line);
+                    dgv.Rows.Insert(i, lines[i], "");
                 }
             }
         }
@@ -63,6 +61,7 @@ namespace PersonaVCE
             {
                 Encode(Directory.GetFiles(data[0]).ToArray());
                 txt_RenameSourcePath.Text = data[0];
+                settings.RenameDir = data[0];
             }
         }
 
@@ -73,6 +72,7 @@ namespace PersonaVCE
             {
                 Encode(Directory.GetFiles(data[0]).ToArray());
                 txt_RenameOutputPath.Text = data[0];
+                settings.RenameOutDir = data[0];
             }
         }
 
