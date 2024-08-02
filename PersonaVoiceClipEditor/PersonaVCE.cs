@@ -225,7 +225,6 @@ namespace PersonaVCE
 
         public class Adx
         {
-            public string Path = "";
             public string CueName = "";
             public int WaveID = -1;
             public int CueID = -1;
@@ -237,36 +236,30 @@ namespace PersonaVCE
             List<Adx> AdxFiles = GetADXInfoFromTSV();
             foreach (var file in AdxFiles)
             {
-                if (AdxFiles.Any(x => x.WaveID == waveID 
-                    && x.Streaming == chk_Streaming.Checked))
+                foreach (var adx in AdxFiles.Where(x => x.WaveID == waveID && x.Streaming == chk_Streaming.Checked))
                 {
-                    foreach (var adx in AdxFiles.Where(x => x.WaveID == waveID && x.Streaming == chk_Streaming.Checked))
-                    {
-                        string outFolder = Path.Combine(Path.GetDirectoryName(outputFile), adx.CueName);
-                        if (!string.IsNullOrEmpty(txt_RyoFolderSuffix.Text))
-                            outFolder += $"_{txt_RyoFolderSuffix.Text}";
+                    string outFolder = Path.Combine(Path.GetDirectoryName(outputFile), adx.CueName);
+                    if (!string.IsNullOrEmpty(txt_RyoFolderSuffix.Text))
+                        outFolder += $"_{txt_RyoFolderSuffix.Text}";
 
-                        if (!chk_RyoCueNames.Checked)
-                            outFolder = Path.Combine(Path.GetDirectoryName(outputFile), adx.CueID.ToString() + ".cue");
+                    if (!chk_RyoCueNames.Checked)
+                        outFolder = Path.Combine(Path.GetDirectoryName(outputFile), adx.CueID.ToString() + ".cue");
 
-                        Directory.CreateDirectory(outFolder);
-                        // Copy adx to Cue folder
-                        string outFile = Path.Combine(outFolder, Path.GetFileName(outputFile));
-                        File.Copy(inputFile, outFile, true);
-                        // Create config file for .adx
-                        string configTxt = $"player_id: -1\n" +
-                            $"volume: {num_RyoVolume.Value}\n" +
-                            $"category_ids: [{num_RyoCategory.Value}]";
-                        if (chk_RyoCueNames.Checked)
-                            configTxt += $"\ncue_name: '{adx.CueID}'";
-                        if (chk_RyoPlayerVol.Checked)
-                            configTxt += $"\nuse_player_volume: true";
-                        string outFileConfigPath = Path.Combine(outFolder, Path.GetFileNameWithoutExtension(adx.Path) + ".yaml");
-                        File.WriteAllText(outFileConfigPath, configTxt);
-                    }
+                    Directory.CreateDirectory(outFolder);
+                    // Copy adx to Cue folder
+                    string outFile = Path.Combine(outFolder, Path.GetFileName(outputFile));
+                    File.Copy(inputFile, outFile, true);
+                    // Create config file for .adx
+                    string configTxt = $"player_id: -1\n" +
+                        $"volume: {num_RyoVolume.Value}\n" +
+                        $"category_ids: [{num_RyoCategory.Value}]";
+                    if (chk_RyoCueNames.Checked)
+                        configTxt += $"\ncue_name: '{adx.CueID}'";
+                    if (chk_RyoPlayerVol.Checked)
+                        configTxt += $"\nuse_player_volume: true";
+                    string outFileConfigPath = Path.Combine(outFolder, Path.GetFileNameWithoutExtension(outFile) + ".yaml");
+                    File.WriteAllText(outFileConfigPath, configTxt);
                 }
-                else
-                    Output.Log($"[WARNING] Could not find Cue matching Wave ID: \"{waveID}\"", ConsoleColor.Yellow);
 
                 waveID++;
             }
