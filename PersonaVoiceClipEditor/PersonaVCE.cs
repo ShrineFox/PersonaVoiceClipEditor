@@ -9,6 +9,7 @@ using AFSLib;
 using System.Media;
 using MetroSet_UI.Forms;
 using System.Windows.Forms;
+using static System.Windows.Forms.Design.AxImporter;
 
 namespace PersonaVCE
 {
@@ -22,6 +23,8 @@ namespace PersonaVCE
             "P5R (JP PS4)",
             "P5 (PS3)",
             "P3/4" };
+
+        public static List<string> ryoOutputModes = new List<string> { "Don't Output For Ryo" };
 
         public PersonaVCE()
         {
@@ -50,6 +53,12 @@ namespace PersonaVCE
 
             comboBox_EncryptionPreset.ComboBox.DataSource = presets;
             comboBox_EncryptionPreset.ComboBox.BindingContext = this.BindingContext;
+
+            if (Directory.Exists("./Dependencies/RyoText"))
+                foreach (var tsv in Directory.GetFiles("./Dependencies/RyoText", "*.tsv", SearchOption.AllDirectories))
+                    ryoOutputModes.Add(Path.GetFileNameWithoutExtension(tsv));
+            comboBox_Ryo.DataSource = ryoOutputModes;
+            comboBox_Ryo.BindingContext = this.BindingContext;
         }
 
         private void SetupLogging()
@@ -141,6 +150,20 @@ namespace PersonaVCE
             Output.Log($"[INFO] Done encoding files to \"{comboBox_SoundFormat.SelectedItem}\".", ConsoleColor.Green);
         }
 
+        private void AddTxtLinesToDGV()
+        {
+            if (!File.Exists(settings.InputTxtPath))
+                return;
+
+            var lines = File.ReadAllLines(settings.InputTxtPath);
+            dgv_RenameTxt.Rows.Clear();
+            foreach (var line in lines)
+            {
+                string[] splitLine = line.Split('\t');
+                dgv_RenameTxt.Rows.Add(splitLine[0]);
+            }
+        }
+
         private void Rename()
         {
             if (Directory.Exists(settings.RenameDir))
@@ -149,11 +172,7 @@ namespace PersonaVCE
                 {
                     Thread.CurrentThread.IsBackground = true;
 
-                    // Delete and recreate output directory
-                    string outFolder = settings.RenameOutDir;
-                    Directory.CreateDirectory(outFolder);
-
-                    Output.Log($"[INFO] Copying and renaming files based on order of filenames in: \"{settings.TxtFile}\"");
+                    Output.Log($"[INFO] Copying and renaming files based on order of filenames in: \"{settings.InputTxtPath}\"");
 
                     // Re-order based on .txt file
                     int i = Convert.ToInt32(num_StartID.Value);
@@ -171,28 +190,111 @@ namespace PersonaVCE
                         {
                             var file = files.First(x => Path.GetFileNameWithoutExtension(x).Equals(fileName));
                             var ext = Path.GetExtension(file);
-                            string outPath = Path.Combine(outFolder, $"{i.ToString().PadLeft(Convert.ToInt32(num_LeftPadding.Value), '0')}{txt_RenameSuffix.Text}");
+                            string outPath = Path.Combine(settings.RenameOutDir, $"{i.ToString().PadLeft(Convert.ToInt32(num_LeftPadding.Value), '0')}{txt_RenameSuffix.Text}");
 
                             if (chk_AppendOGName.Checked)
                                 outPath += $"_{Path.GetFileNameWithoutExtension(file)}";
                             outPath += Path.GetExtension(file);
 
-                            // Copy to output path once available
-                            File.Copy(file, outPath, true);
-                            Output.VerboseLog($"[INFO] Copied \"{file}\" to:\n\t\"{outPath}\"", ConsoleColor.Green);
+                            if (comboBox_Ryo.SelectedItem.ToString() != "Don't Output For Ryo")
+                            {
+                                OutputForRyo(i, file, outPath);
+                            }
+                            else
+                            {
+                                // Copy to output path once available
+                                Directory.CreateDirectory(Path.GetDirectoryName(outPath));
+                                File.Copy(file, outPath, true);
+                                Output.VerboseLog($"[INFO] Copied \"{file}\" to:\n\t\"{outPath}\"", ConsoleColor.Green);
+
+                            }
                         }
                         else
                             Output.VerboseLog($"[WARNING] File with name \"{fileName}\" not found in directory \"{settings.RenameDir}\", " +
                                 $"skipping index {i}.", ConsoleColor.Yellow);
                         i++;
                     }
-                    Output.Log($"[INFO] Done copying and renaming files to: \"{outFolder}\"", ConsoleColor.Green);
+                    Output.Log($"[INFO] Done copying and renaming files to: \"{settings.RenameOutDir}\"", ConsoleColor.Green);
                     SystemSounds.Exclamation.Play();
                 }).Start();
             }
             else
                 Output.Log($"[ERROR] Rename failed, could not find file: \"{settings.RenameDir}\"", ConsoleColor.Red);
 
+        }
+
+        public class Adx
+        {
+            public string Path = "";
+            public string CueName = "";
+            public int WaveID = -1;
+            public int CueID = -1;
+            public bool Streaming = false;
+        }
+
+        private void OutputForRyo(int waveID, string inputFile, string outputFile)
+        {
+            List<Adx> AdxFiles = GetADXInfoFromTSV();
+            foreach (var file in AdxFiles)
+            {
+                if (AdxFiles.Any(x => x.WaveID == waveID 
+                    && x.Streaming == chk_Streaming.Checked))
+                {
+                    foreach (var adx in AdxFiles.Where(x => x.WaveID == waveID && x.Streaming == chk_Streaming.Checked))
+                    {
+                        string outFolder = Path.Combine(Path.GetDirectoryName(outputFile), adx.CueName);
+                        if (!string.IsNullOrEmpty(txt_RyoFolderSuffix.Text))
+                            outFolder += $"_{txt_RyoFolderSuffix.Text}";
+
+                        if (!chk_RyoCueNames.Checked)
+                            outFolder = Path.Combine(Path.GetDirectoryName(outputFile), adx.CueID.ToString() + ".cue");
+
+                        Directory.CreateDirectory(outFolder);
+                        // Copy adx to Cue folder
+                        string outFile = Path.Combine(outFolder, Path.GetFileName(outputFile));
+                        File.Copy(inputFile, outFile, true);
+                        // Create config file for .adx
+                        string configTxt = $"player_id: -1\n" +
+                            $"volume: {num_RyoVolume.Value}\n" +
+                            $"category_ids: [{num_RyoCategory.Value}]";
+                        if (chk_RyoCueNames.Checked)
+                            configTxt += $"\ncue_name: '{adx.CueID}'";
+                        if (chk_RyoPlayerVol.Checked)
+                            configTxt += $"\nuse_player_volume: true";
+                        string outFileConfigPath = Path.Combine(outFolder, Path.GetFileNameWithoutExtension(adx.Path) + ".yaml");
+                        File.WriteAllText(outFileConfigPath, configTxt);
+                    }
+                }
+                else
+                    Output.Log($"[WARNING] Could not find Cue matching Wave ID: \"{waveID}\"", ConsoleColor.Yellow);
+
+                waveID++;
+            }
+        }
+
+        private List<Adx> GetADXInfoFromTSV()
+        {
+            // Get ADX data from .tsv file
+            List<Adx> AdxFiles = new List<Adx>();
+            var lines = File.ReadAllLines($"./Dependencies/RyoText/{comboBox_Ryo.SelectedText}.tsv");
+            foreach (var line in lines)
+            {
+                var parts = line.Split('\t');
+                var partsArray = new string[] { parts[0], parts[1], parts[22], parts[27] };
+
+                if (!partsArray.Any(string.IsNullOrEmpty))
+                {
+                    Adx adx = new Adx()
+                    {
+                        CueName = parts[0],
+                        CueID = Convert.ToInt32(parts[1]),
+                        WaveID = Convert.ToInt32(parts[22]),
+                        Streaming = Convert.ToBoolean(parts[27])
+                    };
+                    AdxFiles.Add(adx);
+                }
+            }
+            return AdxFiles;
         }
 
         private void ExtractArchive(string archivePath)

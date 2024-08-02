@@ -1,0 +1,616 @@
+cursor	0		0	201	2		0	POLYPHONIC					360	360	2	10	0				true	176	ADX	44100	1	8876	false	
+ok	1		0	389	2		0	POLYPHONIC					360	360	2	10	0				true	203	ADX	44100	1	17183	false	
+cancel	2		0	384	2		0	POLYPHONIC					360	360	2	10	0				true	171	ADX	44100	1	16940	false	
+accept	3		0	958	2		0	POLYPHONIC					360	360	0	0	0				true	166	ADX	44100	1	42256	false	
+ng	4		0	199	1		0	POLYPHONIC					360	360	2000	4000	0				true	202	ADX	44100	1	8786	false	
+camp_open	5		0	750			0	POLYPHONIC					360	360	2000	4000	0				true	169	ADX	44100	1	33075	false	
+camp_whoosh	6		0	793	2		0	NO_REPEAT					360	360	2	10	0				true	223	ADX	44100	1	20292	false	
+camp_heal	7		0	1405	2		0	POLYPHONIC					360	360	2	10	0				true	168	ADX	44100	1	61993	false	
+camp_open_field	8		0	613			0	POLYPHONIC					360	360	2000	4000	0				true	170	ADX	44100	1	27064	false	
+map_open	9		0	407			0	POLYPHONIC					360	360	50	4000	0				true	197	ADX	44100	1	17967	false	
+shop_item_select	10		0	175	2		0	POLYPHONIC					360	360	2000	4000	0				true	214	ADX	44100	1	7734	false	
+shop_item_check	11		0	313			0	POLYPHONIC					360	360	2000	4000	0				true	213	ADX	44100	1	13841	false	
+shop_weapon_select	20		0	253	2		0	POLYPHONIC					360	360	2000	4000	0				true	215	ADX	44100	1	11158	false	
+shop_weapon_shot	21		0	287			0	POLYPHONIC					360	360	2000	4000	0				true	216	ADX	44100	1	12661	false	
+shop_weapon_tag	22		0	620	2		0	POLYPHONIC					360	360	2000	4000	0				true	217	ADX	44100	1	27358	false	
+payoff	23		0	749	1		0	POLYPHONIC					360	360	50	4000	0				true	206	ADX	44100	1	33063	false	
+phone_select	30		0	93			0	POLYPHONIC					360	360	2000	4000	0				true	209	ADX	44100	1	4121	false	
+phone_ok	31		0	105			0	POLYPHONIC					360	360	2000	4000	0				true	208	ADX	44100	1	4656	false	
+phone_cancel	32		0	98			0	POLYPHONIC					360	360	2000	4000	0				true	207	ADX	44100	1	4332	false	
+cutin	50		0	567			0	POLYPHONIC					360	360	2000	4000	0				true	177	ADX	44100	1	25015	false	
+message	51		0	130			0	POLYPHONIC					360	360	2	10	0				true	198	ADX	44100	1	5768	false	
+cutin_select	52		0	375			0	POLYPHONIC					360	360	50	4000	0				true	178	ADX	44100	1	16538	false	
+system_message	53		0	722	1		0	POLYPHONIC					360	360	50	4000	0				true	218	ADX	44100	1	31850	false	
+result_get	54		0	401			0	POLYPHONIC					360	360	50	4000	0				true	211	ADX	48000	1	19248	false	
+field_six_sense	60		0	Loop	1		0	POLYPHONIC					360	360	2000	4000	0				true	186	ADX	44100	1	45938	false	
+field_rare_monster	61		0	361	1		0	POLYPHONIC					360	360	50	4000	0				true	184	ADX	44100	1	15921	false	
+field_rare_monster_jump	62		0	1023	1		0	POLYPHONIC					360	360	50	4000	0				true	185	ADX	44100	1	45153	false	
+field_check	63		0	663	1		0	POLYPHONIC					360	360	50	4000	0				true	182	ADX	48000	1	31850	false	
+field_illlusion	64		0	3000	1		0	POLYPHONIC					360	360	50	4000	0				true	183	ADX	44100	2	132300	false	
+event_skip_paper	65		0	1107	1		0	POLYPHONIC					360	360	50	4000	0				true	181	ADX	44100	1	48843	false	
+stab_knife	66		0	1403			0	POLYPHONIC					360	360	50	4000	0				true	81	ADX	44100	1	61910	true	
+encount_alarm	68		0	1704			0	POLYPHONIC					360	360	50	4000	0				true	180	ADX	44100	1	75149	false	
+network_access01	69		0	135			0	POLYPHONIC					360	360	50	4000	0				true	199	ADX	44100	1	5972	false	
+network_access02	70		0	135			0	POLYPHONIC					360	360	50	4000	0				true	200	ADX	44100	1	5972	false	
+network_access03	71		0	458			0	POLYPHONIC					360	360	50	4000	0				true	201	ADX	44100	1	20213	false	
+crash_object	72		0	1172			0	POLYPHONIC					360	360	50	4000	0				true	175	ADX	44100	2	51702	false	
+pickup_phone	73		0	513			0	POLYPHONIC					360	360	50	4000	0				true	210	ADX	44100	1	22663	false	
+chat_open	74		0	600			0	POLYPHONIC					360	360	50	4000	0				true	174	ADX	44100	1	26483	false	
+good_guage_up	75		0	624			0	POLYPHONIC					360	360	50	4000	0				true	190	ADX	48000	1	29999	false	
+good_guage_down	76		0	579			0	POLYPHONIC					360	360	50	4000	0				true	189	ADX	48000	1	27809	false	
+pass_check_beep	77		0	107			0	POLYPHONIC					360	360	50	4000	0				true	205	ADX	48000	1	5173	false	
+den_menu	78		0	295			0	POLYPHONIC					360	360	50	4000	0				true	179	ADX	48000	1	14176	false	
+treasure_chest	79		0	Loop			0	POLYPHONIC					360	360	100	2000	0				true	219	ADX	44100	1	88299	false	
+safe_room	80		0	Loop			0	POLYPHONIC					360	360	100	2000	0				true	212	ADX	44100	1	208392	false	
+alart_heartbeat	81		0	1043	1		0	POLYPHONIC					360	360	100	2500	0	1			true	167	ADX	44100	1	46011	false	
+alarm_Infrared_ray	82		0	1264	1		0	POLYPHONIC					360	360	0	0	0				true	191	ADX	44100	1	55743	false	
+panel_touch	83		0	57	1		0	POLYPHONIC					360	360	0	0	0				true	204	ADX	48000	1	2771	false	
+velvet_skill_change	84		0	1750	3		0	POLYPHONIC					360	360	0	0	0				true	222	ADX	48000	1	84016	false	
+velvet_incense	85		0	2679	1		0	POLYPHONIC					360	360	0	0	0				true	221	ADX	48000	2	128638	false	
+light_switch_on	86		0	511	1		0	POLYPHONIC					360	360	50	4000	0				true	195	ADX	44100	1	17862	false	
+light_switch_oｆｆ	87		0	512	1		0	POLYPHONIC					360	360	50	4000	0				true	195	ADX	44100	1	17862	false	
+light_switch_enter	88		0	530	1		0	POLYPHONIC					360	360	50	4000	0				true	192	ADX	48000	1	25459	false	
+stab_card	89		0	1403			0	POLYPHONIC					360	360	50	4000	0				true	80	ADX	48000	2	67385	true	
+stab_newyear	90		0	1759			0	POLYPHONIC					360	360	50	4000	0				true	82	ADX	48000	2	84452	true	
+update_my_palace	91		0	873	1		0	POLYPHONIC					360	360	50	4000	0				true	220	ADX	48000	1	41925	false	
+get_award	92		0	1513	1		0	POLYPHONIC					360	360	50	4000	0				true	188	ADX	48000	1	72628	false	
+charrange_battle_menu_open	93		0	2398			0	POLYPHONIC					360	360	50	4000	0				true	105	ADX	48000	2	115146	true	
+charrange_battle_menu_rotate	94		0	1329			0	POLYPHONIC					360	360	50	4000	0				true	173	ADX	48000	1	63839	false	
+change_characteristic	95		0	964			0	POLYPHONIC					360	360	50	4000	0				true	172	ADX	48000	1	46272	false	
+damage_slash	100		0	936			0	COMBO_SEQUENTIAL					360	360	50	4000	0	1			true	27	ADX	44100	1	24740	false	
+damage_hit	101		0	1066			0	COMBO_SEQUENTIAL					360	360	50	4000	0	1			true	24	ADX	44100	1	23929	false	
+damage_enemy	102		0	718			0	POLYPHONIC					360	360	50	4000	0	1			true	21	ADX	44100	1	31696	false	
+damage_critical	103		0	2121			0	POLYPHONIC					360	360	50	4000	0	1			true	20	ADX	44100	1	93536	false	
+damage_field	104		0	3500			0	POLYPHONIC					360	360	50	4000	0	1			true	22	ADX	44100	1	154350	false	
+punch_taiman	105		0	698			0	SEQUENTIAL					360	360	50	4000	0	1			true	44	ADX	48000	1	33540	false	
+persona_flame	150		0	2205			0	POLYPHONIC					360	360	50	4000	0	1			true	43	ADX	44100	1	97267	false	
+battle_command_panel	151		0	909			0	POLYPHONIC					360	360	50	4000	0				true	4	ADX	44100	1	40116	false	
+gun_00	200		0	980	1		0	POLYPHONIC					360	360	50	4000	0	1			true	29	ADX	44100	1	43260	false	
+gun_01	201		0	581	1		0	POLYPHONIC					360	360	50	4000	0	1			true	30	ADX	44100	1	25657	false	
+gun_02	202		0	372	1		0	POLYPHONIC					360	360	50	4000	0	1			true	31	ADX	44100	1	16444	false	
+gun_03	203		0	709	1		0	POLYPHONIC					360	360	50	4000	0	1			true	32	ADX	44100	1	31296	false	
+gun_04	204		0	782	1		0	POLYPHONIC					360	360	50	4000	0	1			true	33	ADX	44100	1	34519	false	
+gun_05	205		0	420	1		0	POLYPHONIC					360	360	50	4000	0	1			true	34	ADX	44100	1	18523	false	
+gun_06	206		0	860	1		0	POLYPHONIC					360	360	50	4000	0	1			true	35	ADX	44100	1	37937	false	
+gun_07	207		0	622	1		0	POLYPHONIC					360	360	50	4000	0	1			true	36	ADX	44100	1	27433	false	
+gun_reload_01	208		0	290	1		0	POLYPHONIC					360	360	50	4000	0	1			true	38	ADX	44100	1	12811	false	
+gun_reload_02	209		0	463	1		0	POLYPHONIC					360	360	50	4000	0	1			true	39	ADX	44100	1	20447	false	
+gun_reload_03	210		0	492	1		0	POLYPHONIC					360	360	50	4000	0	1			true	40	ADX	44100	1	21724	false	
+sword_sheath	211		0	433	1		0	POLYPHONIC					360	360	50	4000	0	1			true	47	ADX	44100	1	19123	false	
+battle_absorb	215		0	821			0	POLYPHONIC					360	360	50	4000	0	1			true	0	ADX	32000	1	26285	false	
+battle_reflection	216		0	596			0	POLYPHONIC					360	360	50	4000	0	1			true	12	ADX	44100	1	26324	false	
+battle_resurrect	217		0	1411			0	POLYPHONIC					360	360	50	4000	0	1			true	13	ADX	44100	1	62260	false	
+battle_defeat	218		0	1557			0	POLYPHONIC					360	360	50	4000	0	1			true	5	ADX	44100	1	68692	false	
+battle_appear_enemy	219		0	1562	3		0	POLYPHONIC					360	360	50	4000	0	1			true	1	ADX	32000	1	50000	false	
+move_01	220		0	611			0	POLYPHONIC					360	360	50	4000	0	1			true	132	ADX	44100	1	26984	false	
+move_02	221		0	325			0	POLYPHONIC					360	360	50	4000	0	1			true	133	ADX	44100	1	14352	false	
+move_03	222		0	579			0	POLYPHONIC					360	360	50	4000	0	1			true	134	ADX	44100	1	25534	false	
+move_04	223		0	319			0	POLYPHONIC					360	360	50	4000	0	1			true	135	ADX	44100	1	14079	false	
+move_05	224		0	615			0	POLYPHONIC					360	360	50	4000	0	1			true	136	ADX	44100	1	27153	false	
+move_06	225		0	483			0	RANDOM					360	360	50	4000	0	1			true	137	ADX	44100	1	20686	false	
+move_07	226		0	560			0	RANDOM					360	360	50	4000	0	1			true	139	ADX	44100	1	18836	false	
+btl_fingersnap	227		0	480			0	POLYPHONIC					360	360	50	4000	0				true	129	ADX	44100	1	21185	false	
+player_attack	230		0	486			0	NO_REPEAT					360	360	50	3000	0				true	152	ADX	48000	1	9662	false	
+player_move	231		0	337			0	NO_REPEAT					360	360	50	3000	0				true	156	ADX	48000	1	12840	false	
+swish_01	240		0	167			0	RANDOM					360	360	50	4000	0	1			true	142	ADX	44100	1	7402	false	
+swish_02	241		0	207			0	RANDOM					360	360	50	4000	0	1			true	144	ADX	44100	1	9149	false	
+swish_03	242		0	356			0	RANDOM					360	360	50	4000	0	1			true	146	ADX	44100	1	15734	false	
+swish_04	243		0	205			0	RANDOM					360	360	50	4000	0	1			true	148	ADX	44100	1	9067	false	
+swish_05	244		0	526			0	RANDOM					360	360	50	4000	0	1			true	150	ADX	44100	1	22696	false	
+move_08	245		0	600			0	POLYPHONIC					360	360	50	4000	0	1			true	141	ADX	48000	1	28801	false	
+btl_yohanna	250		0	1552			0	POLYPHONIC					360	360	50	4000	0				true	130	ADX	44100	1	68482	false	
+battle_melt_symbol	260		0	1856			0	POLYPHONIC					360	360	50	4000	0	1			true	10	ADX	44100	1	81880	false	
+battle_onemore	261		0	1184			0	POLYPHONIC					360	360	50	4000	0				true	11	ADX	44100	1	52240	false	
+battle_gun_draw	262		0	442			0	POLYPHONIC					360	360	50	4000	0				true	6	ADX	44100	1	19519	false	
+heal	263		0	1029			0	POLYPHONIC					360	360	50	4000	0				true	42	ADX	44100	1	45398	false	
+continuas_damage	264		0	552			0	POLYPHONIC					360	360	50	4000	0				true	19	ADX	44100	1	24343	false	
+gun_10	265		0	586	1		0	POLYPHONIC					360	360	50	4000	0	1			true	37	ADX	48000	1	28141	false	
+gun_reload_04	266		0	381	1		0	POLYPHONIC					360	360	50	4000	0	1			true	41	ADX	48000	1	18300	false	
+regent_money	267		0	1059	2		0	POLYPHONIC					360	360	50	4000	0	1			true	46	ADX	48000	1	50837	false	
+battle_unstalbe_melt_symbol	268		0	1578			0	POLYPHONIC					360	360	50	4000	0	1			true	49	ADX	48000	1	75748	false	
+battle_unstalbe_itemdrop	269		0	1732			0	POLYPHONIC					360	360	50	4000	0	1			true	50	ADX	48000	1	83160	false	
+footsteps_bare_party	270		0	530	1		0	NO_REPEAT					360	360	50	1800	0	1			true	71	ADX	32000	1	15401	false	
+footsteps_crawl_party	271		0	562	1		0	NO_REPEAT					360	360	50	1800	0	1			true	79	ADX	32000	1	15291	false	
+footsteps_sand_party	272		0	332	1		0	NO_REPEAT					360	360	50	1800	0	1			true	97	ADX	32000	1	10145	false	
+footsteps_wet_party	273		0	674	1		0	NO_REPEAT					360	360	50	1800	0	1			true	114	ADX	32000	1	21595	false	
+footsteps_creak_party	274		0	510	1		0	NO_REPEAT					360	360	50	1800	0	1			true	83	ADX	32000	1	16347	false	
+battle_item_get_large	275		0	1395			0	POLYPHONIC					360	360	50	4000	0	1			true	7	ADX	44100	1	61548	false	
+battle_item_get_middle	276		0	1173			0	POLYPHONIC					360	360	50	4000	0	1			true	8	ADX	44100	1	51750	false	
+battle_item_get_small	277		0	1138			0	POLYPHONIC					360	360	50	4000	0	1			true	9	ADX	44100	1	50193	false	
+battle_charm	278		0	3603			0	POLYPHONIC					360	360	50	4000	0				true	2	ADX	48000	1	172954	false	
+battle_charm_finish	279		0	1970			0	POLYPHONIC					360	360	50	4000	0				true	3	ADX	48000	1	94575	false	
+battle_touch_fire	280		0	1292			0	POLYPHONIC					360	360	50	4000	0				true	14	ADX	48000	1	62063	false	
+footsteps_stone_party	281		0	332	1		0	NO_REPEAT					360	360	50	1800	0	1			true	105	ADX	32000	1	10637	false	
+footsteps_soil_party	282		0	493	1		0	NO_REPEAT					360	360	50	1800	0	1			true	101	ADX	32000	1	15462	false	
+footsteps_grass_party	283		0	366	1		0	NO_REPEAT					360	360	50	1800	0	1			true	89	ADX	32000	1	11063	false	
+footsteps_metal_party	284		0	218	1		0	NO_REPEAT					360	360	50	1800	0	1			true	93	ADX	32000	1	5738	false	
+footsteps_wood_party	285		0	348	1		0	NO_REPEAT					360	360	50	1800	0	1			true	118	ADX	32000	1	11154	false	
+footsteps_carpet_party	286		0	351	1		0	NO_REPEAT					360	360	50	1800	0	1			true	75	ADX	32000	1	10960	false	
+footsteps_thin_metal_party	287		0	390	1		0	NO_REPEAT					360	360	50	1800	0	1			true	109	ADX	32000	1	12481	false	
+battle_technical	288		0	1332	1		0	POLYPHONIC					360	360	50	4000	0				true	48	ADX	48000	2	63963	false	
+charrange_battle_score	289		0	1543	3		0	POLYPHONIC					360	360	50	4000	0				true	17	ADX	48000	2	74107	false	
+footsteps_bare	290		0	530	1		0	NO_REPEAT					360	360	50	2000	0	1			true	71	ADX	32000	1	15401	false	
+footsteps_crawl	291		0	562	1		0	NO_REPEAT					360	360	50	2000	0	1			true	79	ADX	32000	1	15291	false	
+footsteps_sand	292		0	332	1		0	NO_REPEAT					360	360	50	2000	0	1			true	97	ADX	32000	1	10145	false	
+footsteps_wet	293		0	674	1		0	NO_REPEAT					360	360	50	2000	0	1			true	114	ADX	32000	1	21595	false	
+footsteps_creak	294		0	510	1		0	NO_REPEAT					360	360	50	2000	0	1			true	83	ADX	32000	1	16347	false	
+charrange_battle_score_bonus	295		0	1305	3		0	POLYPHONIC					360	360	50	4000	0				true	18	ADX	48000	2	62673	false	
+charrange_battle_count_up	296		0	Loop	1		0	POLYPHONIC					360	360	50	4000	0				true	15	ADX	48000	1	20399	false	
+charrange_battle_finished	297		0	1983	1		0	POLYPHONIC					360	360	50	4000	0				true	16	ADX	48000	2	87200	false	
+charrange_battle_finished_twins	298		0	4601	1		0	POLYPHONIC					360	360	50	4000	0				true	40	ADX	48000	2	168692	true	
+battle_unstalbe_explo	299		0	2753	1		0	POLYPHONIC					360	360	100	6000	0	1			true	51	ADX	44100	2	121429	false	
+footsteps_stone	301		0	332	1		0	NO_REPEAT					360	360	50	2000	0	1			true	105	ADX	32000	1	10637	false	
+footsteps_soil	302		0	493	1		0	NO_REPEAT					360	360	50	2000	0	1			true	101	ADX	32000	1	15462	false	
+footsteps_grass	303		0	366	1		0	NO_REPEAT					360	360	50	2000	0	1			true	89	ADX	32000	1	11063	false	
+footsteps_metal	304		0	218	1		0	NO_REPEAT					360	360	50	2000	0	1			true	93	ADX	32000	1	5738	false	
+footsteps_wood	305		0	348	1		0	NO_REPEAT					360	360	50	2000	0	1			true	118	ADX	32000	1	11154	false	
+footsteps_carpet	306		0	351	1		0	NO_REPEAT					360	360	50	2000	0	1			true	75	ADX	32000	1	10960	false	
+footsteps_thin_metal	307		0	390	1		0	NO_REPEAT					360	360	50	2000	0	1			true	109	ADX	32000	1	12481	false	
+car_dash	311		0	1000	1		0	RANDOM					360	360	50	4000	0	1			true	124	ADX	44100	1	44100	false	
+car_attack	312		0	1000	1		0	RANDOM					360	360	50	4000	0	1			true	122	ADX	44100	1	44100	false	
+car_loop	313		0	Loop	1		0	POLYPHONIC					360	360	50	4000	0	1			true	127	ADX	22050	1	32421	false	
+car_drop	315		0	1207	1		0	POLYPHONIC					360	360	50	4000	0	1			true	126	ADX	44100	1	53259	false	
+footsteps_bare_party_evt	320		0	530	1		0	NO_REPEAT					360	360	50	1800	0	1			true	71	ADX	32000	1	15401	false	
+footsteps_crawl_party_evt	321		0	562	1		0	NO_REPEAT					360	360	50	1800	0	1			true	79	ADX	32000	1	15291	false	
+footsteps_sand_party_evt	322		0	332	1		0	NO_REPEAT					360	360	50	1800	0	1			true	97	ADX	32000	1	10145	false	
+footsteps_wet_party_evt	323		0	674	1		0	NO_REPEAT					360	360	50	1800	0	1			true	114	ADX	32000	1	21595	false	
+footsteps_creak_party_evt	324		0	510	1		0	NO_REPEAT					360	360	50	1800	0	1			true	83	ADX	32000	1	16347	false	
+footsteps_stone_party_evt	331		0	332	1		0	NO_REPEAT					360	360	50	1800	0	1			true	105	ADX	32000	1	10637	false	
+footsteps_soil_party_evt	332		0	493	1		0	NO_REPEAT					360	360	50	1800	0	1			true	101	ADX	32000	1	15462	false	
+footsteps_grass_party_evt	333		0	366	1		0	NO_REPEAT					360	360	50	1800	0	1			true	89	ADX	32000	1	11063	false	
+footsteps_metal_party_evt	334		0	218	1		0	NO_REPEAT					360	360	50	1800	0	1			true	93	ADX	32000	1	5738	false	
+footsteps_wood_party_evt	335		0	348	1		0	NO_REPEAT					360	360	50	1800	0	1			true	118	ADX	32000	1	11154	false	
+footsteps_carpet_party_evt	336		0	351	1		0	NO_REPEAT					360	360	50	1800	0	1			true	75	ADX	32000	1	10960	false	
+footsteps_thin_metal_party_evt	337		0	390	1		0	NO_REPEAT					360	360	50	1800	0	1			true	109	ADX	32000	1	12481	false	
+umbrella	340		0	528			0	POLYPHONIC					360	360	50	4000	0				true	113	ADX	32000	1	16918	false	
+field_killer_chain	350		0	2500			0	SEQUENTIAL					360	360	100	6000	0	1			true	87	ADX	32000	1	80000	false	
+encount_parry	351		0	2374			0	POLYPHONIC					360	360	50	5000	0	1			true	131	ADX	48000	1	95744	false	
+car_loop_P5R_mypalace	352		0	Loop	1		0	POLYPHONIC					360	360	50	4000	0	6			true	127	ADX	22050	1	32421	false	
+coop_pointup	400		0	4000			0	POLYPHONIC					360	360	50	4000	0				true	4	ADX	44100	2	176400	true	
+coop_levelup	401		0	4000			0	POLYPHONIC					360	360	50	4000	0				true	3	ADX	44100	2	176400	true	
+human_up_a	410		0	983			0	POLYPHONIC					360	360	50	4000	0				true	8	ADX	44100	1	43357	true	
+human_up_b	411		0	1478			0	POLYPHONIC					360	360	50	4000	0				true	9	ADX	44100	1	65188	true	
+human_up_c	412		0	2252			0	POLYPHONIC					360	360	50	4000	0				true	10	ADX	44100	1	99318	true	
+human_rank_up	413		0	2448			0	POLYPHONIC					360	360	50	4000	0				true	7	ADX	48000	2	117533	true	
+human_point_up	414		0	1836			0	POLYPHONIC					360	360	50	4000	0				true	6	ADX	44100	1	80969	true	
+human_point_star	415		0	1362			0	POLYPHONIC					360	360	50	4000	0				true	5	ADX	48000	2	65383	true	
+result_bomb	420		0	937			0	POLYPHONIC					360	360	50	4000	0				true	52	ADX	44100	1	41344	false	
+result_money	421		0	1233			0	POLYPHONIC					360	360	50	4000	0				true	58	ADX	44100	1	54381	false	
+result_item	422		0	1742			0	POLYPHONIC					360	360	50	4000	0				true	53	ADX	44100	1	76840	false	
+result_levelup	423		0	432	2		0	NO_REPEAT					360	360	50	4000	0				true	54	ADX	32000	1	11459	false	
+co_op_up_a	430		0	458	1		0	POLYPHONIC					360	360	50	4000	0				true	0	ADX	44100	1	20233	true	
+co_op_up_b	431		0	688	1		0	POLYPHONIC					360	360	50	4000	0				true	1	ADX	44100	1	30342	true	
+co_op_up_c	432		0	976	1		0	POLYPHONIC					360	360	50	4000	0				true	2	ADX	44100	1	43050	true	
+sparrow	500		0	498			0	NO_REPEAT					360	360	100	3000	0				true	59	ADX	48000	1	23938	false	
+wing_large	501		0	725			0	NO_REPEAT					360	360	100	3000	0				true	63	ADX	48000	1	27917	false	
+wing_small	502		0	614			0	NO_REPEAT					360	360	100	3000	0				true	67	ADX	48000	1	28800	false	
+sparrow_fly	510		0	614			0	POLYPHONIC					360	360	100	3000	0				true	59	ADX	48000	1	23938	false	
+crow_fly	511		0	725			0	POLYPHONIC					360	360	100	3000	0				true	63	ADX	48000	1	27917	false	
+pigeon_fly	512		0	725			0	POLYPHONIC					360	360	100	3000	0				true	63	ADX	48000	1	27917	false	
+card_select	700		0	99	1		0	POLYPHONIC					360	360	50	4000	0				true	255	ADX	48000	1	4797	false	
+card_start	701		0	942	1		0	POLYPHONIC					360	360	50	4000	0				true	257	ADX	48000	2	45217	false	
+card_pickup	702		0	260	1		0	POLYPHONIC					360	360	50	4000	0				true	252	ADX	48000	1	12518	false	
+card_reposit	703		0	186	1		0	POLYPHONIC					360	360	50	4000	0				true	253	ADX	48000	1	8943	false	
+card_submit	704		0	288	1		0	POLYPHONIC					360	360	50	4000	0				true	258	ADX	48000	1	13866	false	
+card_cut_by_eight	705		0	2619	1		0	POLYPHONIC					360	360	50	4000	0				true	245	ADX	48000	2	125712	false	
+card_spade_three	706		0	2790	1		0	POLYPHONIC					360	360	50	4000	0				true	256	ADX	48000	2	133920	false	
+card_revolution	707		0	2742	1		0	POLYPHONIC					360	360	50	4000	0				true	254	ADX	48000	2	131642	false	
+card_anti_revolution	708		0	2764	1		0	POLYPHONIC					360	360	50	4000	0				true	243	ADX	48000	2	132672	false	
+card_done	709		0	3500	1		0	POLYPHONIC					360	360	50	4000	0				true	246	ADX	48000	2	168001	false	
+card_millionaire	710		0	2868			0	POLYPHONIC					360	360	50	4000	0				true	251	ADX	48000	2	137664	false	
+card_dropout	711		0	1363			0	POLYPHONIC					360	360	50	4000	0				true	247	ADX	48000	2	65424	false	
+card_game_end	712		0	2209			0	POLYPHONIC					360	360	50	4000	0				true	250	ADX	48000	2	106063	false	
+card_count	713		0	Loop			0	POLYPHONIC					360	360	50	4000	0				true	244	ADX	48000	1	13674	false	
+card_func_on	714		0	631	1		0	POLYPHONIC					360	360	50	4000	0				true	249	ADX	48000	1	30298	false	
+card_func_off	715		0	472	1		0	POLYPHONIC					360	360	50	4000	0				true	248	ADX	48000	1	22687	false	
+encount	1000		0	4289	1		0	POLYPHONIC					360	360	50	4000	0				true	164	ADX	44100	2	189177	false	
+cutin_link_attack	1001		0	1512			0	POLYPHONIC					360	360	50	4000	0				true	49	ADX	44100	2	66704	true	
+cutin_link_shot	1002		0	1358			0	POLYPHONIC					360	360	50	4000	0				true	50	ADX	44100	2	59899	true	
+slowmotion	1003		0	4000			0	POLYPHONIC					360	360	50	4000	0				true	79	ADX	44100	2	176400	true	
+battle_result_car	1004		0	2000			0	POLYPHONIC					360	360	50	4000	0				true	23	ADX	44100	2	88200	true	
+talk_suck	1005		0	2121			0	POLYPHONIC					360	360	50	4000	0				true	88	ADX	44100	1	93560	true	
+talk_ricochet	1006		0	1313			0	POLYPHONIC					360	360	50	4000	0				true	86	ADX	44100	1	54272	true	
+talk_ricochet_network	1007		0	1313			0	POLYPHONIC					360	360	50	4000	0				true	86	ADX	44100	1	54272	true	
+talk_ann_tear	1008		0	3093			0	POLYPHONIC					360	360	50	4000	0				true	84	ADX	44100	1	92309	true	
+talk_ann_heart	1009		0	1612			0	POLYPHONIC					360	360	50	4000	0				true	83	ADX	44100	1	41709	true	
+talk_skill	1010		0	1677			0	POLYPHONIC					360	360	50	4000	0				true	87	ADX	44100	1	73962	true	
+talk_kill	1011		0	1028			0	POLYPHONIC					360	360	50	4000	0				true	85	ADX	44100	1	45336	true	
+touch_long	1012		0	2503			0	POLYPHONIC					360	360	50	4000	0				true	93	ADX	44100	2	110415	true	
+touch_short_nouse	1013		0	2000			0	POLYPHONIC					360	360	50	4000	0				true	94	ADX	44100	2	88200	true	
+result_persona_levelup	1014		0	3037			0	POLYPHONIC					360	360	50	4000	0				true	78	ADX	48000	2	145815	true	
+battle_cutin	1015		0	3045			0	POLYPHONIC					360	360	50	4000	0				true	17	ADX	44100	2	134287	true	
+battle_telepathy	1016		0	2374			0	POLYPHONIC					360	360	50	4000	0				true	24	ADX	44100	2	104716	true	
+battle_all_out_atk	1017		0	7352			0	POLYPHONIC					360	360	50	4000	0				true	11	ADX	44100	2	324224	true	
+battle_all_out_atk_finish	1018		0	7204			0	POLYPHONIC					360	360	50	4000	0				true	13	ADX	44100	2	317717	true	
+battle_futaba_support	1019		0	3263			0	POLYPHONIC					360	360	50	4000	0				true	19	ADX	44100	2	143899	true	
+btl_protect	1020		0	4000			0	POLYPHONIC					360	360	50	4000	0				true	29	ADX	44100	2	176400	true	
+btl_recovery	1021		0	4000			0	POLYPHONIC					360	360	50	4000	0				true	30	ADX	44100	2	176400	true	
+btl_shield	1022		0	2395			0	POLYPHONIC					360	360	50	4000	0				true	31	ADX	44100	2	105656	true	
+btl_skimming	1023		0	3150			0	POLYPHONIC					360	360	50	4000	0				true	32	ADX	44100	2	138942	true	
+btl_support	1024		0	1111			0	POLYPHONIC					360	360	50	4000	0				true	34	ADX	44100	2	49000	true	
+fld_wall	1025		0	1694			0	POLYPHONIC					360	360	50	4000	0				true	54	ADX	44100	1	74725	true	
+btl_flash_escape	1026		0	2061			0	POLYPHONIC					360	360	50	4000	0				true	28	ADX	44100	2	90934	true	
+touch_01	1027		0	2503			0	POLYPHONIC					360	360	50	4000	0				true	89	ADX	44100	2	110415	true	
+touch_02	1028		0	2503			0	POLYPHONIC					360	360	50	4000	0				true	90	ADX	44100	2	110415	true	
+touch_03	1029		0	2503			0	POLYPHONIC					360	360	50	4000	0				true	91	ADX	44100	2	110415	true	
+touch_04	1030		0	3195			0	POLYPHONIC					360	360	50	4000	0				true	92	ADX	44100	2	140924	true	
+encount_new_chance	1031		0	4401			0	POLYPHONIC					360	360	50	4000	0				true	165	ADX	44100	2	194122	false	
+get_persona_long	1032		0	10000			0	POLYPHONIC					360	360	50	4000	0				true	58	ADX	44100	2	441000	true	
+get_persona_short	1033		0	8000			0	POLYPHONIC					360	360	50	4000	0				true	59	ADX	44100	2	352800	true	
+hold_up	1034		0	2001			0	POLYPHONIC					360	360	50	4000	0				true	62	ADX	44100	2	88256	true	
+mission_start	1035		0	2000			0	POLYPHONIC					360	360	50	4000	0				true	71	ADX	44100	2	88200	true	
+mission_clear	1036		0	1987			0	POLYPHONIC					360	360	50	4000	0				true	69	ADX	44100	2	87650	true	
+mission_failed	1037		0	2242			0	POLYPHONIC					360	360	50	4000	0				true	70	ADX	44100	2	98916	true	
+battle_all_out_atk_finish_twins	1038		0	12000			0	POLYPHONIC					360	360	50	4000	0				true	16	ADX	44100	2	529200	true	
+quest_quake	1039		0	4445			0	POLYPHONIC					360	360	50	4000	0				true	77	ADX	44100	1	196029	true	
+get_money_window	1040		0	758			0	POLYPHONIC					360	360	50	4000	0				true	57	ADX	44100	1	33471	true	
+get_persona_window	1041		0	2194			0	POLYPHONIC					360	360	50	4000	0				true	60	ADX	44100	2	96762	true	
+level_up_hero_a	1042		0	1781			0	POLYPHONIC					360	360	50	4000	0				true	63	ADX	44100	1	78573	true	
+level_up_hero_b	1043		0	871			0	POLYPHONIC					360	360	50	4000	0				true	64	ADX	44100	1	38416	true	
+wipe_plane_in	1044		0	6791			0	POLYPHONIC					360	360	50	4000	0				true	102	ADX	48000	2	326000	true	
+wipe_plane_out	1045		0	4875			0	POLYPHONIC					360	360	50	4000	0				true	103	ADX	48000	2	234000	true	
+unlock	1046		0	1078			0	POLYPHONIC					360	360	50	4000	0				true	95	ADX	48000	2	51753	true	
+phone_vibration	1047		0	1201			0	POLYPHONIC					360	360	50	4000	0				true	76	ADX	48000	1	57657	true	
+phone_receipt	1048		0	1499			0	POLYPHONIC					360	360	50	4000	0				true	75	ADX	44100	1	66149	true	
+dungeon_result_glass	1049		0	1090			0	POLYPHONIC					360	360	50	4000	0				true	53	ADX	48000	2	52346	true	
+persona_levelup	1050		0	2000			0	POLYPHONIC					360	360	50	4000	0				true	74	ADX	48000	2	96000	true	
+wipe_train	1051		0	6937			0	POLYPHONIC					360	360	50	4000	0				true	104	ADX	48000	2	333000	true	
+crossword_puzzle	1052		0	2666			0	POLYPHONIC					360	360	50	4000	0				true	48	ADX	48000	2	128000	true	
+coop_up	1053		0	3242			0	POLYPHONIC					360	360	50	4000	0				true	47	ADX	48000	2	155624	true	
+coop_doubt	1054		0	3656			0	POLYPHONIC					360	360	50	4000	0				true	42	ADX	48000	2	175527	true	
+coop_repair	1055		0	3921			0	POLYPHONIC					360	360	50	4000	0				true	44	ADX	48000	2	188249	true	
+coop_broken	1056		0	2965			0	POLYPHONIC					360	360	50	4000	0				true	41	ADX	48000	2	142350	true	
+calendar_change	1057		0	698			0	POLYPHONIC					360	360	50	4000	0				true	36	ADX	48000	2	33540	true	
+calendar_change_long	1058		0	5000			0	POLYPHONIC					360	360	50	4000	0				true	35	ADX	48000	2	240000	true	
+door_velvet	1059		0	5000			0	POLYPHONIC					360	360	50	4000	0				true	52	ADX	48000	2	240000	true	
+casino_win	1060		0	482			0	POLYPHONIC					360	360	50	4000	0				true	39	ADX	48000	2	23178	true	
+casino_lose	1061		0	757			0	POLYPHONIC					360	360	50	4000	0				true	38	ADX	48000	2	36345	true	
+casino_chip	1062		0	753			0	POLYPHONIC					360	360	50	4000	0				true	37	ADX	48000	1	36172	true	
+velvet_imprisonment	1063		0	3208			0	POLYPHONIC					360	360	50	4000	0				true	98	ADX	48000	2	154000	true	
+coop_rankup	1064		0	4188			0	POLYPHONIC					360	360	50	4000	0				true	43	ADX	48000	2	201024	true	
+futaba_mementos_search	1065		0	3000			0	POLYPHONIC					360	360	50	4000	0				true	55	ADX	48000	2	144000	true	
+futaba_treasure_repop	1066		0	2843			0	POLYPHONIC					360	360	50	4000	0				true	56	ADX	48000	2	136500	true	
+den_notice	1067		0	695			0	POLYPHONIC					360	360	50	4000	0				true	51	ADX	48000	1	33400	true	
+map_new_spot	1068		0	625			0	POLYPHONIC					360	360	50	4000	0				true	196	ADX	44100	1	27606	false	
+weapon_custom	1069		0	2000			0	POLYPHONIC					360	360	50	4000	0				true	99	ADX	48000	1	96000	true	
+weapon_equip	1070		0	497			0	POLYPHONIC					360	360	50	4000	0				true	100	ADX	48000	1	23901	true	
+weapon_sell_materials	1071		0	1549			0	POLYPHONIC					360	360	50	4000	0				true	101	ADX	48000	1	74371	true	
+mementos_floor_appear	1072		0	7817			0	POLYPHONIC					360	360	50	4000	0				true	65	ADX	44100	2	344758	true	
+mementos_floor_appear_final	1073		0	11113			0	POLYPHONIC					360	360	50	4000	0				true	66	ADX	48000	2	533430	true	
+battle_all_out_atk_finish_b	1074		0	2688			0	POLYPHONIC					360	360	50	4000	0				true	14	ADX	44100	2	118582	true	
+mementos_new_way	1075		0	8790			0	POLYPHONIC					360	360	50	4000	0				true	67	ADX	48000	2	421926	true	
+mementos_new_way_final	1076		0	11213			0	POLYPHONIC					360	360	50	4000	0				true	68	ADX	48000	2	538241	true	
+wipe_cloth	1077		0	1759			0	POLYPHONIC					360	360	50	4000	0				true	227	ADX	48000	1	84445	false	
+map_select_open	1078		0	567			0	POLYPHONIC					360	360	50	4000	0				true	177	ADX	44100	1	25015	false	
+open_box_1	1100		0	1400			0	POLYPHONIC					360	360	50	4000	0				true	72	ADX	48000	2	67200	true	
+open_box_2	1101		0	1400			0	POLYPHONIC					360	360	50	4000	0				true	72	ADX	48000	2	67200	true	
+open_box_3	1102		0	1400			0	POLYPHONIC					360	360	50	4000	0				true	72	ADX	48000	2	67200	true	
+open_box_4	1103		0	1400			0	POLYPHONIC					360	360	50	4000	0				true	72	ADX	48000	2	67200	true	
+open_box_5	1104		0	1400			0	POLYPHONIC					360	360	50	4000	0				true	72	ADX	48000	2	67200	true	
+open_box_6	1105		0	1400			0	POLYPHONIC					360	360	50	4000	0				true	72	ADX	48000	2	67200	true	
+open_box_7	1106		0	1400			0	POLYPHONIC					360	360	50	4000	0				true	72	ADX	48000	2	67200	true	
+open_box_8	1107		0	1400			0	POLYPHONIC					360	360	50	4000	0				true	72	ADX	48000	2	67200	true	
+open_box_rare	1108		0	4370			0	POLYPHONIC					360	360	0	0	0				true	73	ADX	48000	2	209796	true	
+gimmick_clear_01	1110		0	2000			0	POLYPHONIC					360	360	50	4000	0				true	61	ADX	44100	2	88200	true	
+btl_detect_eye_a	1111		0	3900			0	POLYPHONIC					360	360	0	0	0				true	26	ADX	48000	2	144000	true	
+btl_detect_eye_b	1112		0	3900			0	POLYPHONIC					360	360	0	0	0				true	27	ADX	48000	2	144000	true	
+velvet_alert	1113		0	4090	1		0	POLYPHONIC					360	360	0	0	0				true	97	ADX	48000	2	196342	true	
+velvet_alarm	1114		0	11263	1		0	POLYPHONIC					360	360	0	0	0				true	96	ADX	44100	1	496711	true	
+battle_marukii_ability_cure	1115		0	2085	1		0	POLYPHONIC					360	360	0	0	0				true	22	ADX	48000	2	100093	true	
+battle_maruki_ability_a	1116		0	4333	1		0	POLYPHONIC					360	360	0	0	0				true	20	ADX	44100	1	127766	true	
+btl_skimming_short	1117		0	9511			0	POLYPHONIC					360	360	50	4000	0				true	33	ADX	48000	2	456564	true	
+btl_challange_round1	1118		0	3372	1		0	POLYPHONIC					360	360	0	0	0				true	25	ADX	48000	1	161881	true	
+battle_all_out_atk_futaba	1119		0	9267			0	POLYPHONIC					360	360	50	4000	0				true	15	ADX	44100	2	408684	true	
+battle_futaba_hack_evo	1120		0	2734	1		0	POLYPHONIC					360	360	50	4000	0				true	18	ADX	48000	2	131236	true	
+battle_all_out_atk_finish_Lavenza	1121		0	12000			0	POLYPHONIC					360	360	50	4000	0				true	12	ADX	48000	2	576000	true	
+coop_sumire_a	1122		0	3906			0	POLYPHONIC					360	360	50	4000	0				true	45	ADX	48000	2	147508	true	
+coop_sumire_b	1123		0	5010			0	POLYPHONIC					360	360	50	4000	0				true	46	ADX	48000	2	240481	true	
+battle_all_out_atk_futaba_end	1124		0	6482			0	POLYPHONIC					360	360	50	4000	0				true	163	ADX	44100	2	274838	false	
+bp01	2001		0	1659			0	RANDOM					360	360	50	4000	0				true	126	ADX	48000	1	79674	true	
+bp02_083	2002		0	2319			0	RANDOM					360	360	50	4000	0				true	131	ADX	48000	1	111318	true	
+bp03_083	2003		0	1794			0	RANDOM					360	360	50	4000	0				true	137	ADX	48000	1	78464	true	
+bp04_083	2004		0	1807			0	RANDOM					360	360	50	4000	0				true	143	ADX	48000	1	66653	true	
+bp05_083	2005		0	2584			0	RANDOM					360	360	50	4000	0				true	149	ADX	48000	1	95186	true	
+bp06_083	2006		0	2899			0	RANDOM					360	360	50	4000	0				true	155	ADX	48000	1	95932	true	
+bp07_083	2007		0	2780			0	RANDOM					360	360	50	4000	0				true	161	ADX	48000	1	64503	true	
+bp08_083	2008		0	2565			0	RANDOM					360	360	50	4000	0				true	173	ADX	48000	1	123133	true	
+bp09_083	2009		0	2074			0	RANDOM					360	360	50	4000	0				true	167	ADX	48000	1	99581	true	
+bp01_084	2011		0	740			0	RANDOM					360	360	50	4000	0				true	124	ADX	48000	1	27265	true	
+bp02_084	2012		0	2211			0	RANDOM					360	360	50	4000	0				true	134	ADX	48000	1	106138	true	
+bp03_084	2013		0	2488			0	RANDOM					360	360	50	4000	0				true	140	ADX	48000	1	99267	true	
+bp04_084	2014		0	2048			0	RANDOM					360	360	50	4000	0				true	146	ADX	48000	1	77790	true	
+bp05_084	2015		0	1931			0	RANDOM					360	360	50	4000	0				true	152	ADX	48000	1	89978	true	
+bp06_084	2016		0	2702			0	RANDOM					360	360	50	4000	0				true	158	ADX	48000	1	119039	true	
+bp07_084	2017		0	3079			0	RANDOM					360	360	50	4000	0				true	164	ADX	48000	1	103130	true	
+bp08_084	2018		0	1915			0	RANDOM					360	360	50	4000	0				true	176	ADX	48000	1	81848	true	
+bp09_084	2019		0	1850			0	RANDOM					360	360	50	4000	0				true	170	ADX	48000	1	88814	true	
+dlc_00	2021		0	2053			0	RANDOM					360	360	50	4000	0				true	106	ADX	48000	1	43434	true	
+dlc_01	2022		0	1833			0	RANDOM					360	360	50	4000	0				true	108	ADX	48000	1	65790	true	
+dlc_02	2023		0	1299			0	RANDOM					360	360	50	4000	0				true	110	ADX	48000	1	44084	true	
+dlc_03	2024		0	2638			0	RANDOM					360	360	50	4000	0				true	112	ADX	48000	1	126671	true	
+dlc_04	2025		0	1862			0	RANDOM					360	360	50	4000	0				true	114	ADX	48000	1	89379	true	
+dlc_05	2026		0	1451			0	RANDOM					360	360	50	4000	0				true	116	ADX	48000	1	65060	true	
+dlc_06	2027		0	3128			0	RANDOM					360	360	50	4000	0				true	118	ADX	48000	1	150157	true	
+dlc_07	2028		0	2924			0	RANDOM					360	360	50	4000	0				true	120	ADX	48000	1	140399	true	
+dlc_08	2029		0	1621			0	RANDOM					360	360	50	4000	0				true	122	ADX	48000	1	77810	true	
+bp01_3004	2030		0	1032			0	RANDOM					360	360	50	4000	0				true	179	ADX	48000	1	47163	true	
+bp01_3204	2031		0	1207			0	RANDOM					360	360	50	4000	0				true	181	ADX	48000	1	57941	true	
+bp01_3304	2032		0	1065			0	RANDOM					360	360	50	4000	0				true	183	ADX	48000	1	44530	true	
+bp01_3504	2033		0	737			0	RANDOM					360	360	50	4000	0				true	185	ADX	48000	1	31872	true	
+bp09_01_083	2034		0	2391			0	RANDOM					360	360	50	4000	0				true	187	ADX	48000	1	93377	true	
+bp09_01_084	2035		0	1930			0	RANDOM					360	360	50	4000	0				true	190	ADX	48000	1	92685	true	
+bp10_083	2036		0	1606			0	RANDOM					360	360	50	4000	0				true	193	ADX	48000	1	55688	true	
+bp10_084	2037		0	1804			0	RANDOM					360	360	50	4000	0				true	196	ADX	48000	1	86618	true	
+通話切れる	3000		0	Loop			0	POLYPHONIC					360	360	0	0	0				true	294	ADX	32000	1	32032	true	
+衣擦れ1	3001		0	1000			0	POLYPHONIC					360	360	0	0	0				true	267	ADX	32000	1	32000	true	
+イセカイ脱出	3002		0	4766			0	POLYPHONIC					360	360	0	0	0				true	303	ADX	32000	2	152533	true	
+風切り音1	3003		0	666			0	POLYPHONIC					360	360	0	0	0				true	360	ADX	32000	1	21333	true	
+ノート	3004		0	888			0	POLYPHONIC					360	360	0	0	0				true	327	ADX	32000	1	28439	true	
+コーヒーを手に取る	3005		0	314			0	POLYPHONIC					360	360	0	0	0				true	269	ADX	32000	1	10070	true	
+カップソーサーに置く	3006		0	400			0	POLYPHONIC					360	360	0	0	0				true	270	ADX	32000	1	12802	true	
+モルガナ車変身	3007		0	2508			0	POLYPHONIC					360	360	0	0	0				true	457	ADX	32000	1	80287	true	
+ドアベル	3008		0	2002			0	POLYPHONIC					360	360	0	0	0				true	276	ADX	32000	1	64065	true	
+ナビ　検索ヒット音	3009		0	988			0	POLYPHONIC					360	360	0	0	0				true	325	ADX	32000	1	31627	true	
+「ナビゲーションを開始します」	3010		0	1246			0	POLYPHONIC	ナビゲーションを開始します				360	360	0	0	0				true	315	ADX	32000	1	39903	true	
+「ナビを開始します」	3011		0	919			0	POLYPHONIC	ナビを開始します				360	360	0	0	0				true	316	ADX	32000	1	29433	true	
+ナビ開始音	3012		0	3536			0	POLYPHONIC					360	360	0	0	0				true	326	ADX	32000	1	113180	true	
+地響き	3013		0	Loop			0	POLYPHONIC					360	360	0	0	0				true	339	ADX	32000	1	152361	true	
+風切り音　重め	3014		0	4063			0	POLYPHONIC					360	360	0	0	0				true	477	ADX	32000	2	130032	true	
+ケータイのボタン1	3015		0	396			0	POLYPHONIC					360	360	0	0	0				true	330	ADX	32000	1	12672	true	
+敵シンボル破裂	3016		0	6013			0	POLYPHONIC					360	360	0	0	0				true	283	ADX	32000	2	192423	true	
+衣擦れ2	3017		0	466			0	POLYPHONIC					360	360	0	0	0				true	268	ADX	32000	2	14933	true	
+竜司自販機を殴る	3018		0	1133			0	POLYPHONIC					360	360	0	0	0				true	297	ADX	32000	1	36267	true	
+しばく	3019		0	366			0	POLYPHONIC					360	360	0	0	0				true	266	ADX	32000	1	11743	true	
+猫モルガナ_乗る	3020		0	595			0	POLYPHONIC					360	360	0	0	0				true	314	ADX	32000	1	19055	true	
+竜司床ドン	3021		0	983			0	POLYPHONIC					360	360	0	0	0				true	289	ADX	32000	1	12800	true	
+冴の着信音	3022		0	Loop			0	POLYPHONIC					360	360	0	0	0				true	335	ADX	32000	1	48000	true	
+食器をテーブルに置く	3023		0	333			0	POLYPHONIC					360	360	0	0	0				true	338	ADX	32000	1	10667	true	
+ケータイのボタン2	3024		0	99			0	POLYPHONIC					360	360	0	0	0				true	263	ADX	32000	1	3193	true	
+グラスをつかむ	3025		0	866			0	POLYPHONIC					360	360	0	0	0				true	290	ADX	32000	1	27733	true	
+グラスを置く	3026		0	133			0	POLYPHONIC					360	360	0	0	0				true	291	ADX	32000	1	4267	true	
+イセカイ演出	3027		0	14000			0	POLYPHONIC					360	360	0	0	0				true	304	ADX	32000	2	448000	true	
+シャドウ回想フラッシュ入り	3028		0	2635			0	POLYPHONIC					360	360	0	0	0				true	286	ADX	32000	2	84351	true	
+回想フラッシュ入り	3029		0	2002			0	POLYPHONIC					360	360	0	0	0				true	287	ADX	32000	2	64064	true	
+シャドウ回想_回想フラッシュ抜け	3030		0	2500			0	POLYPHONIC					360	360	0	0	0				true	288	ADX	32000	2	80000	true	
+カメラのシャッター音	3031		0	302			0	POLYPHONIC					360	360	0	0	0				true	264	ADX	32000	1	9694	true	
+倒れる1	3032		0	629			0	POLYPHONIC					360	360	0	0	0				true	257	ADX	32000	1	20156	true	
+倒れる2	3033		0	1355			0	POLYPHONIC					360	360	0	0	0				true	258	ADX	32000	1	43390	true	
+倒れる3	3034		0	843			0	POLYPHONIC					360	360	0	0	0				true	259	ADX	32000	1	26976	true	
+倒れる4	3035		0	904			0	POLYPHONIC					360	360	0	0	0				true	260	ADX	32000	1	28936	true	
+ヒット音　重め1	3036		0	800			0	POLYPHONIC					360	360	0	0	0				true	299	ADX	32000	1	25625	true	
+ヒット音　重め2	3037		0	767			0	POLYPHONIC					360	360	0	0	0				true	300	ADX	32000	1	24558	true	
+ヒット音　重め3	3038		0	834			0	POLYPHONIC					360	360	0	0	0				true	301	ADX	32000	1	26693	true	
+ヒット音　重め4	3039		0	1001			0	POLYPHONIC					360	360	0	0	0				true	302	ADX	32000	1	32032	true	
+ヒット音　軽め1	3040		0	734			0	POLYPHONIC					360	360	0	0	0				true	307	ADX	32000	1	23490	true	
+ヒット音　軽め2	3041		0	800			0	POLYPHONIC					360	360	0	0	0				true	308	ADX	32000	1	25625	true	
+ヒット音　軽め3	3042		0	800			0	POLYPHONIC					360	360	0	0	0				true	309	ADX	32000	1	25625	true	
+杏の着信音	3043		0	1700			0	POLYPHONIC					360	360	0	0	0				true	343	ADX	32000	1	54400	true	
+真の着信音	3044		0	2268			0	POLYPHONIC					360	360	0	0	0				true	345	ADX	32000	1	72606	true	
+惣治郎の着信音	3045		0	2333			0	POLYPHONIC					360	360	0	0	0				true	347	ADX	32000	1	74667	true	
+テレビの音	3046		0	Loop			0	POLYPHONIC					360	360	0	0	0				true	356	ADX	32000	1	140789	true	
+モルガナ車変身分割_ジャンプ	3047		0	641			0	POLYPHONIC					360	360	0	0	0				true	311	ADX	32000	1	20522	true	
+モルガナ車変身分割_変化	3048		0	687			0	POLYPHONIC					360	360	0	0	0				true	313	ADX	32000	1	21985	true	
+モルガナ車変身分割_着地	3049		0	1178			0	POLYPHONIC					360	360	0	0	0				true	312	ADX	32000	1	37704	true	
+風切り音_風音1	3050		0	3003			0	POLYPHONIC					360	360	0	0	0				true	362	ADX	32000	2	96096	true	
+風切り音_風音2	3051		0	3003			0	POLYPHONIC					360	360	0	0	0				true	363	ADX	32000	2	96096	true	
+風切り音_風音3	3052		0	3003			0	POLYPHONIC					360	360	0	0	0				true	364	ADX	32000	2	96096	true	
+シャドウ出現	3053		0	5005			0	POLYPHONIC					360	360	0	0	0				true	351	ADX	32000	1	160160	true	
+シャドウ消える	3054		0	3336			0	POLYPHONIC					360	360	0	0	0				true	352	ADX	32000	1	106773	true	
+双葉タイピング音_スクリプトループ用104F	3055		0	3466			0	POLYPHONIC					360	360	0	0	0				true	298	ADX	32000	1	110933	true	
+アドレス交換	3056		0	2002			0	POLYPHONIC					360	360	0	0	0				true	255	ADX	32000	1	64064	true	
+ベルベット_鎖の音	3057		0	2500			0	POLYPHONIC					360	360	0	0	0				true	350	ADX	32000	1	80000	true	
+看守が格子を殴る音	3058		0	1147			0	POLYPHONIC					360	360	0	0	0				true	256	ADX	32000	1	36731	true	
+フォーリー	3059		0	333			0	POLYPHONIC					360	360	0	0	0				true	293	ADX	32000	1	10677	true	
+占いカードめくり2枚（頭少し隙間アリ）	3060		0	1992			0	POLYPHONIC					360	360	0	0	0				true	357	ADX	32000	2	45083	true	
+占いカードめくり１枚＋フラッシュ	3061		0	2651			0	POLYPHONIC					360	360	0	0	0				true	358	ADX	32000	2	84862	true	
+ハイタッチ	3062		0	353			0	POLYPHONIC					360	360	0	0	0				true	295	ADX	32000	2	11304	true	
+飲み干す_１くち	3063		0	1290			0	POLYPHONIC					360	360	0	0	0				true	281	ADX	32000	2	41306	true	
+飲み干す_2くち	3064		0	2058			0	POLYPHONIC					360	360	0	0	0				true	280	ADX	32000	2	65884	true	
+飲み干す_3くち	3065		0	2651			0	POLYPHONIC					360	360	0	0	0				true	279	ADX	32000	2	84862	true	
+ドアに鍵を掛ける	3066		0	1325			0	POLYPHONIC					360	360	0	0	0				true	277	ADX	32000	2	42431	true	
+引戸がロックされていて開かない	3067		0	1325			0	POLYPHONIC					360	360	0	0	0				true	278	ADX	32000	2	42431	true	
+机叩き（武器屋など用）	3068		0	434			0	POLYPHONIC					360	360	0	0	0				true	296	ADX	32000	2	13890	true	
+机叩き（もんじゃ屋など用）	3069		0	994			0	POLYPHONIC					360	360	0	0	0				true	273	ADX	32000	2	31823	true	
+拳銃を構える	3070		0	994			0	POLYPHONIC					360	360	0	0	0				true	292	ADX	32000	2	31823	true	
+座る_ベッドソファ系	3071		0	766			0	POLYPHONIC					360	360	0	0	0				true	353	ADX	32000	1	24533	true	
+紙_ペラ音	3072		0	641			0	POLYPHONIC					360	360	0	0	0				true	328	ADX	32000	2	20541	true	
+倒れる（toベッド）	3073		0	1657			0	POLYPHONIC					360	360	0	0	0				true	261	ADX	32000	2	53039	true	
+着信音_NPC	3074		0	Loop			0	POLYPHONIC					360	360	0	0	0				true	329	ADX	32000	1	36278	true	
+カジノ認証カードかざす	3075		0	466			0	POLYPHONIC					360	360	0	0	0				true	265	ADX	32000	1	14933	true	
+キータイプ成功	3076		0	832			0	POLYPHONIC					360	360	0	0	0				true	306	ADX	32000	1	26641	true	
+明智の着信音	3077		0	Loop			0	POLYPHONIC					360	360	0	0	0				true	342	ADX	32000	1	64064	true	
+ゲームオーバー時のフラッシュ	3078		0	666			0	POLYPHONIC					360	360	0	0	0				true	284	ADX	32000	2	21333	true	
+「ナビゲーションを終了します」	3079		0	1367			0	POLYPHONIC					360	360	0	0	0				true	317	ADX	32000	1	43752	true	
+「ナビを終了します」	3080		0	633			0	POLYPHONIC					360	360	0	0	0				true	318	ADX	32000	1	20271	true	
+「ヒットしました」	3081		0	946			0	POLYPHONIC					360	360	0	0	0				true	319	ADX	32000	1	30292	true	
+「該当しました」	3082		0	1287			0	POLYPHONIC					360	360	0	0	0				true	320	ADX	32000	1	41213	true	
+「該当しません」	3083		0	1580			0	POLYPHONIC					360	360	0	0	0				true	321	ADX	32000	1	50585	true	
+「候補が見つかりました」	3084		0	1061			0	POLYPHONIC					360	360	0	0	0				true	322	ADX	32000	1	33975	true	
+「候補が見つかりません」	3085		0	1401			0	POLYPHONIC					360	360	0	0	0				true	323	ADX	32000	1	44847	true	
+「目的地が消去されました」	3086		0	1913			0	POLYPHONIC					360	360	0	0	0				true	324	ADX	32000	1	61219	true	
+双葉の着信音	3087		0	2002			0	POLYPHONIC					360	360	0	0	0				true	344	ADX	32000	1	64064	true	
+イセカイ演出_アジトから	3088		0	14000			0	POLYPHONIC					360	360	0	0	0				true	304	ADX	32000	2	448000	true	
+選挙カー	3089		0	51712			0	RANDOM					360	360	0	0	0				true	348	ADX	32000	2	1527513	true	
+岩井の着信音	3090		0	2320			0	POLYPHONIC					360	360	0	0	0				true	331	ADX	32000	2	74255	true	
+川上の着信音	3091		0	2651			0	POLYPHONIC					360	360	0	0	0				true	332	ADX	32000	2	84862	true	
+ボスが消える音	3092		0	4004			0	POLYPHONIC					360	360	0	0	0				true	262	ADX	32000	2	128129	true	
+ピキーン	3093		0	1500			0	POLYPHONIC					360	360	0	0	0				true	285	ADX	32000	2	48000	true	
+占いカードめくり2枚（頭少し隙間アリ）_0	3094		0	1408			0	POLYPHONIC					360	360	0	0	0				true	357	ADX	32000	2	45083	true	
+竜司の着信音	3095		0	2320			0	POLYPHONIC					360	360	0	0	0				true	334	ADX	32000	2	74254	true	
+ドア開ける（オカマバー等）	3096		0	1201			0	POLYPHONIC					360	360	0	0	0				true	275	ADX	32000	2	38453	true	
+ドア閉じる（オカマバー等）	3097		0	704			0	POLYPHONIC					360	360	0	0	0				true	274	ADX	32000	2	22541	true	
+試験_正解	3098		0	2000			0	POLYPHONIC					360	360	0	0	0				true	271	ADX	32000	2	64000	true	
+試験_不正解	3099		0	595			0	POLYPHONIC					360	360	0	0	0				true	272	ADX	32000	1	19045	true	
+シャドウ回想_回想フラッシュ抜け_コープ解禁用	3100		0	2500			0	POLYPHONIC					360	360	0	0	0				true	288	ADX	32000	2	80000	true	
+食事_もんじゃ	3101		0	3977			0	POLYPHONIC					360	360	0	0	0				true	282	ADX	32000	2	127293	true	
+着信マナーモード	3102		0	1201			0	POLYPHONIC					360	360	0	0	0				true	336	ADX	32000	1	38438	true	
+ホワイトアウト_キラキラ	3103		0	6673			0	POLYPHONIC					360	360	0	0	0				true	361	ADX	32000	2	213547	true	
+回想フラッシュ入りクリスマス用	3104		0	2002			0	POLYPHONIC					360	360	0	0	0				true	287	ADX	32000	2	64064	true	
+絶叫マシン	3105		0	3977			0	POLYPHONIC					360	360	0	0	0				true	305	ADX	32000	2	127293	true	
+ステータスアップ（懸垂など）	3106		0	2154			0	POLYPHONIC					360	360	0	0	0				true	355	ADX	32000	2	68950	true	
+尋問ワイプ入り	3107		0	7000			0	POLYPHONIC					360	360	0	0	0				true	340	ADX	32000	2	224000	true	
+尋問ワイプ明け	3108		0	2469			0	POLYPHONIC					360	360	0	0	0				true	341	ADX	32000	2	79012	true	
+ベルベットプリズンのチャイム	3109		0	5000			0	POLYPHONIC					360	360	0	0	0				true	337	ADX	32000	2	160000	true	
+ノートPC開く	3110		0	433			0	POLYPHONIC					360	360	0	0	0				true	254	ADX	32000	1	13867	true	
+ノートPC閉じる	3111		0	233			0	POLYPHONIC					360	360	0	0	0				true	253	ADX	32000	1	7467	true	
+ベルベットルーム初進入時ワイプ	3112		0	4385			0	POLYPHONIC					360	360	0	0	0				true	359	ADX	32000	2	140329	true	
+三島の着信音	3113		0	3629			0	POLYPHONIC					360	360	0	0	0				true	346	ADX	32000	1	116151	true	
+大宅の着信音	3114		0	1988			0	POLYPHONIC					360	360	0	0	0				true	333	ADX	32000	2	63646	true	
+slide_maruki_palace	3115		0	3551			0	POLYPHONIC					360	360	50	4000	0				true	354	ADX	48000	2	170448	true	
+metal_body_fall	3116		0	1383			0	POLYPHONIC					360	360	50	4000	0				true	310	ADX	48000	1	66429	true	
+エレベーターのベル	4000		0	1000			0	POLYPHONIC					360	360	0	0	0				true	448	ADX	32000	1	32000	true	
+エレベーター開く	4001		0	2300			0	POLYPHONIC					360	360	0	0	0				true	490	ADX	32000	1	73600	true	
+エレベーター閉まる	4002		0	2033			0	POLYPHONIC					360	360	0	0	0				true	447	ADX	32000	1	65067	true	
+エレベーターのスイッチ	4003		0	425			0	POLYPHONIC					360	360	0	0	0				true	493	ADX	32000	1	13619	true	
+struggle	4004		0	1468			0	POLYPHONIC					360	360	0	0	0				true	455	ADX	32000	1	46981	true	
+open_car	4005		0	3336			0	POLYPHONIC					360	360	0	0	0				true	452	ADX	32000	1	106773	true	
+ride_car_1	4006		0	5138			0	POLYPHONIC					360	360	0	0	0				true	453	ADX	32000	1	164431	true	
+ride_car_2	4007		0	2936			0	POLYPHONIC					360	360	0	0	0				true	454	ADX	32000	1	93961	true	
+tickle	4008		0	867			0	POLYPHONIC					360	360	0	0	0				true	456	ADX	32000	1	22423	true	
+engine_start	4009		0	633			0	POLYPHONIC					360	360	0	0	0				true	451	ADX	32000	1	20287	true	
+car_loop_a	4010		0	Loop			0	POLYPHONIC					360	360	0	0	0				true	450	ADX	32000	1	41459	true	
+door_madarame_c	4011		0	1134			0	POLYPHONIC					360	360	0	0	0				true	458	ADX	32000	1	36303	true	
+door_madarame_o	4012		0	767			0	POLYPHONIC					360	360	0	0	0				true	459	ADX	32000	1	24558	true	
+foot_madarame	4013		0	333			0	RANDOM					360	360	0	0	0				true	460	ADX	32000	1	10667	true	
+swish	4014		0	667			0	POLYPHONIC					360	360	0	0	0				true	475	ADX	32000	1	21355	true	
+barrier	4015		0	1368			0	POLYPHONIC					360	360	0	0	0				true	472	ADX	32000	1	43777	true	
+morgana	4016		0	200			0	POLYPHONIC					360	360	0	0	0				true	474	ADX	32000	1	6407	true	
+whoosh_dark	4017		0	4004			0	POLYPHONIC					360	360	0	0	0				true	476	ADX	32000	2	128128	true	
+bubble	4018		0	Loop			0	POLYPHONIC					360	360	0	0	0				true	473	ADX	32000	1	69249	true	
+down_madarame	4019		0	1267			0	POLYPHONIC					360	360	0	0	0				true	478	ADX	32000	1	40574	true	
+grab	4020		0	1401			0	POLYPHONIC					360	360	0	0	0				true	479	ADX	32000	1	44845	true	
+grab_2	4021		0	667			0	POLYPHONIC					360	360	0	0	0				true	480	ADX	32000	1	21355	true	
+yusuke_walk_1	4022		0	5974			0	POLYPHONIC					360	360	0	0	0				true	481	ADX	32000	1	191169	true	
+yusuke_walk_2	4023		0	1900			0	POLYPHONIC					360	360	0	0	0				true	482	ADX	32000	1	60821	true	
+yusuke_walk_3	4024		0	3168			0	POLYPHONIC					360	360	0	0	0				true	483	ADX	32000	1	101395	true	
+light_switch	4025		0	183			0	POLYPHONIC					360	360	0	0	0				true	463	ADX	32000	1	5877	true	
+light_up	4026		0	1266			0	POLYPHONIC					360	360	0	0	0				true	464	ADX	32000	1	40533	true	
+cloth	4027		0	2202			0	POLYPHONIC					360	360	0	0	0				true	462	ADX	32000	1	70471	true	
+yusuke_land	4028		0	2035			0	POLYPHONIC					360	360	0	0	0				true	470	ADX	32000	1	65131	true	
+morgana_hit	4029		0	2034			0	POLYPHONIC					360	360	0	0	0				true	466	ADX	32000	1	65090	true	
+morgana_land	4030		0	600			0	POLYPHONIC					360	360	0	0	0				true	467	ADX	32000	1	19219	true	
+ann_punch	4031		0	333			0	POLYPHONIC					360	360	0	0	0				true	465	ADX	32000	1	10677	true	
+yusuke_down	4032		0	934			0	POLYPHONIC					360	360	0	0	0				true	468	ADX	32000	1	29897	true	
+yusuke_down_1	4033		0	2268			0	POLYPHONIC					360	360	0	0	0				true	469	ADX	32000	1	72605	true	
+enemy_attacked	4034		0	3003			0	POLYPHONIC					360	360	0	0	0				true	471	ADX	32000	1	96096	true	
+自室の机片付け	4035		0	3003			0	POLYPHONIC					360	360	0	0	0				true	446	ADX	32000	1	96096	true	
+拍手_英語	4036		0	1101			0	POLYPHONIC					360	360	0	0	0				true	485	ADX	32000	1	35235	true	
+拍手_歴史	4037		0	2292			0	POLYPHONIC					360	360	0	0	0				true	486	ADX	32000	1	73354	true	
+拍手_数学	4038		0	1267			0	POLYPHONIC					360	360	0	0	0				true	488	ADX	32000	1	40574	true	
+拍手_公民	4039		0	2002			0	POLYPHONIC					360	360	0	0	0				true	445	ADX	32000	1	64064	true	
+拍手_理科	4040		0	1234			0	POLYPHONIC					360	360	0	0	0				true	491	ADX	32000	1	39506	true	
+拍手_川上	4041		0	467			0	POLYPHONIC					360	360	0	0	0				true	487	ADX	32000	2	14949	true	
+カモシダ城_衛兵の足音	4042		0	4666			0	POLYPHONIC					360	360	0	0	0				true	449	ADX	32000	1	149333	true	
+冒頭カジノ_バトル明け	4043		0	3895			0	POLYPHONIC					360	360	0	0	0				true	444	ADX	32000	2	124658	true	
+奥村編_モルガナカー転倒音	4044		0	4466			0	POLYPHONIC					360	360	0	0	0				true	489	ADX	32000	2	142933	true	
+パトカーのサイレン音	4045		0	Loop			0	POLYPHONIC					360	360	0	0	0				true	492	ADX	32000	1	302135	true	
+拍手_丸喜	4046		0	3000			0	POLYPHONIC					360	360	0	0	0				true	484	ADX	32000	1	32000	true	
+スフィンクスの鳴き声	5000		0	2166			0	POLYPHONIC					360	360	0	0	0				true	422	ADX	32000	1	69333	true	
+パズル_カーソル	5001		0	133			0	POLYPHONIC					360	360	0	0	0				true	424	ADX	32000	1	4267	true	
+パズル_掴む	5002		0	57			0	POLYPHONIC					360	360	0	0	0				true	427	ADX	32000	1	1847	true	
+パズル_離す	5003		0	38			0	POLYPHONIC					360	360	0	0	0				true	428	ADX	32000	1	1247	true	
+パズル_回転	5004		0	50			0	POLYPHONIC					360	360	0	0	0				true	426	ADX	32000	1	1607	true	
+パズル_入替	5005		0	192			0	POLYPHONIC					360	360	0	0	0				true	425	ADX	32000	1	6166	true	
+パズル完成	5006		0	2000			0	POLYPHONIC					360	360	0	0	0				true	431	ADX	32000	1	64000	true	
+パズルが表示	5007		0	766			0	POLYPHONIC					360	360	0	0	0				true	429	ADX	32000	1	24533	true	
+パズルが非表示	5008		0	1200			0	POLYPHONIC					360	360	0	0	0				true	430	ADX	32000	1	38400	true	
+アイテムを取る	5009		0	551			0	POLYPHONIC					360	360	0	0	0				true	421	ADX	32000	1	17647	true	
+宝玉を置く	5010		0	2000			0	POLYPHONIC					360	360	0	0	0				true	435	ADX	32000	1	64000	true	
+地鳴り_2s	5011		0	2166			0	POLYPHONIC					360	360	0	0	0				true	432	ADX	32000	2	69333	true	
+地鳴り_ループ	5012		0	Loop			0	POLYPHONIC					360	360	0	0	0				true	433	ADX	32000	1	67461	true	
+地鳴り低音_ループ	5013		0	Loop			0	POLYPHONIC					360	360	0	0	0				true	434	ADX	32000	1	196210	true	
+改札タッチ音	5014		0	100			0	POLYPHONIC					360	360	0	0	0				true	376	ADX	32000	1	3200	true	
+自販機ゴトン	5015		0	1033	1		0	POLYPHONIC					360	360	0	0	0				true	417	ADX	32000	1	33067	true	
+自販機_レーション	5016		0	833			0	POLYPHONIC					360	360	0	0	0				true	418	ADX	32000	1	26667	true	
+スフィンクスの鳴き声_2_HiCut	5017		0	2027			0	POLYPHONIC					360	360	0	0	0				true	423	ADX	32000	1	64866	true	
+ルブランのドア開く	5018		0	1501			0	POLYPHONIC					360	360	0	0	0				true	371	ADX	32000	1	48049	true	
+ルブランのドア閉まる	5019		0	1468			0	POLYPHONIC					360	360	0	0	0				true	370	ADX	32000	1	46980	true	
+ベッドに座る	5020		0	1100			0	POLYPHONIC					360	360	0	0	0				true	407	ADX	32000	1	13881	true	
+夏布団	5021		0	1001			0	POLYPHONIC					360	360	0	0	0				true	374	ADX	32000	1	32032	true	
+冬布団	5022		0	1001			0	POLYPHONIC					360	360	0	0	0				true	375	ADX	32000	1	32032	true	
+黒板を消す	5023		0	666			0	POLYPHONIC					360	360	0	0	0				true	377	ADX	32000	1	21333	true	
+m156006_elevator_start	5024		0	1333			0	POLYPHONIC					360	360	0	0	0				true	440	ADX	32000	1	42667	true	
+m156006_elevator_stop	5025		0	1333			0	POLYPHONIC					360	360	0	0	0				true	441	ADX	32000	1	42667	true	
+m056101_elevator_start	5026		0	1583			0	POLYPHONIC					360	360	0	0	0				true	438	ADX	32000	1	50667	true	
+m056101_elevator_stop	5027		0	1333			0	POLYPHONIC					360	360	0	0	0				true	439	ADX	32000	1	42667	true	
+whoosh_spacemove	5028		0	2500			0	POLYPHONIC					360	360	0	0	0				true	442	ADX	32000	2	80000	true	
+156130_active	5029		0	833			0	POLYPHONIC					360	360	0	0	0				true	436	ADX	32000	2	26667	true	
+156130_inactive	5030		0	1000			0	POLYPHONIC					360	360	0	0	0				true	437	ADX	32000	2	32000	true	
+カプセル自販機	5031		0	2737			0	POLYPHONIC					360	360	0	0	0				true	378	ADX	32000	1	87612	true	
+屋上庭園の収穫音	5032		0	2651			0	POLYPHONIC					360	360	0	0	0				true	400	ADX	32000	1	84862	true	
+UFOキャッチャー1_2	5033		0	4909			0	POLYPHONIC					360	360	0	0	0				true	396	ADX	32000	2	157091	true	
+UFOキャッチャー3	5034		0	4636			0	POLYPHONIC					360	360	0	0	0				true	397	ADX	32000	2	148364	true	
+UFOキャッチャー景品ゲット	5035		0	1927			0	POLYPHONIC					360	360	0	0	0				true	395	ADX	32000	2	61664	true	
+マダラメパレスの暗証番号	5036		0	1447			0	POLYPHONIC					360	360	0	0	0				true	420	ADX	32000	1	46310	true	
+鉄格子にドンッする	5037		0	1289			0	POLYPHONIC					360	360	0	0	0				true	419	ADX	32000	1	31790	true	
+小クエイク_30F	5038		0	1363			0	POLYPHONIC					360	360	0	0	0				true	443	ADX	32000	1	43637	true	
+校内放送チャイム_UP	5039		0	5000			0	POLYPHONIC					360	360	0	0	0				true	382	ADX	32000	1	160000	true	
+校内放送チャイム_DOWN	5040		0	5000			0	POLYPHONIC					360	360	0	0	0				true	381	ADX	32000	1	160000	true	
+スクラッチクジをこする	5041		0	966			0	POLYPHONIC					360	360	0	0	0				true	403	ADX	32000	1	30933	true	
+ジューサー	5042		0	1118			0	POLYPHONIC					360	360	0	0	0				true	389	ADX	32000	1	35797	true	
+スイッチ	5043		0	533			0	POLYPHONIC					360	360	0	0	0				true	412	ADX	32000	2	17084	true	
+UFOキャッチャーのボタン	5044		0	133			0	POLYPHONIC					360	360	0	0	0				true	384	ADX	32000	1	4267	true	
+オタカラの芽になる音	5045		0	5000			0	POLYPHONIC					360	360	0	0	0				true	401	ADX	32000	1	160000	true	
+wire_pulse	5050		0	Loop	1		0	POLYPHONIC					360	360	100	1000	0	1			true	241	ADX	48000	1	94953	false	
+wire_point_flash	5051		0	949			0	POLYPHONIC					360	360	200	1500	0				true	240	ADX	48000	1	45567	false	
+wire_shot	5052		0	1141	1		0	POLYPHONIC					360	360	200	1500	0	0			true	242	ADX	48000	1	54780	false	
+wire_hit	5053		0	791	1		0	POLYPHONIC					360	360	200	1500	0	0			true	239	ADX	48000	1	38014	false	
+wire_dramatic	5054		0	4000			0	POLYPHONIC					360	360	0	0	0				true	365	ADX	48000	2	192000	true	
+wire_dramatic_0403	5055		0	6105			0	POLYPHONIC					360	360	50	4000	0				true	366	ADX	48000	2	293040	true	
+wire_dramatic_0901	5056		0	8554			0	POLYPHONIC					360	360	50	4000	0				true	368	ADX	48000	2	410592	true	
+wire_dramatic_0902	5057		0	8897			0	POLYPHONIC					360	360	50	4000	0				true	369	ADX	48000	2	427056	true	
+wire_dramatic_0501	5058		0	4649			0	POLYPHONIC					360	360	50	4000	0				true	367	ADX	48000	2	223184	true	
+mementos_car_sink	5060		0	1818			0	POLYPHONIC					360	360	50	4000	0	1			true	229	ADX	48000	1	87300	false	
+mementos_car_land	5061		0	1718			0	POLYPHONIC					360	360	50	4000	0	1			true	228	ADX	48000	1	82465	false	
+mementos_jose_enter_a	5062		0	3586			0	POLYPHONIC					360	360	50	4000	0				true	250	ADX	48000	2	172128	true	
+mementos_jose_enter_b	5063		0	4503			0	POLYPHONIC					360	360	50	4000	0				true	251	ADX	48000	2	216144	true	
+mementos_get_stamp	5064		0	2553			0	POLYPHONIC					360	360	50	4000	0				true	249	ADX	48000	2	122545	true	
+mementos_get_narcissus	5065		0	1634			0	POLYPHONIC					360	360	50	4000	0				true	231	ADX	48000	1	78446	false	
+mementos_search_short	5066		0	1385			0	POLYPHONIC					360	360	50	4000	0				true	252	ADX	48000	2	66480	true	
+mementos_pad_cat	5067		0	1820	1		0	SEQUENTIAL					360	360	50	4000	0				true	232	ADX	24000	1	20564	false	
+mementos_pad_cat_drag	5068		0	Loop	1		0	POLYPHONIC					360	360	50	4000	0				true	238	ADX	48000	1	225242	false	
+mementos_change_status	5069		0	1207			0	POLYPHONIC					360	360	50	4000	0				true	230	ADX	48000	2	57937	false	
+ベルベットルーム出現音	5500		0	1500			0	POLYPHONIC					360	360	0	0	0				true	383	ADX	22050	2	33075	true	
+壁紙を破るような音	5501		0	1101			0	POLYPHONIC					360	360	0	0	0				true	413	ADX	32000	1	35235	true	
+ハンマーや工具でものを加工するような音	5502		0	Loop			0	POLYPHONIC					360	360	0	0	0				true	388	ADX	32000	1	289451	true	
+初めてのネズミ檻	5503		0	3403			0	POLYPHONIC					360	360	0	0	0				true	379	ADX	32000	2	108909	true	
+檻に向かって走る	5504		0	367			0	POLYPHONIC					360	360	0	0	0				true	402	ADX	32000	2	11745	true	
+チーズを食べる	5505		0	567			0	POLYPHONIC					360	360	0	0	0				true	380	ADX	32000	2	18152	true	
+檻が閉まる	5506		0	855			0	POLYPHONIC					360	360	0	0	0				true	385	ADX	32000	2	27370	true	
+蝶を追いかける時の飛行音	5507		0	3303			0	POLYPHONIC					360	360	0	0	0				true	373	ADX	32000	2	105705	true	
+ホシが光る音_1	5508		0	6257			0	POLYPHONIC					360	360	0	0	0				true	409	ADX	32000	2	200245	true	
+ホシが光る音_2	5509		0	6006			0	POLYPHONIC					360	360	0	0	0				true	410	ADX	32000	2	192192	true	
+ホシが光る音_一連	5510		0	7692			0	POLYPHONIC					360	360	0	0	0				true	411	ADX	32000	2	246158	true	
+velvet_crash	5511		0	1378	1		0	NO_REPEAT					360	360	50	4000	0				true	414	ADX	48000	2	66145	true	
+犬型エネミー遠吠え	5512		0	2500			0	POLYPHONIC					360	360	0	0	0				true	386	ADX	32000	1	80000	true	
+額縁を動かす	5513		0	1233			0	POLYPHONIC					360	360	0	0	0				true	398	ADX	32000	1	39467	true	
+赤外線を切る	5514		0	3203			0	POLYPHONIC					360	360	0	0	0				true	387	ADX	32000	1	102503	true	
+絵に触る	5515		0	1735			0	POLYPHONIC					360	360	0	0	0				true	399	ADX	32000	2	55522	true	
+m151_012_出発	5516		0	3083			0	POLYPHONIC					360	360	0	0	0				true	392	ADX	32000	1	98667	true	
+m151_012_到着	5517		0	4250			0	POLYPHONIC					360	360	0	0	0				true	394	ADX	32000	1	136000	true	
+m151_013_出発	5518		0	3083			0	POLYPHONIC					360	360	0	0	0				true	391	ADX	32000	1	98667	true	
+m151_013_到着	5519		0	4250			0	POLYPHONIC					360	360	0	0	0				true	393	ADX	32000	1	136000	true	
+m153_100_ワイヤー	5520		0	4501			0	POLYPHONIC					360	360	0	0	0				true	372	ADX	32000	1	128038	true	
+マルキパレス階段出現	5521		0	4006			0	POLYPHONIC					360	360	0	0	0				true	405	ADX	32000	2	128201	true	
+双葉の部屋をノック	5522		0	1001			0	POLYPHONIC					360	360	0	0	0				true	390	ADX	32000	2	32032	true	
+カジノのリール音	5523		0	Loop			0	POLYPHONIC					360	360	0	0	0				true	404	ADX	32000	1	64000	true	
+社畜ロボが倒れる音	5524		0	5109			0	POLYPHONIC					360	360	0	0	0				true	406	ADX	32000	1	163493	true	
+カジノのコインが流れる音	5525		0	Loop			0	POLYPHONIC					360	360	0	0	0				true	408	ADX	44100	1	215153	true	
+0781	6781		0	12588	1		0	RANDOM					360	360	0	0	0				true	199	ADX	48000	2	604225	true	
+0782	6782		0	11211	1		0	RANDOM					360	360	0	0	0				true	202	ADX	48000	2	538138	true	
+0783	6783		0	17940	1		0	RANDOM					360	360	0	0	0				true	205	ADX	48000	2	861120	true	
+0784	6784		0	19336	1		0	RANDOM					360	360	0	0	0				true	208	ADX	48000	2	928150	true	
+0785	6785		0	16018	1		0	RANDOM					360	360	0	0	0				true	211	ADX	48000	2	768898	true	
+0786	6786		0	16030	1		0	RANDOM					360	360	0	0	0				true	214	ADX	48000	2	769468	true	
+0787	6787		0	20889	1		0	RANDOM					360	360	0	0	0				true	217	ADX	48000	2	1002694	true	
+0789	6789		0	20006	1		0	RANDOM					360	360	0	0	0				true	220	ADX	48000	2	960288	true	
+0791	6791		0	9625	1		0	RANDOM					360	360	0	0	0				true	223	ADX	48000	2	447568	true	
+0792	6792		0	11177	1		0	RANDOM					360	360	0	0	0				true	226	ADX	48000	2	536536	true	
+0793	6793		0	18811	1		0	RANDOM					360	360	0	0	0				true	229	ADX	48000	2	902943	true	
+0794	6794		0	17761	1		0	RANDOM					360	360	0	0	0				true	232	ADX	48000	2	852558	true	
+0795	6795		0	16806	1		0	RANDOM					360	360	0	0	0				true	235	ADX	48000	2	806723	true	
+0796	6796		0	16554	1		0	RANDOM					360	360	0	0	0				true	238	ADX	48000	2	794628	true	
+0797	6797		0	18440	1		0	RANDOM					360	360	0	0	0				true	241	ADX	48000	2	885121	true	
+0799	6799		0	17847	1		0	RANDOM					360	360	0	0	0				true	244	ADX	48000	2	856684	true	
+ready_ui	6800		0	3404	1		0	POLYPHONIC					360	360	0	0	0				true	247	ADX	48000	2	163411	true	
+start_ui	6801		0	3250	1		0	POLYPHONIC					360	360	0	0	0				true	248	ADX	44100	2	143325	true	

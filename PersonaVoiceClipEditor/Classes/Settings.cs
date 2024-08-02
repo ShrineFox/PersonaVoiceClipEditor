@@ -15,12 +15,6 @@ namespace PersonaVCE
     {
         public static Settings settings = new Settings();
 
-        public class RenameTxt
-        {
-            public string FileName { get; set; } = "";
-            public string Transcription { get; set; } = "";
-        }
-
         public class Settings
         {
             public string Preset { get; set; } = "None";
@@ -33,16 +27,13 @@ namespace PersonaVCE
             public bool LoopAll { get; set; } = false;
             public decimal LoopStart { get; set; } = 0;
             public decimal LoopEnd { get; set; } = 0;
-
-            public string TxtFile { get; set; } = "";
-            public List<RenameTxt> RenameTxtList { get; set; } = new List<RenameTxt>();
+            public string InputTxtPath { get; set; } = "";
             public string RenameDir { get; set; } = "";
             public string RenameOutDir { get; set; } = "";
             public string TxtSuffix { get; set; } = "";
             public bool AppendFilename { get; set; } = false;
             public decimal LeftPadding { get; set; } = 0;
             public decimal StartIndex { get; set; } = 0;
-
             public string InputArchive { get; set; } = "";
             public string ArchiveDir { get; set; } = "";
             public string OutputArchive { get; set; } = "";
@@ -62,7 +53,6 @@ namespace PersonaVCE
                 outPath += ".json";
 
             // Save to .json file
-            SaveDGVCellsToSettings();
             string jsonText = JsonConvert.SerializeObject(settings, Newtonsoft.Json.Formatting.Indented);
             File.WriteAllText(outPath, jsonText);
             MessageBox.Show($"Saved project file to:\n{outPath}", "Project Saved");
@@ -92,6 +82,7 @@ namespace PersonaVCE
             num_LoopStart.Value = settings.LoopStart;
             num_LoopEnd.Value = settings.LoopEnd;
 
+            txt_InputTxtFile.Text = settings.InputTxtPath;
             txt_RenameSourcePath.Text = settings.RenameDir;
             txt_RenameOutputPath.Text = settings.RenameOutDir;
             txt_RenameSuffix.Text = settings.TxtSuffix;
@@ -99,35 +90,7 @@ namespace PersonaVCE
             num_LeftPadding.Value = settings.LeftPadding;
             num_StartID.Value = settings.StartIndex;
 
-            LoadDGVCellsFromSettings();
-
             Output.VerboseLog("[INFO] Done applying settings to form.");
-        }
-
-        private void SaveDGVCellsToSettings()
-        {
-            List<RenameTxt> renameTxtList = new List<RenameTxt>();
-            foreach (DataGridViewRow row in dgv_RenameTxt.Rows)
-            {
-                if (row.Cells[0].Value == null)
-                    break;
-
-                if (row.Cells[1].Value != null)
-                    renameTxtList.Add(new RenameTxt() { FileName = row.Cells[0].Value.ToString(), Transcription = row.Cells[1].Value.ToString() });
-                else
-                    renameTxtList.Add(new RenameTxt() { FileName = row.Cells[0].Value.ToString() });
-            }
-            settings.RenameTxtList = renameTxtList;
-        }
-
-        private void LoadDGVCellsFromSettings()
-        {
-            dgv_RenameTxt.Rows.Clear();
-
-            for (int i = 0; i < settings.RenameTxtList.Count; i++)
-            {
-                dgv_RenameTxt.Rows.Insert(i, settings.RenameTxtList[i].FileName, settings.RenameTxtList[i].Transcription);
-            }
         }
     }
 }

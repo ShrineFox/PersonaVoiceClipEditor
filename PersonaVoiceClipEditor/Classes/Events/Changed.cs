@@ -62,6 +62,12 @@ namespace PersonaVCE
             settings.RenameOutDir = txt_RenameOutputPath.Text;
         }
 
+        private void InputTxtFilePath_Changed(object sender, EventArgs e)
+        {
+            settings.InputTxtPath = txt_InputTxtFile.Text;
+            AddTxtLinesToDGV();
+        }
+
         private void LeftPaddingValue_Changed(object sender, EventArgs e)
         {
             settings.LeftPadding = num_LeftPadding.Value;
@@ -177,6 +183,28 @@ namespace PersonaVCE
             {
                 num_LoopStart.Enabled = false;
                 num_LoopEnd.Enabled = false;
+            }
+        }
+
+        private void RyoOutput_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox_Ryo.SelectedItem.ToString() != "Don't Output For Ryo")
+            {
+                txt_RyoFolderSuffix.Enabled = true;
+                chk_Streaming.Enabled = true;
+                chk_RyoCueNames.Enabled = true;
+                num_RyoCategory.Enabled = true;
+                num_RyoVolume.Enabled = true;
+                chk_RyoPlayerVol.Enabled = true;
+            }
+            else
+            {
+                txt_RyoFolderSuffix.Enabled = false;
+                chk_Streaming.Enabled = false;
+                chk_RyoCueNames.Enabled = false;
+                num_RyoCategory.Enabled = false;
+                num_RyoVolume.Enabled = false;
+                chk_RyoPlayerVol.Enabled = false;
             }
         }
     }

@@ -88,6 +88,20 @@ namespace PersonaVCE
             System.Diagnostics.Process.Start("https://github.com/ShrineFox/PersonaVoiceClipEditor");
         }
 
+        private void InputTxtFile_Click(object sender, EventArgs e)
+        {
+            string[] formats = new string[] { "Text File (.txt)", "Tab Separated Values File (.tsv)" };
+            var files = WinFormsDialogs.SelectFile("Choose Txt With Input Filenames In Order...", false, formats);
+            if (files.Count > 0)
+            {
+                txt_InputTxtFile.Text = files[0];
+            }
+        }
+
+        private void RefreshDGV_Click(object sender, EventArgs e)
+        {
+            AddTxtLinesToDGV();
+        }
 
         private void ToggleTheme_Click(object sender, EventArgs e)
         {
