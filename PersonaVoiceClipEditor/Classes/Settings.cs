@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -38,6 +39,15 @@ namespace PersonaVCE
             public string ArchiveDir { get; set; } = "";
             public string OutputArchive { get; set; } = "";
             public string ArchiveFormat { get; set; } = ".afs";
+            public List<string> DGVCells { get; set; } = new List<string>();
+            public string RyoOutputMode { get; set; } = "Don't Output For Ryo";
+            public string RyoSuffix { get; set; } = "";
+            public float RyoVolume { get; set; } = 0.4f;
+            public int RyoCategory { get; set; } = -1;
+            public bool RyoStreaming { get; set; } = true;
+            public bool RyoPlayerVolume { get; set; } = false;
+            public bool RyoCueNames { get; set; } = true;
+
         }
 
         private void SaveSettings()
@@ -89,6 +99,18 @@ namespace PersonaVCE
             chk_AppendOGName.Checked = settings.AppendFilename;
             num_LeftPadding.Value = settings.LeftPadding;
             num_StartID.Value = settings.StartIndex;
+
+            if (comboBox_Ryo.Items.Contains(settings.RyoOutputMode))
+                comboBox_Ryo.SelectedIndex = comboBox_Ryo.Items.IndexOf(settings.RyoOutputMode);
+            txt_RyoFolderSuffix.Text = settings.RyoSuffix;
+            num_RyoVolume.Value = Convert.ToDecimal(settings.RyoVolume);
+            num_RyoCategory.Value = settings.RyoCategory;
+            chk_Streaming.Checked = settings.RyoStreaming;
+            chk_RyoPlayerVol.Checked = settings.RyoPlayerVolume;
+            chk_RyoCueNames.Checked = settings.RyoCueNames;
+
+            foreach (var line in settings.DGVCells)
+                dgv_RenameTxt.Rows.Add(line);
 
             Output.VerboseLog("[INFO] Done applying settings to form.");
         }

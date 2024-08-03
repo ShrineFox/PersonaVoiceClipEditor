@@ -186,9 +186,41 @@ namespace PersonaVCE
             }
         }
 
+        private void RyoStreaming_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.RyoStreaming = chk_Streaming.Checked;
+        }
+
+        private void RyoPlayerVolume_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.RyoPlayerVolume = chk_RyoPlayerVol.Checked;
+        }
+
+        private void RyoVolume_ValueChanged(object sender, EventArgs e)
+        {
+            settings.RyoVolume = Convert.ToInt32(num_RyoVolume.Value);
+        }
+
+        private void RyoCategory_ValueChanged(object sender, EventArgs e)
+        {
+            settings.RyoCategory = Convert.ToInt32(num_RyoCategory.Value);
+        }
+
+        private void RyoFolderSuffix_TextChanged(object sender, EventArgs e)
+        {
+            settings.RyoSuffix = txt_RyoFolderSuffix.Text;
+        }
+
+        private void RyoCueNames_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.RyoCueNames = chk_RyoCueNames.Checked;
+        }
+
         private void RyoOutput_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox_Ryo.SelectedItem.ToString() != "Don't Output For Ryo")
+            settings.RyoOutputMode = comboBox_Ryo.SelectedItem.ToString();
+            
+            if (settings.RyoOutputMode != "Don't Output For Ryo")
             {
                 txt_RyoFolderSuffix.Enabled = true;
                 chk_Streaming.Enabled = true;

@@ -155,12 +155,14 @@ namespace PersonaVCE
             if (!File.Exists(settings.InputTxtPath))
                 return;
 
+            settings.DGVCells = new List<string>();
             var lines = File.ReadAllLines(settings.InputTxtPath);
             dgv_RenameTxt.Rows.Clear();
             foreach (var line in lines)
             {
                 string[] splitLine = line.Split('\t');
                 dgv_RenameTxt.Rows.Add(splitLine[0]);
+                settings.DGVCells.Add(splitLine[0]);
             }
         }
 
@@ -178,25 +180,22 @@ namespace PersonaVCE
                     int i = Convert.ToInt32(num_StartID.Value);
 
                     var files = Directory.GetFiles(settings.RenameDir);
-                    foreach (DataGridViewRow row in dgv_RenameTxt.Rows)
+                    foreach (var line in settings.DGVCells)
                     {
-                        if (row.Cells[0].Value == null)
-                            break;
-
-                        string fileName = Path.GetFileNameWithoutExtension(row.Cells[0].Value.ToString().Trim());
+                        string fileName = Path.GetFileNameWithoutExtension(line.Trim());
 
                         // If file found, copy to output folder with new name
                         if (files.Any(x => Path.GetFileNameWithoutExtension(x).Equals(fileName)))
                         {
                             var file = files.First(x => Path.GetFileNameWithoutExtension(x).Equals(fileName));
                             var ext = Path.GetExtension(file);
-                            string outPath = Path.Combine(settings.RenameOutDir, $"{i.ToString().PadLeft(Convert.ToInt32(num_LeftPadding.Value), '0')}{txt_RenameSuffix.Text}");
+                            string outPath = Path.Combine(settings.RenameOutDir, $"{i.ToString().PadLeft(Convert.ToInt32(settings.LeftPadding), '0')}{settings.TxtSuffix}");
 
-                            if (chk_AppendOGName.Checked)
+                            if (settings.AppendFilename)
                                 outPath += $"_{Path.GetFileNameWithoutExtension(file)}";
                             outPath += Path.GetExtension(file);
 
-                            if (comboBox_Ryo.SelectedItem.ToString() != "Don't Output For Ryo")
+                            if (settings.RyoOutputMode != "Don't Output For Ryo")
                             {
                                 OutputForRyo(i, file, outPath);
                             }
@@ -206,7 +205,6 @@ namespace PersonaVCE
                                 Directory.CreateDirectory(Path.GetDirectoryName(outPath));
                                 File.Copy(file, outPath, true);
                                 Output.VerboseLog($"[INFO] Copied \"{file}\" to:\n\t\"{outPath}\"", ConsoleColor.Green);
-
                             }
                         }
                         else
@@ -236,13 +234,13 @@ namespace PersonaVCE
             List<Adx> AdxFiles = GetADXInfoFromTSV();
             foreach (var file in AdxFiles)
             {
-                foreach (var adx in AdxFiles.Where(x => x.WaveID == waveID && x.Streaming == chk_Streaming.Checked))
+                foreach (var adx in AdxFiles.Where(x => x.WaveID == waveID && x.Streaming == settings.RyoStreaming))
                 {
                     string outFolder = Path.Combine(Path.GetDirectoryName(outputFile), adx.CueName);
-                    if (!string.IsNullOrEmpty(txt_RyoFolderSuffix.Text))
-                        outFolder += $"_{txt_RyoFolderSuffix.Text}";
+                    if (!string.IsNullOrEmpty(settings.RyoSuffix))
+                        outFolder += $"_{settings.RyoSuffix}";
 
-                    if (!chk_RyoCueNames.Checked)
+                    if (!settings.RyoCueNames)
                         outFolder = Path.Combine(Path.GetDirectoryName(outputFile), adx.CueID.ToString() + ".cue");
 
                     Directory.CreateDirectory(outFolder);
@@ -251,11 +249,12 @@ namespace PersonaVCE
                     File.Copy(inputFile, outFile, true);
                     // Create config file for .adx
                     string configTxt = $"player_id: -1\n" +
-                        $"volume: {num_RyoVolume.Value}\n" +
-                        $"category_ids: [{num_RyoCategory.Value}]";
-                    if (chk_RyoCueNames.Checked)
+                        $"volume: {settings.RyoVolume}";
+                    if (settings.RyoCategory >= 0)
+                        configTxt += $"\ncategory_ids: [{settings.RyoCategory}]";
+                    if (settings.RyoCueNames)
                         configTxt += $"\ncue_name: '{adx.CueID}'";
-                    if (chk_RyoPlayerVol.Checked)
+                    if (settings.RyoPlayerVolume)
                         configTxt += $"\nuse_player_volume: true";
                     string outFileConfigPath = Path.Combine(outFolder, Path.GetFileNameWithoutExtension(outFile) + ".yaml");
                     File.WriteAllText(outFileConfigPath, configTxt);
@@ -269,7 +268,7 @@ namespace PersonaVCE
         {
             // Get ADX data from .tsv file
             List<Adx> AdxFiles = new List<Adx>();
-            var lines = File.ReadAllLines($"./Dependencies/RyoText/{comboBox_Ryo.SelectedText}.tsv");
+            var lines = File.ReadAllLines($"./Dependencies/RyoText/{settings.RyoOutputMode}.tsv");
             foreach (var line in lines)
             {
                 var parts = line.Split('\t');

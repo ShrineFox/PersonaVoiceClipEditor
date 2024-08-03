@@ -81,7 +81,6 @@ namespace PersonaVCE
             this.btn_RefreshDGV = new System.Windows.Forms.Button();
             this.dgv_RenameTxt = new System.Windows.Forms.DataGridView();
             this.Filename = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Transcription = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlp_RenamingSettings = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox_Ryo = new System.Windows.Forms.GroupBox();
             this.tlp_Ryo = new System.Windows.Forms.TableLayoutPanel();
@@ -757,8 +756,7 @@ namespace PersonaVCE
             this.dgv_RenameTxt.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgv_RenameTxt.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_RenameTxt.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Filename,
-            this.Transcription});
+            this.Filename});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
@@ -768,6 +766,7 @@ namespace PersonaVCE
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgv_RenameTxt.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgv_RenameTxt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_RenameTxt.Enabled = false;
             this.dgv_RenameTxt.Location = new System.Drawing.Point(3, 22);
             this.dgv_RenameTxt.Name = "dgv_RenameTxt";
             this.dgv_RenameTxt.RowHeadersWidth = 51;
@@ -780,12 +779,6 @@ namespace PersonaVCE
             this.Filename.HeaderText = "Input Filename";
             this.Filename.MinimumWidth = 6;
             this.Filename.Name = "Filename";
-            // 
-            // Transcription
-            // 
-            this.Transcription.HeaderText = "";
-            this.Transcription.MinimumWidth = 6;
-            this.Transcription.Name = "Transcription";
             // 
             // tlp_RenamingSettings
             // 
@@ -858,6 +851,7 @@ namespace PersonaVCE
             this.chk_RyoPlayerVol.TabIndex = 8;
             this.chk_RyoPlayerVol.Text = "Player Volume";
             this.chk_RyoPlayerVol.UseVisualStyleBackColor = true;
+            this.chk_RyoPlayerVol.CheckedChanged += new System.EventHandler(this.RyoPlayerVolume_CheckedChanged);
             // 
             // chk_RyoCueNames
             // 
@@ -873,6 +867,7 @@ namespace PersonaVCE
             this.chk_RyoCueNames.TabIndex = 7;
             this.chk_RyoCueNames.Text = "Cue Names";
             this.chk_RyoCueNames.UseVisualStyleBackColor = true;
+            this.chk_RyoCueNames.CheckedChanged += new System.EventHandler(this.RyoCueNames_CheckedChanged);
             // 
             // groupBox1
             // 
@@ -894,6 +889,7 @@ namespace PersonaVCE
             this.txt_RyoFolderSuffix.Name = "txt_RyoFolderSuffix";
             this.txt_RyoFolderSuffix.Size = new System.Drawing.Size(125, 26);
             this.txt_RyoFolderSuffix.TabIndex = 5;
+            this.txt_RyoFolderSuffix.TextChanged += new System.EventHandler(this.RyoFolderSuffix_TextChanged);
             // 
             // groupBox_RyoCategory
             // 
@@ -929,6 +925,7 @@ namespace PersonaVCE
             0,
             0,
             -2147483648});
+            this.num_RyoCategory.ValueChanged += new System.EventHandler(this.RyoCategory_ValueChanged);
             // 
             // comboBox_Ryo
             // 
@@ -936,7 +933,7 @@ namespace PersonaVCE
             this.tlp_Ryo.SetColumnSpan(this.comboBox_Ryo, 2);
             this.comboBox_Ryo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_Ryo.FormattingEnabled = true;
-            this.comboBox_Ryo.Location = new System.Drawing.Point(3, 4);
+            this.comboBox_Ryo.Location = new System.Drawing.Point(3, 6);
             this.comboBox_Ryo.Name = "comboBox_Ryo";
             this.comboBox_Ryo.Size = new System.Drawing.Size(281, 28);
             this.comboBox_Ryo.TabIndex = 1;
@@ -955,6 +952,7 @@ namespace PersonaVCE
             this.chk_Streaming.TabIndex = 2;
             this.chk_Streaming.Text = "Streaming";
             this.chk_Streaming.UseVisualStyleBackColor = true;
+            this.chk_Streaming.CheckedChanged += new System.EventHandler(this.RyoStreaming_CheckedChanged);
             // 
             // groupBox_RyoVolume
             // 
@@ -986,6 +984,7 @@ namespace PersonaVCE
             0,
             0,
             65536});
+            this.num_RyoVolume.ValueChanged += new System.EventHandler(this.RyoVolume_ValueChanged);
             // 
             // btn_Rename
             // 
@@ -1314,8 +1313,6 @@ namespace PersonaVCE
         private System.Windows.Forms.GroupBox groupBox_RenameTxt;
         private System.Windows.Forms.Button btn_RefreshDGV;
         private System.Windows.Forms.DataGridView dgv_RenameTxt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Filename;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Transcription;
         private System.Windows.Forms.TableLayoutPanel tlp_RenamingSettings;
         private System.Windows.Forms.GroupBox groupBox_Ryo;
         private System.Windows.Forms.TableLayoutPanel tlp_Ryo;
@@ -1338,5 +1335,6 @@ namespace PersonaVCE
         private System.Windows.Forms.TextBox txt_RyoFolderSuffix;
         private System.Windows.Forms.CheckBox chk_RyoCueNames;
         private System.Windows.Forms.CheckBox chk_RyoPlayerVol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Filename;
     }
 }
