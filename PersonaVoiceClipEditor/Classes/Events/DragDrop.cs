@@ -21,12 +21,12 @@ namespace PersonaVCE
 
         private void Dgv_DragDrop(object sender, DragEventArgs e)
         {
-            DataGridView dgv = (DataGridView)sender;
             var data = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             if (File.Exists(data[0]) && 
                 (Path.GetExtension(data[0]) == ".txt" || Path.GetExtension(data[0]) == ".tsv"))
             {
                 txt_InputTxtFile.Text = data[0];
+                AddTxtLinesToDGV();
             }
         }
 
@@ -69,6 +69,16 @@ namespace PersonaVCE
                 Encode(Directory.GetFiles(data[0]).ToArray());
                 txt_RenameOutputPath.Text = data[0];
                 settings.RenameOutDir = data[0];
+            }
+        }
+
+        private void RenameTxt_DragDrop(object sender, DragEventArgs e)
+        {
+            var data = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            if (File.Exists(data[0]))
+            {
+                txt_InputTxtFile.Text = data[0];
+                AddTxtLinesToDGV();
             }
         }
 
