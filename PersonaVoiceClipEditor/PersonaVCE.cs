@@ -252,12 +252,15 @@ namespace PersonaVCE
                     string outFile = Path.Combine(outFolder, Path.GetFileName(adx.Path));
                     File.Copy(adx.Path, outFile, true);
                     // Create config file for .adx
-                    string configTxt = $"player_id: -1\n" +
-                        $"volume: {settings.RyoVolume}";
+                    string configTxt = $"player_id: -1";
+                    if (!settings.RyoCueNames)
+                        configTxt += $"\ncue_name: '{adx.CueID}'";
+                    else
+                        configTxt += $"\ncue_name: '{adx.CueName}'";
                     if (settings.RyoCategory >= 0)
                         configTxt += $"\ncategory_ids: [{settings.RyoCategory}]";
-                    if (settings.RyoCueNames)
-                        configTxt += $"\ncue_name: '{adx.CueID}'";
+                    if (settings.RyoOverrideVolume)
+                        configTxt += $"\nvolume: {settings.RyoVolume}";
                     if (settings.RyoPlayerVolume)
                         configTxt += $"\nuse_player_volume: true";
                     string outFileConfigPath = Path.Combine(outFolder, Path.GetFileNameWithoutExtension(outFile) + ".yaml");

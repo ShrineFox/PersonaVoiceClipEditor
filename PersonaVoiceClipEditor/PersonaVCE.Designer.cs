@@ -93,6 +93,8 @@ namespace PersonaVCE
             this.comboBox_Ryo = new System.Windows.Forms.ComboBox();
             this.chk_Streaming = new System.Windows.Forms.CheckBox();
             this.groupBox_RyoVolume = new System.Windows.Forms.GroupBox();
+            this.tlp_Volume = new System.Windows.Forms.TableLayoutPanel();
+            this.chk_RyoOverrideVolume = new System.Windows.Forms.CheckBox();
             this.num_RyoVolume = new System.Windows.Forms.NumericUpDown();
             this.btn_Rename = new System.Windows.Forms.Button();
             this.groupBox_RenamingStartID = new System.Windows.Forms.GroupBox();
@@ -145,6 +147,7 @@ namespace PersonaVCE
             this.groupBox_RyoCategory.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_RyoCategory)).BeginInit();
             this.groupBox_RyoVolume.SuspendLayout();
+            this.tlp_Volume.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_RyoVolume)).BeginInit();
             this.groupBox_RenamingStartID.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_StartID)).BeginInit();
@@ -865,10 +868,10 @@ namespace PersonaVCE
             this.tlp_Ryo.Location = new System.Drawing.Point(3, 22);
             this.tlp_Ryo.Name = "tlp_Ryo";
             this.tlp_Ryo.RowCount = 4;
-            this.tlp_Ryo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlp_Ryo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlp_Ryo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tlp_Ryo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tlp_Ryo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.9499F));
+            this.tlp_Ryo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.9499F));
+            this.tlp_Ryo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 39.66012F));
+            this.tlp_Ryo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 26.44008F));
             this.tlp_Ryo.Size = new System.Drawing.Size(287, 223);
             this.tlp_Ryo.TabIndex = 0;
             // 
@@ -896,7 +899,7 @@ namespace PersonaVCE
             this.chk_RyoCueNames.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chk_RyoCueNames.Enabled = false;
             this.chk_RyoCueNames.ForeColor = System.Drawing.Color.DimGray;
-            this.chk_RyoCueNames.Location = new System.Drawing.Point(146, 173);
+            this.chk_RyoCueNames.Location = new System.Drawing.Point(146, 180);
             this.chk_RyoCueNames.Name = "chk_RyoCueNames";
             this.chk_RyoCueNames.Size = new System.Drawing.Size(138, 24);
             this.chk_RyoCueNames.TabIndex = 7;
@@ -908,9 +911,9 @@ namespace PersonaVCE
             // 
             this.groupBox_RyoFolderSuffix.Controls.Add(this.txt_RyoFolderSuffix);
             this.groupBox_RyoFolderSuffix.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox_RyoFolderSuffix.Location = new System.Drawing.Point(3, 151);
+            this.groupBox_RyoFolderSuffix.Location = new System.Drawing.Point(3, 165);
             this.groupBox_RyoFolderSuffix.Name = "groupBox_RyoFolderSuffix";
-            this.groupBox_RyoFolderSuffix.Size = new System.Drawing.Size(137, 69);
+            this.groupBox_RyoFolderSuffix.Size = new System.Drawing.Size(137, 55);
             this.groupBox_RyoFolderSuffix.TabIndex = 5;
             this.groupBox_RyoFolderSuffix.TabStop = false;
             this.groupBox_RyoFolderSuffix.Text = "Folder Suffix";
@@ -920,7 +923,7 @@ namespace PersonaVCE
             this.txt_RyoFolderSuffix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_RyoFolderSuffix.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txt_RyoFolderSuffix.Enabled = false;
-            this.txt_RyoFolderSuffix.Location = new System.Drawing.Point(6, 21);
+            this.txt_RyoFolderSuffix.Location = new System.Drawing.Point(6, 23);
             this.txt_RyoFolderSuffix.Name = "txt_RyoFolderSuffix";
             this.txt_RyoFolderSuffix.Size = new System.Drawing.Size(125, 26);
             this.txt_RyoFolderSuffix.TabIndex = 5;
@@ -932,7 +935,7 @@ namespace PersonaVCE
             this.groupBox_RyoCategory.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox_RyoCategory.Location = new System.Drawing.Point(146, 77);
             this.groupBox_RyoCategory.Name = "groupBox_RyoCategory";
-            this.groupBox_RyoCategory.Size = new System.Drawing.Size(138, 68);
+            this.groupBox_RyoCategory.Size = new System.Drawing.Size(138, 82);
             this.groupBox_RyoCategory.TabIndex = 4;
             this.groupBox_RyoCategory.TabStop = false;
             this.groupBox_RyoCategory.Text = "Category";
@@ -941,7 +944,7 @@ namespace PersonaVCE
             // 
             this.num_RyoCategory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.num_RyoCategory.Enabled = false;
-            this.num_RyoCategory.Location = new System.Drawing.Point(6, 24);
+            this.num_RyoCategory.Location = new System.Drawing.Point(6, 31);
             this.num_RyoCategory.Maximum = new decimal(new int[] {
             99,
             0,
@@ -991,21 +994,53 @@ namespace PersonaVCE
             // 
             // groupBox_RyoVolume
             // 
-            this.groupBox_RyoVolume.Controls.Add(this.num_RyoVolume);
+            this.groupBox_RyoVolume.Controls.Add(this.tlp_Volume);
             this.groupBox_RyoVolume.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox_RyoVolume.Location = new System.Drawing.Point(3, 77);
             this.groupBox_RyoVolume.Name = "groupBox_RyoVolume";
-            this.groupBox_RyoVolume.Size = new System.Drawing.Size(137, 68);
+            this.groupBox_RyoVolume.Size = new System.Drawing.Size(137, 82);
             this.groupBox_RyoVolume.TabIndex = 3;
             this.groupBox_RyoVolume.TabStop = false;
             this.groupBox_RyoVolume.Text = "Volume";
+            // 
+            // tlp_Volume
+            // 
+            this.tlp_Volume.ColumnCount = 1;
+            this.tlp_Volume.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_Volume.Controls.Add(this.chk_RyoOverrideVolume, 0, 1);
+            this.tlp_Volume.Controls.Add(this.num_RyoVolume, 0, 0);
+            this.tlp_Volume.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_Volume.Location = new System.Drawing.Point(3, 22);
+            this.tlp_Volume.Name = "tlp_Volume";
+            this.tlp_Volume.RowCount = 2;
+            this.tlp_Volume.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_Volume.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_Volume.Size = new System.Drawing.Size(131, 57);
+            this.tlp_Volume.TabIndex = 0;
+            // 
+            // chk_RyoOverrideVolume
+            // 
+            this.chk_RyoOverrideVolume.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.chk_RyoOverrideVolume.AutoSize = true;
+            this.chk_RyoOverrideVolume.Checked = true;
+            this.chk_RyoOverrideVolume.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_RyoOverrideVolume.Enabled = false;
+            this.chk_RyoOverrideVolume.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.chk_RyoOverrideVolume.ForeColor = System.Drawing.Color.DimGray;
+            this.chk_RyoOverrideVolume.Location = new System.Drawing.Point(3, 33);
+            this.chk_RyoOverrideVolume.Name = "chk_RyoOverrideVolume";
+            this.chk_RyoOverrideVolume.Size = new System.Drawing.Size(125, 19);
+            this.chk_RyoOverrideVolume.TabIndex = 8;
+            this.chk_RyoOverrideVolume.Text = "Override Volume";
+            this.chk_RyoOverrideVolume.UseVisualStyleBackColor = true;
+            this.chk_RyoOverrideVolume.CheckedChanged += new System.EventHandler(this.RyoOverrideVolume_CheckedChanged);
             // 
             // num_RyoVolume
             // 
             this.num_RyoVolume.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.num_RyoVolume.DecimalPlaces = 1;
             this.num_RyoVolume.Enabled = false;
-            this.num_RyoVolume.Location = new System.Drawing.Point(7, 22);
+            this.num_RyoVolume.Location = new System.Drawing.Point(3, 3);
             this.num_RyoVolume.Maximum = new decimal(new int[] {
             10,
             0,
@@ -1013,7 +1048,7 @@ namespace PersonaVCE
             0});
             this.num_RyoVolume.Name = "num_RyoVolume";
             this.num_RyoVolume.Size = new System.Drawing.Size(125, 26);
-            this.num_RyoVolume.TabIndex = 1;
+            this.num_RyoVolume.TabIndex = 2;
             this.num_RyoVolume.Value = new decimal(new int[] {
             4,
             0,
@@ -1279,6 +1314,8 @@ namespace PersonaVCE
             this.groupBox_RyoCategory.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.num_RyoCategory)).EndInit();
             this.groupBox_RyoVolume.ResumeLayout(false);
+            this.tlp_Volume.ResumeLayout(false);
+            this.tlp_Volume.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_RyoVolume)).EndInit();
             this.groupBox_RenamingStartID.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.num_StartID)).EndInit();
@@ -1363,7 +1400,6 @@ namespace PersonaVCE
         private System.Windows.Forms.CheckBox chk_AppendOGName;
         private System.Windows.Forms.TextBox txt_RenameSuffix;
         private System.Windows.Forms.GroupBox groupBox_RyoVolume;
-        private System.Windows.Forms.NumericUpDown num_RyoVolume;
         private System.Windows.Forms.GroupBox groupBox_RyoCategory;
         private System.Windows.Forms.NumericUpDown num_RyoCategory;
         private System.Windows.Forms.GroupBox groupBox_RyoFolderSuffix;
@@ -1371,5 +1407,8 @@ namespace PersonaVCE
         private System.Windows.Forms.CheckBox chk_RyoCueNames;
         private System.Windows.Forms.CheckBox chk_RyoPlayerVol;
         private System.Windows.Forms.DataGridViewTextBoxColumn Filename;
+        private System.Windows.Forms.TableLayoutPanel tlp_Volume;
+        private System.Windows.Forms.CheckBox chk_RyoOverrideVolume;
+        private System.Windows.Forms.NumericUpDown num_RyoVolume;
     }
 }

@@ -43,6 +43,7 @@ namespace PersonaVCE
             public string RyoOutputMode { get; set; } = "Don't Output For Ryo";
             public string RyoSuffix { get; set; } = "";
             public float RyoVolume { get; set; } = 0.4f;
+            public bool RyoOverrideVolume { get; set; } = false;
             public int RyoCategory { get; set; } = -1;
             public bool RyoStreaming { get; set; } = true;
             public bool RyoPlayerVolume { get; set; } = false;
@@ -108,6 +109,7 @@ namespace PersonaVCE
             chk_Streaming.Checked = settings.RyoStreaming;
             chk_RyoPlayerVol.Checked = settings.RyoPlayerVolume;
             chk_RyoCueNames.Checked = settings.RyoCueNames;
+            chk_RyoOverrideVolume.Checked = settings.RyoOverrideVolume;
 
             foreach (var line in settings.DGVCells)
                 dgv_RenameTxt.Rows.Add(line);

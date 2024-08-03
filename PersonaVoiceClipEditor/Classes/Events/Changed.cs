@@ -216,6 +216,16 @@ namespace PersonaVCE
             settings.RyoCueNames = chk_RyoCueNames.Checked;
         }
 
+        private void RyoOverrideVolume_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.RyoOverrideVolume = chk_RyoOverrideVolume.Checked;
+
+            if (settings.RyoOverrideVolume)
+                num_RyoVolume.Enabled = true;
+            else
+                num_RyoVolume.Enabled = false;
+        }
+
         private void RyoOutput_SelectedIndexChanged(object sender, EventArgs e)
         {
             settings.RyoOutputMode = comboBox_Ryo.SelectedItem.ToString();
@@ -228,6 +238,7 @@ namespace PersonaVCE
                 num_RyoCategory.Enabled = true;
                 num_RyoVolume.Enabled = true;
                 chk_RyoPlayerVol.Enabled = true;
+                chk_RyoOverrideVolume.Enabled = true;
             }
             else
             {
@@ -237,6 +248,7 @@ namespace PersonaVCE
                 num_RyoCategory.Enabled = false;
                 num_RyoVolume.Enabled = false;
                 chk_RyoPlayerVol.Enabled = false;
+                chk_RyoOverrideVolume.Enabled = false;
             }
         }
     }
