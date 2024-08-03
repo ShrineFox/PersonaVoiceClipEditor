@@ -42,6 +42,11 @@ The following settings do not use the "Suffix," "Append OG Name," or "Left Paddi
 - **Category**: The ID of the Sound Category applied to all the output sound clips. Varies by game. (i.e. in P5R, se: 0, bgm: 1, voice: 2, system: 3, syste_stream: 12 ... )
 - **Folder Suffix**: The suffix applied to each Cue folder's name. Only works when **Cue Names** is checked. (i.e. btl_support becomes btl_support_Joker if the suffix is "Joker")
 - **Cue Names**: Whether to use cue names for output folders. If not, folders will be named ``<CUEID>.cue``. This also applies to eacch sound's ``.yaml`` config file.
+### Adding ACB Cue Data
+Because the Ryo output mode relies on an external file matching wave IDs to cue names/IDs, it only works out of the box with the provided P5R system.acb and voice_singleword.acb modes.  
+To add more archives to the dropdown, follow these steps:
+- Get a ``.tsv`` (tab separated values) file for the ``.acb`` you're editing by dragging the original ``.acb`` archive into [CriAtomViewer](https://game.criware.jp/products/adx-le/). (extension must be lowercase!)  
+- Click inside the table and press CTRL + A to highlight everything. Then right click and copy as tabs delineated text. Paste into a text file and save it as a ``.tsv`` to this program's ``Dependencies/RyoText`` folder.
 ## Archives
 - **Drag Archive to Extract**: Select an ``.acb``/``.afs`` archive to extract to a folder. The folder will appear next to the original archive.  
 - **Drag Folder to Repack**: Choose a folder containing audio files to repack into the selected archive format. For ``.acb``, it must be next to the original ``.acb``/``.awb`` pair **which will be overwritten**. The original **.AFS** may be overwritten as well if the folder being repacked is in the same directory, but you can move it somewhere else first (it doesn't need to be next to the original).
