@@ -77,7 +77,7 @@ namespace PersonaVCE
 
         private void Encode(string[] inputFiles, string outFormat = "")
         {
-            if (inputFiles.Length == 0 && !string.IsNullOrEmpty(inputFiles[0]))
+            if (inputFiles.Length == 0 || string.IsNullOrEmpty(inputFiles[0]))
                 return;
 
             new Thread(() =>
