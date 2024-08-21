@@ -78,7 +78,6 @@ namespace PersonaVCE
             this.btn_RenameSource = new System.Windows.Forms.Button();
             this.txt_RenameSourcePath = new System.Windows.Forms.TextBox();
             this.groupBox_RenameTxt = new System.Windows.Forms.GroupBox();
-            this.btn_RefreshDGV = new System.Windows.Forms.Button();
             this.dgv_RenameTxt = new System.Windows.Forms.DataGridView();
             this.Filename = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlp_RenamingSettings = new System.Windows.Forms.TableLayoutPanel();
@@ -281,13 +280,13 @@ namespace PersonaVCE
             this.metroSetTabControl_Main.Controls.Add(this.tabPage_Encoding);
             this.metroSetTabControl_Main.Controls.Add(this.tabPage_Renaming);
             this.metroSetTabControl_Main.Controls.Add(this.tabPage_Archives);
-            this.metroSetTabControl_Main.Cursor = System.Windows.Forms.Cursors.Default;
+            this.metroSetTabControl_Main.Cursor = System.Windows.Forms.Cursors.Hand;
             this.metroSetTabControl_Main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.metroSetTabControl_Main.IsDerivedStyle = true;
             this.metroSetTabControl_Main.ItemSize = new System.Drawing.Size(100, 38);
             this.metroSetTabControl_Main.Location = new System.Drawing.Point(0, 0);
             this.metroSetTabControl_Main.Name = "metroSetTabControl_Main";
-            this.metroSetTabControl_Main.SelectedIndex = 1;
+            this.metroSetTabControl_Main.SelectedIndex = 0;
             this.metroSetTabControl_Main.SelectedTextColor = System.Drawing.Color.White;
             this.metroSetTabControl_Main.Size = new System.Drawing.Size(778, 508);
             this.metroSetTabControl_Main.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
@@ -753,7 +752,6 @@ namespace PersonaVCE
             // 
             this.groupBox_RenameTxt.AllowDrop = true;
             this.tlp_RenamingDGV.SetColumnSpan(this.groupBox_RenameTxt, 3);
-            this.groupBox_RenameTxt.Controls.Add(this.btn_RefreshDGV);
             this.groupBox_RenameTxt.Controls.Add(this.dgv_RenameTxt);
             this.groupBox_RenameTxt.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox_RenameTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
@@ -765,16 +763,6 @@ namespace PersonaVCE
             this.groupBox_RenameTxt.Text = "Ordered Filenames From Txt File";
             this.groupBox_RenameTxt.DragDrop += new System.Windows.Forms.DragEventHandler(this.Dgv_DragDrop);
             this.groupBox_RenameTxt.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
-            // 
-            // btn_RefreshDGV
-            // 
-            this.btn_RefreshDGV.Location = new System.Drawing.Point(361, -6);
-            this.btn_RefreshDGV.Name = "btn_RefreshDGV";
-            this.btn_RefreshDGV.Size = new System.Drawing.Size(95, 28);
-            this.btn_RefreshDGV.TabIndex = 1;
-            this.btn_RefreshDGV.Text = "Refresh";
-            this.btn_RefreshDGV.UseVisualStyleBackColor = true;
-            this.btn_RefreshDGV.Click += new System.EventHandler(this.RefreshDGV_Click);
             // 
             // dgv_RenameTxt
             // 
@@ -971,7 +959,7 @@ namespace PersonaVCE
             this.tlp_Ryo.SetColumnSpan(this.comboBox_Ryo, 2);
             this.comboBox_Ryo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_Ryo.FormattingEnabled = true;
-            this.comboBox_Ryo.Location = new System.Drawing.Point(3, 4);
+            this.comboBox_Ryo.Location = new System.Drawing.Point(3, 6);
             this.comboBox_Ryo.Name = "comboBox_Ryo";
             this.comboBox_Ryo.Size = new System.Drawing.Size(281, 28);
             this.comboBox_Ryo.TabIndex = 1;
@@ -1266,7 +1254,7 @@ namespace PersonaVCE
             this.ShowLeftRect = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.Style = MetroSet_UI.Enums.Style.Dark;
-            this.Text = "PersonaVCE v2.2";
+            this.Text = "PersonaVCE v2.3";
             this.TextColor = System.Drawing.Color.White;
             this.ThemeName = "MetroDark";
             this.menuStrip1.ResumeLayout(false);
@@ -1383,7 +1371,6 @@ namespace PersonaVCE
         private System.Windows.Forms.Button btn_RenameSource;
         private System.Windows.Forms.TextBox txt_RenameSourcePath;
         private System.Windows.Forms.GroupBox groupBox_RenameTxt;
-        private System.Windows.Forms.Button btn_RefreshDGV;
         private System.Windows.Forms.DataGridView dgv_RenameTxt;
         private System.Windows.Forms.TableLayoutPanel tlp_RenamingSettings;
         private System.Windows.Forms.GroupBox groupBox_Ryo;

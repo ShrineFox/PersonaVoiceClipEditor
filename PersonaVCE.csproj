@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{03ADACD6-B314-4994-8C22-139B505D7791}</ProjectGuid>
+    <ProjectGuid>{A4B9ACF4-408F-4C61-8579-5C79D8FE07A7}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>PersonaVCE</RootNamespace>
     <AssemblyName>PersonaVCE</AssemblyName>
@@ -12,22 +12,6 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>2.0.0.%2a</ApplicationVersion>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -52,14 +36,11 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dotnetrix.TabControl">
-      <HintPath>..\..\ShrineFox.IO\Classes\WinForms\Extensions\Dotnetrix.TabControl.dll</HintPath>
-    </Reference>
     <Reference Include="MetroSet UI, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MetroSet_UI.2.0.0\lib\net45\MetroSet UI.dll</HintPath>
+      <HintPath>packages\MetroSet_UI.2.0.0\lib\net45\MetroSet UI.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -75,32 +56,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PersonaVCE.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PersonaVCE.Designer.cs">
-      <DependentUpon>PersonaVCE.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Classes\Settings.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Classes\Events\DragDrop.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Classes\Events\Changed.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Classes\Events\Clicked.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Classes\Events\DragDrop.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Settings.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Classes\Utils.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="PersonaVCE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PersonaVCE.Designer.cs">
+      <DependentUpon>PersonaVCE.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="PersonaVCE.resx">
       <DependentUpon>PersonaVCE.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -110,8 +90,8 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="Classes\App.config" />
     <None Include="Dependencies\RyoText\p5r_system_acb.tsv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -130,43 +110,30 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Classes\App.config" />
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Dependencies\icons.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="VGAudio.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\AFSLib\AFSLib\AFSLib.csproj">
-      <Project>{3a80e4d0-1ffd-4009-b349-88ccd33e50f6}</Project>
+    <ProjectReference Include="..\AFSLib\AFSLib\AFSLib.csproj">
+      <Project>{9a29c882-457b-4cb3-bf29-4472c0ff54d1}</Project>
       <Name>AFSLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\ShrineFox.IO\ShrineFox.IO.csproj">
+    <ProjectReference Include="..\ShrineFox.IO\ShrineFox.IO.csproj">
       <Project>{7640412a-7372-4925-b20c-0178d8818a8f}</Project>
       <Name>ShrineFox.IO</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\SonicAudioTools\Source\AcbEditor\AcbEditor.csproj">
+    <ProjectReference Include="..\SonicAudioTools\Source\AcbEditor\AcbEditor.csproj">
       <Project>{45a72daf-370a-42d1-833e-cee27ea5e311}</Project>
       <Name>AcbEditor</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
+    <Content Include="Dependencies\icons.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="icon.ico" />
+    <Content Include="VGAudio.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

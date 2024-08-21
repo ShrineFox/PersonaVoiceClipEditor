@@ -34,6 +34,10 @@ namespace PersonaVCE
             SetupLogging();
             SetupDropdowns();
             SetupTheme();
+
+            // Select P5R Switch/PC preset by default
+            if (comboBox_EncryptionPreset.SelectedIndex == 0)
+                comboBox_EncryptionPreset.SelectedIndex = 1;
         }
 
         private void SetupTheme()
