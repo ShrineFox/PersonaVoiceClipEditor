@@ -11,6 +11,7 @@ using MetroSet_UI.Forms;
 using System.Windows.Forms;
 using static System.Windows.Forms.Design.AxImporter;
 using System.Diagnostics.Eventing.Reader;
+using NAudio.Wave;
 
 namespace PersonaVCE
 {
@@ -119,11 +120,21 @@ namespace PersonaVCE
                     // If loops are specified, use loops
                     if (chk_UseLoopPoints.Checked)
                     {
-                        args += $" -l {Convert.ToInt32(num_LoopStart.Value)}-{Convert.ToInt32(num_LoopEnd.Value)}";
+                        if (chk_LoopAll.Checked)
+                            args += $" -l 0-{GetSampleCount(file) - 1}";
+                        else
+                            args += $" -l {Convert.ToInt32(num_LoopStart.Value)}-{Convert.ToInt32(num_LoopEnd.Value)}";
                     }
 
                     Output.VerboseLog($"[INFO] Encoding \"{Path.GetFileName(file)}\" to \"{Path.GetFileName(outPath)}\"...");
-                    Exe.Run(".\\VGAudio.exe", args);
+                    string vgAudioPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "Dependencies\\VGAudio.exe");
+                    if (!File.Exists(vgAudioPath))
+                    {
+                        Output.VerboseLog($"[INFO] Failed to encode, could not find executable: \"{vgAudioPath}\"", ConsoleColor.DarkRed);
+                        return;
+                    }
+                    Exe.Run(vgAudioPath, args);
+                    using (FileSys.WaitForFile(outPath)) { };
                     if (File.Exists(outPath))
                     {
                         if (outFormat == ".adx" && args.Contains("--keycode"))
@@ -153,6 +164,33 @@ namespace PersonaVCE
                 SystemSounds.Exclamation.Play();
             }).Start();
             Output.Log($"[INFO] Done encoding files to \"{comboBox_SoundFormat.SelectedItem}\".", ConsoleColor.Green);
+        }
+
+        private long GetSampleCount(string file)
+        {
+            long sampleCount = -1;
+
+            if (File.Exists(file))
+            {
+                if (Path.GetExtension(file).ToLower() == ".adx")
+                using (FileStream fs = new FileStream(file, FileMode.Open))
+                {
+                    using (EndianBinaryReader reader = new EndianBinaryReader(fs, Endianness.LittleEndian))
+                    {
+                        reader.BaseStream.Position = 12;
+                        sampleCount = reader.ReadInt32();
+                    }
+                }
+                else if (Path.GetExtension(file).ToLower() == ".wav")
+                {
+                    using (var waveFile = new WaveFileReader(file))
+                    {
+                        sampleCount = waveFile.SampleCount;
+                    }
+                }
+            }
+
+            return sampleCount;
         }
 
         private void AddTxtLinesToDGV()
@@ -353,7 +391,7 @@ namespace PersonaVCE
                 string outputDir = FileSys.CreateUniqueDir(afsPath + "_extracted");
                 Directory.CreateDirectory(outputDir);
 
-                new Thread(() =>
+                //new Thread(() =>
                 {
                     Thread.CurrentThread.IsBackground = true;
 
@@ -377,7 +415,8 @@ namespace PersonaVCE
                         }
                     }
                     SystemSounds.Exclamation.Play();
-                }).Start();
+                }
+                //).Start();
                 Output.Log($"[INFO] Done extracting archive contents to: \"{outputDir}\"", ConsoleColor.Green);
             }
             else
@@ -390,7 +429,7 @@ namespace PersonaVCE
 
             if (Directory.Exists(afsDir))
             {
-                new Thread(() =>
+                //new Thread(() =>
                 {
                     Thread.CurrentThread.IsBackground = true;
                     // Get input files from AFS directory
@@ -409,7 +448,8 @@ namespace PersonaVCE
                     }
 
                     SystemSounds.Exclamation.Play();
-                }).Start();
+                }
+                //).Start();
                 Output.Log($"[INFO] Done creating AFS archive at: \"{outputFile}\"", ConsoleColor.Green);
             }
             else
@@ -420,7 +460,7 @@ namespace PersonaVCE
         {
             if (File.Exists(acbPath))
             {
-                new Thread(() =>
+                //new Thread(() =>
                 {
                     Thread.CurrentThread.IsBackground = true;
 
@@ -429,7 +469,8 @@ namespace PersonaVCE
                     Output.Log($"[INFO] Done extracting archive contents from: \"{acbPath}\"", ConsoleColor.Green);
                     
                     SystemSounds.Exclamation.Play();
-                }).Start();
+                }
+                //).Start();
             }
             else
                 Output.Log($"[ERROR] ACB extract failed, input archive doesn't exist: \"{acbPath}\"", ConsoleColor.Red);
@@ -454,7 +495,7 @@ namespace PersonaVCE
                 
             if (Directory.Exists(acbDir))
             {
-                new Thread(() =>
+                //new Thread(() =>
                 {
                     Thread.CurrentThread.IsBackground = true;
 
@@ -463,7 +504,8 @@ namespace PersonaVCE
                     AcbEditor.Program.Main(new string[] { acbDir });
                     Output.Log($"[INFO] Done repacking ACB archive: \"{acbFile}\"", ConsoleColor.Green);
                     SystemSounds.Exclamation.Play();
-                }).Start();
+                }
+                //).Start();
             }
             else
                 Output.Log($"[ERROR] ACB repack failed, extracted archive directory doesn't exist: \"{acbDir}\"", ConsoleColor.Red);

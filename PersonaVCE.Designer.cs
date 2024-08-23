@@ -280,7 +280,7 @@ namespace PersonaVCE
             this.metroSetTabControl_Main.Controls.Add(this.tabPage_Encoding);
             this.metroSetTabControl_Main.Controls.Add(this.tabPage_Renaming);
             this.metroSetTabControl_Main.Controls.Add(this.tabPage_Archives);
-            this.metroSetTabControl_Main.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.metroSetTabControl_Main.Cursor = System.Windows.Forms.Cursors.Default;
             this.metroSetTabControl_Main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.metroSetTabControl_Main.IsDerivedStyle = true;
             this.metroSetTabControl_Main.ItemSize = new System.Drawing.Size(100, 38);
@@ -1254,7 +1254,7 @@ namespace PersonaVCE
             this.ShowLeftRect = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.Style = MetroSet_UI.Enums.Style.Dark;
-            this.Text = "PersonaVCE v2.3";
+            this.Text = "PersonaVCE v2.3.1";
             this.TextColor = System.Drawing.Color.White;
             this.ThemeName = "MetroDark";
             this.menuStrip1.ResumeLayout(false);
