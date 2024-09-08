@@ -31,9 +31,9 @@ namespace PersonaVCE
             public string InputTxtPath { get; set; } = "";
             public string RenameDir { get; set; } = "";
             public string RenameOutDir { get; set; } = "";
-            public string TxtSuffix { get; set; } = "";
+            public string TxtSuffix { get; set; } = "_streaming";
             public bool AppendFilename { get; set; } = false;
-            public decimal LeftPadding { get; set; } = 0;
+            public decimal LeftPadding { get; set; } = 5;
             public decimal StartIndex { get; set; } = 0;
             public string InputArchive { get; set; } = "";
             public string ArchiveDir { get; set; } = "";
@@ -48,6 +48,7 @@ namespace PersonaVCE
             public bool RyoStreaming { get; set; } = true;
             public bool RyoPlayerVolume { get; set; } = false;
             public bool RyoCueNames { get; set; } = true;
+            public bool EncodeRenameOutput { get; set; } = true;
 
         }
 
@@ -110,6 +111,8 @@ namespace PersonaVCE
             chk_RyoPlayerVol.Checked = settings.RyoPlayerVolume;
             chk_RyoCueNames.Checked = settings.RyoCueNames;
             chk_RyoOverrideVolume.Checked = settings.RyoOverrideVolume;
+
+            chk_EncodeRename.Checked = settings.EncodeRenameOutput;
 
             foreach (var line in settings.DGVCells)
                 dgv_RenameTxt.Rows.Add(line);

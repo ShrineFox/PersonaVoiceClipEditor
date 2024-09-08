@@ -35,19 +35,9 @@ namespace PersonaVCE
             // Encode dragged files or files in dragged folder
             var data = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             if (Directory.Exists(data[0]))
-                Encode(Directory.GetFiles(data[0]).ToArray());
+                StartEncode(Directory.GetFiles(data[0]).ToArray());
             else if (File.Exists(data[0]))
-                Encode(data);
-        }
-
-        private void Decode_DragDrop(object sender, DragEventArgs e)
-        {
-            // Decode dragged files or files in dragged folder
-            var data = (string[])e.Data.GetData(DataFormats.FileDrop, false);
-            if (Directory.Exists(data[0]))
-                Encode(Directory.GetFiles(data[0]).ToArray(), ".wav");
-            else if (File.Exists(data[0]))
-                Encode(data, ".wav");
+                StartEncode(data);
         }
 
         private void RenameDir_DragDrop(object sender, DragEventArgs e)
@@ -55,7 +45,7 @@ namespace PersonaVCE
             var data = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             if (Directory.Exists(data[0]))
             {
-                Encode(Directory.GetFiles(data[0]).ToArray());
+                StartEncode(Directory.GetFiles(data[0]).ToArray());
                 txt_RenameSourcePath.Text = data[0];
                 settings.RenameDir = data[0];
             }
@@ -66,7 +56,7 @@ namespace PersonaVCE
             var data = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             if (Directory.Exists(data[0]))
             {
-                Encode(Directory.GetFiles(data[0]).ToArray());
+                StartEncode(Directory.GetFiles(data[0]).ToArray());
                 txt_RenameOutputPath.Text = data[0];
                 settings.RenameOutDir = data[0];
             }

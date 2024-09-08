@@ -26,16 +26,7 @@ namespace PersonaVCE
             string[] formats = new string[] { "ADX (.adx)", "HCA (.hca)", "WAV (.wav)" };
             var files = WinFormsDialogs.SelectFile("Choose files to encode", true, formats).ToArray();
 
-            Encode(files);
-        }
-
-
-        private void Decode_Click(object sender, EventArgs e)
-        {
-            string[] formats = new string[] { "ADX (.adx)", "HCA (.hca)" };
-            var files = WinFormsDialogs.SelectFile("Choose files to decode to WAV", true, formats).ToArray();
-
-            Encode(files, ".wav");
+            StartEncode(files);
         }
 
         private void Rename_Click(object sender, EventArgs e)

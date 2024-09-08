@@ -52,7 +52,6 @@ namespace PersonaVCE
             this.tlp_Encryption = new System.Windows.Forms.TableLayoutPanel();
             this.num_EncryptionKey = new System.Windows.Forms.NumericUpDown();
             this.chk_UseEncryption = new System.Windows.Forms.CheckBox();
-            this.btn_Decode = new System.Windows.Forms.Button();
             this.btn_Encode = new System.Windows.Forms.Button();
             this.groupBox_LoopPoints = new System.Windows.Forms.GroupBox();
             this.tlp_LoopSettings = new System.Windows.Forms.TableLayoutPanel();
@@ -79,8 +78,11 @@ namespace PersonaVCE
             this.txt_RenameSourcePath = new System.Windows.Forms.TextBox();
             this.groupBox_RenameTxt = new System.Windows.Forms.GroupBox();
             this.dgv_RenameTxt = new System.Windows.Forms.DataGridView();
+            this.RowNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Filename = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlp_RenamingSettings = new System.Windows.Forms.TableLayoutPanel();
+            this.chk_EncodeRename = new System.Windows.Forms.CheckBox();
+            this.btn_Rename = new System.Windows.Forms.Button();
             this.groupBox_Ryo = new System.Windows.Forms.GroupBox();
             this.tlp_Ryo = new System.Windows.Forms.TableLayoutPanel();
             this.chk_RyoPlayerVol = new System.Windows.Forms.CheckBox();
@@ -95,7 +97,6 @@ namespace PersonaVCE
             this.tlp_Volume = new System.Windows.Forms.TableLayoutPanel();
             this.chk_RyoOverrideVolume = new System.Windows.Forms.CheckBox();
             this.num_RyoVolume = new System.Windows.Forms.NumericUpDown();
-            this.btn_Rename = new System.Windows.Forms.Button();
             this.groupBox_RenamingStartID = new System.Windows.Forms.GroupBox();
             this.num_StartID = new System.Windows.Forms.NumericUpDown();
             this.groupBox_RenamingLeftPadding = new System.Windows.Forms.GroupBox();
@@ -280,13 +281,13 @@ namespace PersonaVCE
             this.metroSetTabControl_Main.Controls.Add(this.tabPage_Encoding);
             this.metroSetTabControl_Main.Controls.Add(this.tabPage_Renaming);
             this.metroSetTabControl_Main.Controls.Add(this.tabPage_Archives);
-            this.metroSetTabControl_Main.Cursor = System.Windows.Forms.Cursors.Default;
+            this.metroSetTabControl_Main.Cursor = System.Windows.Forms.Cursors.Hand;
             this.metroSetTabControl_Main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.metroSetTabControl_Main.IsDerivedStyle = true;
             this.metroSetTabControl_Main.ItemSize = new System.Drawing.Size(100, 38);
             this.metroSetTabControl_Main.Location = new System.Drawing.Point(0, 0);
             this.metroSetTabControl_Main.Name = "metroSetTabControl_Main";
-            this.metroSetTabControl_Main.SelectedIndex = 0;
+            this.metroSetTabControl_Main.SelectedIndex = 1;
             this.metroSetTabControl_Main.SelectedTextColor = System.Drawing.Color.White;
             this.metroSetTabControl_Main.Size = new System.Drawing.Size(778, 508);
             this.metroSetTabControl_Main.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
@@ -317,7 +318,6 @@ namespace PersonaVCE
             this.tlp_EncodingTab.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlp_EncodingTab.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlp_EncodingTab.Controls.Add(this.groupBox_Encryption, 1, 1);
-            this.tlp_EncodingTab.Controls.Add(this.btn_Decode, 1, 0);
             this.tlp_EncodingTab.Controls.Add(this.btn_Encode, 0, 0);
             this.tlp_EncodingTab.Controls.Add(this.groupBox_LoopPoints, 0, 1);
             this.tlp_EncodingTab.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -385,29 +385,15 @@ namespace PersonaVCE
             this.chk_UseEncryption.UseVisualStyleBackColor = true;
             this.chk_UseEncryption.CheckedChanged += new System.EventHandler(this.UseEncKey_CheckedChanged);
             // 
-            // btn_Decode
-            // 
-            this.btn_Decode.AllowDrop = true;
-            this.btn_Decode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_Decode.ForeColor = System.Drawing.Color.DimGray;
-            this.btn_Decode.Location = new System.Drawing.Point(388, 3);
-            this.btn_Decode.Name = "btn_Decode";
-            this.btn_Decode.Size = new System.Drawing.Size(379, 201);
-            this.btn_Decode.TabIndex = 1;
-            this.btn_Decode.Text = "Drag Files to Decode";
-            this.btn_Decode.UseVisualStyleBackColor = true;
-            this.btn_Decode.Click += new System.EventHandler(this.Decode_Click);
-            this.btn_Decode.DragDrop += new System.Windows.Forms.DragEventHandler(this.Decode_DragDrop);
-            this.btn_Decode.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
-            // 
             // btn_Encode
             // 
             this.btn_Encode.AllowDrop = true;
+            this.tlp_EncodingTab.SetColumnSpan(this.btn_Encode, 2);
             this.btn_Encode.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_Encode.ForeColor = System.Drawing.Color.DimGray;
             this.btn_Encode.Location = new System.Drawing.Point(3, 3);
             this.btn_Encode.Name = "btn_Encode";
-            this.btn_Encode.Size = new System.Drawing.Size(379, 201);
+            this.btn_Encode.Size = new System.Drawing.Size(764, 201);
             this.btn_Encode.TabIndex = 0;
             this.btn_Encode.Text = "Drag Files to Encode";
             this.btn_Encode.UseVisualStyleBackColor = true;
@@ -768,19 +754,23 @@ namespace PersonaVCE
             // 
             this.dgv_RenameTxt.AllowDrop = true;
             this.dgv_RenameTxt.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgv_RenameTxt.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.dgv_RenameTxt.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Silver;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgv_RenameTxt.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgv_RenameTxt.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_RenameTxt.ColumnHeadersVisible = false;
             this.dgv_RenameTxt.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.RowNumber,
             this.Filename});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Gray;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
@@ -788,18 +778,30 @@ namespace PersonaVCE
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgv_RenameTxt.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgv_RenameTxt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_RenameTxt.GridColor = System.Drawing.SystemColors.ControlDarkDark;
             this.dgv_RenameTxt.Location = new System.Drawing.Point(3, 22);
             this.dgv_RenameTxt.Name = "dgv_RenameTxt";
             this.dgv_RenameTxt.ReadOnly = true;
+            this.dgv_RenameTxt.RowHeadersVisible = false;
             this.dgv_RenameTxt.RowHeadersWidth = 51;
             this.dgv_RenameTxt.RowTemplate.Height = 24;
             this.dgv_RenameTxt.Size = new System.Drawing.Size(455, 223);
             this.dgv_RenameTxt.TabIndex = 0;
             this.dgv_RenameTxt.DragDrop += new System.Windows.Forms.DragEventHandler(this.Dgv_DragDrop);
             this.dgv_RenameTxt.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
+            this.dgv_RenameTxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataGridView_KeyDown);
+            // 
+            // RowNumber
+            // 
+            this.RowNumber.FillWeight = 26.73797F;
+            this.RowNumber.HeaderText = "Row Number";
+            this.RowNumber.MinimumWidth = 6;
+            this.RowNumber.Name = "RowNumber";
+            this.RowNumber.ReadOnly = true;
             // 
             // Filename
             // 
+            this.Filename.FillWeight = 173.262F;
             this.Filename.HeaderText = "Input Filename";
             this.Filename.MinimumWidth = 6;
             this.Filename.Name = "Filename";
@@ -811,8 +813,9 @@ namespace PersonaVCE
             this.tlp_RenamingSettings.ColumnCount = 2;
             this.tlp_RenamingSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.4382F));
             this.tlp_RenamingSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.5618F));
+            this.tlp_RenamingSettings.Controls.Add(this.chk_EncodeRename, 0, 3);
+            this.tlp_RenamingSettings.Controls.Add(this.btn_Rename, 1, 3);
             this.tlp_RenamingSettings.Controls.Add(this.groupBox_Ryo, 0, 2);
-            this.tlp_RenamingSettings.Controls.Add(this.btn_Rename, 0, 3);
             this.tlp_RenamingSettings.Controls.Add(this.groupBox_RenamingStartID, 0, 1);
             this.tlp_RenamingSettings.Controls.Add(this.groupBox_RenamingLeftPadding, 1, 1);
             this.tlp_RenamingSettings.Controls.Add(this.groupBox_RenamingSuffix, 0, 0);
@@ -824,8 +827,37 @@ namespace PersonaVCE
             this.tlp_RenamingSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this.tlp_RenamingSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 55F));
             this.tlp_RenamingSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlp_RenamingSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 9F));
             this.tlp_RenamingSettings.Size = new System.Drawing.Size(299, 462);
             this.tlp_RenamingSettings.TabIndex = 0;
+            // 
+            // chk_EncodeRename
+            // 
+            this.chk_EncodeRename.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.chk_EncodeRename.AutoSize = true;
+            this.chk_EncodeRename.Checked = true;
+            this.chk_EncodeRename.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_EncodeRename.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.chk_EncodeRename.ForeColor = System.Drawing.Color.DimGray;
+            this.chk_EncodeRename.Location = new System.Drawing.Point(3, 427);
+            this.chk_EncodeRename.Name = "chk_EncodeRename";
+            this.chk_EncodeRename.Size = new System.Drawing.Size(141, 22);
+            this.chk_EncodeRename.TabIndex = 13;
+            this.chk_EncodeRename.Text = "Encode Output";
+            this.chk_EncodeRename.UseVisualStyleBackColor = true;
+            this.chk_EncodeRename.CheckedChanged += new System.EventHandler(this.EncodeRenameOutput_Changed);
+            // 
+            // btn_Rename
+            // 
+            this.btn_Rename.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.btn_Rename.ForeColor = System.Drawing.Color.DimGray;
+            this.btn_Rename.Location = new System.Drawing.Point(150, 418);
+            this.btn_Rename.Name = "btn_Rename";
+            this.btn_Rename.Size = new System.Drawing.Size(146, 41);
+            this.btn_Rename.TabIndex = 10;
+            this.btn_Rename.Text = "Copy+Rename";
+            this.btn_Rename.UseVisualStyleBackColor = true;
+            this.btn_Rename.Click += new System.EventHandler(this.Rename_Click);
             // 
             // groupBox_Ryo
             // 
@@ -959,7 +991,7 @@ namespace PersonaVCE
             this.tlp_Ryo.SetColumnSpan(this.comboBox_Ryo, 2);
             this.comboBox_Ryo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_Ryo.FormattingEnabled = true;
-            this.comboBox_Ryo.Location = new System.Drawing.Point(3, 6);
+            this.comboBox_Ryo.Location = new System.Drawing.Point(3, 4);
             this.comboBox_Ryo.Name = "comboBox_Ryo";
             this.comboBox_Ryo.Size = new System.Drawing.Size(281, 28);
             this.comboBox_Ryo.TabIndex = 1;
@@ -1043,20 +1075,6 @@ namespace PersonaVCE
             0,
             65536});
             this.num_RyoVolume.ValueChanged += new System.EventHandler(this.RyoVolume_ValueChanged);
-            // 
-            // btn_Rename
-            // 
-            this.tlp_RenamingSettings.SetColumnSpan(this.btn_Rename, 2);
-            this.btn_Rename.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_Rename.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.btn_Rename.ForeColor = System.Drawing.Color.DimGray;
-            this.btn_Rename.Location = new System.Drawing.Point(3, 418);
-            this.btn_Rename.Name = "btn_Rename";
-            this.btn_Rename.Size = new System.Drawing.Size(293, 41);
-            this.btn_Rename.TabIndex = 10;
-            this.btn_Rename.Text = "Copy and Rename Files";
-            this.btn_Rename.UseVisualStyleBackColor = true;
-            this.btn_Rename.Click += new System.EventHandler(this.Rename_Click);
             // 
             // groupBox_RenamingStartID
             // 
@@ -1254,7 +1272,7 @@ namespace PersonaVCE
             this.ShowLeftRect = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.Style = MetroSet_UI.Enums.Style.Dark;
-            this.Text = "PersonaVCE v2.3.1";
+            this.Text = "PersonaVCE v2.3.2";
             this.TextColor = System.Drawing.Color.White;
             this.ThemeName = "MetroDark";
             this.menuStrip1.ResumeLayout(false);
@@ -1294,6 +1312,7 @@ namespace PersonaVCE
             this.groupBox_RenameTxt.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_RenameTxt)).EndInit();
             this.tlp_RenamingSettings.ResumeLayout(false);
+            this.tlp_RenamingSettings.PerformLayout();
             this.groupBox_Ryo.ResumeLayout(false);
             this.tlp_Ryo.ResumeLayout(false);
             this.tlp_Ryo.PerformLayout();
@@ -1339,7 +1358,6 @@ namespace PersonaVCE
         private System.Windows.Forms.GroupBox groupBox_Encryption;
         private System.Windows.Forms.TableLayoutPanel tlp_Encryption;
         private System.Windows.Forms.CheckBox chk_UseEncryption;
-        private System.Windows.Forms.Button btn_Decode;
         private System.Windows.Forms.Button btn_Encode;
         private System.Windows.Forms.GroupBox groupBox_LoopPoints;
         private System.Windows.Forms.TableLayoutPanel tlp_LoopSettings;
@@ -1393,9 +1411,11 @@ namespace PersonaVCE
         private System.Windows.Forms.TextBox txt_RyoFolderSuffix;
         private System.Windows.Forms.CheckBox chk_RyoCueNames;
         private System.Windows.Forms.CheckBox chk_RyoPlayerVol;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Filename;
         private System.Windows.Forms.TableLayoutPanel tlp_Volume;
         private System.Windows.Forms.CheckBox chk_RyoOverrideVolume;
         private System.Windows.Forms.NumericUpDown num_RyoVolume;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RowNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Filename;
+        private System.Windows.Forms.CheckBox chk_EncodeRename;
     }
 }

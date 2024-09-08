@@ -76,7 +76,7 @@ namespace PersonaVCE
 #endif
         }
 
-        private void Encode(string[] inputFiles, string outFormat = "")
+        private void StartEncode(string[] inputFiles)
         {
             if (inputFiles.Length == 0 || string.IsNullOrEmpty(inputFiles[0]))
                 return;
@@ -85,85 +85,88 @@ namespace PersonaVCE
             {
                 Thread.CurrentThread.IsBackground = true;
 
-                if (outFormat == "")
-                    outFormat = comboBox_SoundFormat.SelectedItem.ToString();
-                Output.Log($"[INFO] Encoding supported files to format \"{outFormat}\".");
+                Output.Log($"[INFO] Encoding supported files to format \"{settings.OutFormat}\".");
 
                 string outputDir = FileSys.CreateUniqueDir(Path.Combine(Path.GetDirectoryName(inputFiles[0]), "Encoded"));
 
                 // Convert files to target format, output to specified directory
                 foreach (var file in inputFiles.Where(x => supportedFormats.Any(y => y.Equals(Path.GetExtension(x.ToLower())))))
                 {
-                    bool encrypted = false;
-                    string extension = Path.GetExtension(file).ToLower();
-                    // Check if adx is already encrypted
-                    if (extension == ".adx")
-                    {
-                        using (FileStream fs = new FileStream(file, FileMode.Open))
-                        {
-                            using (BinaryReader reader = new BinaryReader(fs))
-                            {
-                                reader.BaseStream.Position = 19;
-                                if (reader.ReadByte() == Convert.ToByte(9))
-                                    encrypted = true;
-                            }
-                        }
-                    }
-                    string outPath = Path.Combine(outputDir, Path.GetFileNameWithoutExtension(file) + outFormat);
-                    string args = $"\"{file}\" \"{outPath}\"";
-
-                    // If file is encrypted, remove encryption with key.
-                    // Otherwise, output will be encrypted with key
-                    if (chk_UseEncryption.Checked && num_EncryptionKey.Value != 0 && num_EncryptionKey.Enabled)
-                        args += $" --keycode {num_EncryptionKey.Value}";
-
-                    // If loops are specified, use loops
-                    if (chk_UseLoopPoints.Checked)
-                    {
-                        if (chk_LoopAll.Checked)
-                            args += $" -l 0-{GetSampleCount(file) - 1}";
-                        else
-                            args += $" -l {Convert.ToInt32(num_LoopStart.Value)}-{Convert.ToInt32(num_LoopEnd.Value)}";
-                    }
-
-                    Output.VerboseLog($"[INFO] Encoding \"{Path.GetFileName(file)}\" to \"{Path.GetFileName(outPath)}\"...");
-                    string vgAudioPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "Dependencies\\VGAudio.exe");
-                    if (!File.Exists(vgAudioPath))
-                    {
-                        Output.VerboseLog($"[INFO] Failed to encode, could not find executable: \"{vgAudioPath}\"", ConsoleColor.DarkRed);
-                        return;
-                    }
-                    Exe.Run(vgAudioPath, args);
-                    using (FileSys.WaitForFile(outPath)) { };
-                    if (File.Exists(outPath))
-                    {
-                        if (outFormat == ".adx" && args.Contains("--keycode"))
-                        {
-                            using (FileStream fs = new FileStream(outPath, FileMode.Open))
-                            {
-                                using (BinaryWriter writer = new BinaryWriter(fs))
-                                {
-                                    // Add encryption flag to file if using keycode
-                                    writer.BaseStream.Position = 19;
-                                    byte newByte = Convert.ToByte(9);
-                                    // Remove encryption flag if input is encrypted,
-                                    // and therefore output is no longer encrypted
-                                    if (encrypted)
-                                        newByte = Convert.ToByte(0);
-                                    Output.VerboseLog($"[INFO] Setting encryption byte to: {newByte.ToString("x2")}");
-                                    writer.Write(newByte);
-                                };
-                            }
-                        }
-                        Output.VerboseLog($"[INFO] Encoded file successfully!", ConsoleColor.DarkGreen);
-                    }
-                    else
-                        Output.VerboseLog($"[INFO] Failed to encode file: \"{file}\"", ConsoleColor.DarkRed);
+                    EncodeFile(file, outputDir);
                 }
 
                 SystemSounds.Exclamation.Play();
             }).Start();
             Output.Log($"[INFO] Done encoding files to \"{comboBox_SoundFormat.SelectedItem}\".", ConsoleColor.Green);
+        }
+
+        private void EncodeFile(string file, string outputDir)
+        {
+            bool encrypted = false;
+            string extension = Path.GetExtension(file).ToLower();
+            // Check if adx is already encrypted
+            if (extension == ".adx")
+            {
+                using (FileStream fs = new FileStream(file, FileMode.Open))
+                {
+                    using (BinaryReader reader = new BinaryReader(fs))
+                    {
+                        reader.BaseStream.Position = 19;
+                        if (reader.ReadByte() == Convert.ToByte(9))
+                            encrypted = true;
+                    }
+                }
+            }
+            string outPath = Path.Combine(outputDir, Path.GetFileNameWithoutExtension(file) + settings.OutFormat);
+            string args = $"\"{file}\" \"{outPath}\"";
+
+            // If file is encrypted, remove encryption with key.
+            // Otherwise, output will be encrypted with key
+            if (settings.UseKey && settings.Key != 0)
+                args += $" --keycode {num_EncryptionKey.Value}";
+
+            // If loops are specified, use loops
+            if (settings.UseLoops)
+            {
+                if (settings.LoopAll)
+                    args += $" -l 0-{GetSampleCount(file) - 1}";
+                else
+                    args += $" -l {Convert.ToInt32(settings.LoopStart)}-{Convert.ToInt32(settings.LoopEnd)}";
+            }
+
+            Output.VerboseLog($"[INFO] Encoding \"{Path.GetFileName(file)}\" to \"{Path.GetFileName(outPath)}\"...");
+            string vgAudioPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "Dependencies\\VGAudio.exe");
+            if (!File.Exists(vgAudioPath))
+            {
+                Output.VerboseLog($"[INFO] Failed to encode, could not find executable: \"{vgAudioPath}\"", ConsoleColor.DarkRed);
+                return;
+            }
+            Exe.Run(vgAudioPath, args);
+            using (FileSys.WaitForFile(outPath)) { };
+            if (File.Exists(outPath))
+            {
+                if (settings.OutFormat == ".adx" && args.Contains("--keycode"))
+                {
+                    using (FileStream fs = new FileStream(outPath, FileMode.Open))
+                    {
+                        using (BinaryWriter writer = new BinaryWriter(fs))
+                        {
+                            // Add encryption flag to file if using keycode
+                            writer.BaseStream.Position = 19;
+                            byte newByte = Convert.ToByte(9);
+                            // Remove encryption flag if input is encrypted,
+                            // and therefore output is no longer encrypted
+                            if (encrypted)
+                                newByte = Convert.ToByte(0);
+                            Output.VerboseLog($"[INFO] Setting encryption byte to: {newByte.ToString("x2")}");
+                            writer.Write(newByte);
+                        };
+                    }
+                }
+                Output.VerboseLog($"[INFO] Encoded file successfully!", ConsoleColor.DarkGreen);
+            }
+            else
+                Output.VerboseLog($"[INFO] Failed to encode file: \"{file}\"", ConsoleColor.DarkRed);
         }
 
         private long GetSampleCount(string file)
@@ -201,10 +204,11 @@ namespace PersonaVCE
             settings.DGVCells = new List<string>();
             var lines = File.ReadAllLines(settings.InputTxtPath);
             dgv_RenameTxt.Rows.Clear();
+            int i = Convert.ToInt32(settings.StartIndex);
             foreach (var line in lines)
             {
                 string[] splitLine = line.Split('\t');
-                dgv_RenameTxt.Rows.Add(splitLine[0]);
+                dgv_RenameTxt.Rows.Add(i, splitLine[0]);
                 settings.DGVCells.Add(splitLine[0]);
             }
         }
@@ -264,19 +268,18 @@ namespace PersonaVCE
                 Thread.CurrentThread.IsBackground = true;
 
                 List<Adx> AdxFiles = GetADXInfoFromTSV();
-                
+
                 // Get files from input directory with a filename that matches a line in the DataGridView control
-                var files = Directory.GetFiles(settings.RenameDir).Where(x => settings.DGVCells.Any(y => Path.GetFileNameWithoutExtension(x) == y)).ToList();
-
-
-                // Add input file paths to each adx entry that matches wave ID and cue type
-                int waveID = Convert.ToInt32(settings.StartIndex);
-                for (int i = 0; i < files.Count(); i++)
+                var files = Directory.GetFiles(settings.RenameDir);
+                for (int i = 0; i < settings.DGVCells.Count; i++)
                 {
-                    foreach (var adx in AdxFiles.Where(x => x.WaveID == waveID && x.Streaming == settings.RyoStreaming))
-                        adx.Path = files[i];
-
-                    waveID++;
+                    // Add input file paths to each adx entry that matches wave ID and cue type
+                    if (files.Any(x => Path.GetFileNameWithoutExtension(x).Equals(settings.DGVCells[i])))
+                    {
+                        foreach (var adx in AdxFiles.Where(x => x.WaveID == (Convert.ToInt32(settings.StartIndex) + i)
+                            && x.Streaming == settings.RyoStreaming))
+                            adx.Path = files.First(x => Path.GetFileNameWithoutExtension(x).Equals(settings.DGVCells[i]));
+                    }
                 }
 
                 // Move each file to destination that has an input path assigned
@@ -293,6 +296,11 @@ namespace PersonaVCE
                     // Copy adx to Cue folder
                     string outFile = Path.Combine(outFolder, Path.GetFileName(adx.Path));
                     File.Copy(adx.Path, outFile, true);
+                    Output.VerboseLog($"[INFO] Copied \"{adx.Path}\" to:\n\t\"{outFile}\"", ConsoleColor.Green);
+                    // Encode to ADX
+                    if (settings.EncodeRenameOutput)
+                        EncodeAndDelete(outFile);
+
                     // Create config file for .adx
                     string configTxt = $"player_id: -1";
                     if (!settings.RyoCueNames)
@@ -343,6 +351,10 @@ namespace PersonaVCE
                         Directory.CreateDirectory(Path.GetDirectoryName(outPath));
                         File.Copy(file, outPath, true);
                         Output.VerboseLog($"[INFO] Copied \"{file}\" to:\n\t\"{outPath}\"", ConsoleColor.Green);
+
+                        // Encode to ADX
+                        if (settings.EncodeRenameOutput)
+                            EncodeAndDelete(outPath);
                     }
                     else
                         Output.VerboseLog($"[WARNING] File with name \"{fileName}\" not found in directory \"{settings.RenameDir}\", " +
@@ -352,6 +364,16 @@ namespace PersonaVCE
                 Output.Log($"[INFO] Done copying and renaming files to: \"{settings.RenameOutDir}\"", ConsoleColor.Green);
                 SystemSounds.Exclamation.Play();
             }).Start();
+        }
+
+        private void EncodeAndDelete(string outPath)
+        {
+            if (File.Exists(outPath) && Path.GetExtension(outPath).ToLower() == ".wav")
+            {
+                EncodeFile(outPath, Path.GetDirectoryName(outPath));
+                using (FileSys.WaitForFile(outPath)) { };
+                File.Delete(outPath);
+            }
         }
 
         private void ExtractArchive(string archivePath)
@@ -391,7 +413,7 @@ namespace PersonaVCE
                 string outputDir = FileSys.CreateUniqueDir(afsPath + "_extracted");
                 Directory.CreateDirectory(outputDir);
 
-                //new Thread(() =>
+                new Thread(() =>
                 {
                     Thread.CurrentThread.IsBackground = true;
 
@@ -416,7 +438,7 @@ namespace PersonaVCE
                     }
                     SystemSounds.Exclamation.Play();
                 }
-                //).Start();
+                ).Start();
                 Output.Log($"[INFO] Done extracting archive contents to: \"{outputDir}\"", ConsoleColor.Green);
             }
             else
@@ -429,7 +451,7 @@ namespace PersonaVCE
 
             if (Directory.Exists(afsDir))
             {
-                //new Thread(() =>
+                new Thread(() =>
                 {
                     Thread.CurrentThread.IsBackground = true;
                     // Get input files from AFS directory
@@ -449,7 +471,7 @@ namespace PersonaVCE
 
                     SystemSounds.Exclamation.Play();
                 }
-                //).Start();
+                ).Start();
                 Output.Log($"[INFO] Done creating AFS archive at: \"{outputFile}\"", ConsoleColor.Green);
             }
             else
@@ -460,17 +482,19 @@ namespace PersonaVCE
         {
             if (File.Exists(acbPath))
             {
-                //new Thread(() =>
+                new Thread(() =>
                 {
                     Thread.CurrentThread.IsBackground = true;
 
                     // Extract ADX from ACB
+                    // In order to make this workk, make AcbEditor Program procedure public
+                    // and add return; to start of OnProgressChanged()
                     AcbEditor.Program.Main(new string[] { acbPath });
                     Output.Log($"[INFO] Done extracting archive contents from: \"{acbPath}\"", ConsoleColor.Green);
                     
                     SystemSounds.Exclamation.Play();
                 }
-                //).Start();
+                ).Start();
             }
             else
                 Output.Log($"[ERROR] ACB extract failed, input archive doesn't exist: \"{acbPath}\"", ConsoleColor.Red);
@@ -495,17 +519,19 @@ namespace PersonaVCE
                 
             if (Directory.Exists(acbDir))
             {
-                //new Thread(() =>
+                new Thread(() =>
                 {
                     Thread.CurrentThread.IsBackground = true;
 
                     // Repack ACB
                     Output.Log($"[INFO] Repacking ACB/AWB file with files from: \"{acbDir}\"");
+                    // In order to make this workk, make AcbEditor Program procedure public
+                    // and add return; to start of OnProgressChanged()
                     AcbEditor.Program.Main(new string[] { acbDir });
                     Output.Log($"[INFO] Done repacking ACB archive: \"{acbFile}\"", ConsoleColor.Green);
                     SystemSounds.Exclamation.Play();
                 }
-                //).Start();
+                ).Start();
             }
             else
                 Output.Log($"[ERROR] ACB repack failed, extracted archive directory doesn't exist: \"{acbDir}\"", ConsoleColor.Red);

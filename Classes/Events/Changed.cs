@@ -76,6 +76,12 @@ namespace PersonaVCE
         private void StartIDValue_Changed(object sender, EventArgs e)
         {
             settings.StartIndex = num_StartID.Value;
+            int i = Convert.ToInt32(settings.StartIndex);
+            foreach (DataGridViewRow row in dgv_RenameTxt.Rows)
+            {
+                row.Cells[0].Value = i;
+                i++;
+            }
         }
 
         private void Suffix_Changed(object sender, EventArgs e)
@@ -249,6 +255,32 @@ namespace PersonaVCE
                 num_RyoVolume.Enabled = false;
                 chk_RyoPlayerVol.Enabled = false;
                 chk_RyoOverrideVolume.Enabled = false;
+            }
+        }
+
+        private void EncodeRenameOutput_Changed(object sender, EventArgs e)
+        {
+            settings.EncodeRenameOutput = chk_EncodeRename.Checked;
+        }
+
+        private void DataGridView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.V)
+            {
+                string clipboardText = Clipboard.GetText(TextDataFormat.Text);
+                if (clipboardText.Contains("\r\n"))
+                {
+                    settings.DGVCells = new List<string>();
+                    dgv_RenameTxt.Rows.Clear();
+                    int i = Convert.ToInt32(settings.StartIndex);
+                    foreach (var line in clipboardText.Split('\n'))
+                    {
+                        string value = line.Split('\t')[0].Trim('\r');
+                        dgv_RenameTxt.Rows.Add(i, value);
+                        settings.DGVCells.Add(value);
+                        i++;
+                    }
+                }
             }
         }
     }
