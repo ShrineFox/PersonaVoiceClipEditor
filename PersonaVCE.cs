@@ -8,10 +8,8 @@ using ShrineFox.IO;
 using AFSLib;
 using System.Media;
 using MetroSet_UI.Forms;
-using System.Windows.Forms;
-using static System.Windows.Forms.Design.AxImporter;
-using System.Diagnostics.Eventing.Reader;
 using NAudio.Wave;
+using NAudio.Wave.SampleProviders;
 
 namespace PersonaVCE
 {
@@ -104,69 +102,161 @@ namespace PersonaVCE
         {
             bool encrypted = false;
             string extension = Path.GetExtension(file).ToLower();
+
+            string vgAudioPath = Path.Combine(Exe.Directory(), "Dependencies\\VGAudio.exe");
+
             // Check if adx is already encrypted
             if (extension == ".adx")
+                encrypted = CheckADXEncryption(file);
+
+            string args = $"\"{file}\"";
+
+            // If volume does not equal 1.0, convert to WAV and adjust volume
+
+            string tempWav = Path.Combine(outputDir, Path.GetFileNameWithoutExtension(file) + "_temp.wav");
+            string volAdjustedWav = Path.Combine(outputDir, Path.GetFileNameWithoutExtension(file) + ".wav");
+            if (Convert.ToSingle(num_Volume.Value) != 1.0f)
             {
-                using (FileStream fs = new FileStream(file, FileMode.Open))
+                string tempArgs = args + $" \"{tempWav}\"";
+
+                // If file is encrypted, remove encryption with key.
+                if (num_EncryptionKey.Value != 0 && encrypted)
+                    tempArgs += $" --keycode {num_EncryptionKey.Value}";
+                encrypted = false;
+
+                Exe.Run(vgAudioPath, tempArgs);
+                using (FileSys.WaitForFile(tempWav)) { };
+
+                // Change WAV volume
+                using (var wavReader = new AudioFileReader(tempWav))
                 {
-                    using (BinaryReader reader = new BinaryReader(fs))
-                    {
-                        reader.BaseStream.Position = 19;
-                        if (reader.ReadByte() == Convert.ToByte(9))
-                            encrypted = true;
-                    }
+                    wavReader.Volume = Convert.ToSingle(num_Volume.Value);
+                    SampleChannel channel = new SampleChannel(wavReader);
+                    WaveFileWriter.CreateWaveFile16(volAdjustedWav, channel);
                 }
+
+                using (FileSys.WaitForFile(volAdjustedWav)) { };
+                args = $"\"{volAdjustedWav}\"";
             }
+
             string outPath = Path.Combine(outputDir, Path.GetFileNameWithoutExtension(file) + settings.OutFormat);
-            string args = $"\"{file}\" \"{outPath}\"";
+            args += $" \"{outPath}\"";
 
             // If file is encrypted, remove encryption with key.
             // Otherwise, output will be encrypted with key
-            if (settings.UseKey && settings.Key != 0)
+            if (num_EncryptionKey.Value != 0 && encrypted && settings.Decrypt ||
+                num_EncryptionKey.Value != 0 && !encrypted && !settings.Decrypt)
                 args += $" --keycode {num_EncryptionKey.Value}";
 
             // If loops are specified, use loops
             if (settings.UseLoops)
             {
+                string loopArgs = " -l";
+
                 if (settings.LoopAll)
-                    args += $" -l 0-{GetSampleCount(file) - 1}";
+                    loopArgs += $" 0-{GetSampleCount(file) - 1}";
                 else
-                    args += $" -l {Convert.ToInt32(settings.LoopStart)}-{Convert.ToInt32(settings.LoopEnd)}";
+                {
+                    if (extension == ".adx" && settings.UseExistingLoop)
+                    {
+                        var loopPoints = GetADXLoopPoints(file);
+                        loopArgs += $" {Convert.ToInt32(loopPoints.Item1)}-{Convert.ToInt32(loopPoints.Item2)}";
+                    }
+                    else
+                        loopArgs += $" {Convert.ToInt32(settings.LoopStart)}-{Convert.ToInt32(settings.LoopEnd)}";
+                }
+
+                args += loopArgs;
             }
 
             Output.VerboseLog($"[INFO] Encoding \"{Path.GetFileName(file)}\" to \"{Path.GetFileName(outPath)}\"...");
-            string vgAudioPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "Dependencies\\VGAudio.exe");
             if (!File.Exists(vgAudioPath))
             {
                 Output.VerboseLog($"[INFO] Failed to encode, could not find executable: \"{vgAudioPath}\"", ConsoleColor.DarkRed);
                 return;
             }
+
             Exe.Run(vgAudioPath, args);
             using (FileSys.WaitForFile(outPath)) { };
             if (File.Exists(outPath))
             {
-                if (settings.OutFormat == ".adx" && args.Contains("--keycode"))
+                if (settings.OutFormat == ".adx" && num_EncryptionKey.Value != 0)
                 {
-                    using (FileStream fs = new FileStream(outPath, FileMode.Open))
-                    {
-                        using (BinaryWriter writer = new BinaryWriter(fs))
-                        {
-                            // Add encryption flag to file if using keycode
-                            writer.BaseStream.Position = 19;
-                            byte newByte = Convert.ToByte(9);
-                            // Remove encryption flag if input is encrypted,
-                            // and therefore output is no longer encrypted
-                            if (encrypted)
-                                newByte = Convert.ToByte(0);
-                            Output.VerboseLog($"[INFO] Setting encryption byte to: {newByte.ToString("x2")}");
-                            writer.Write(newByte);
-                        };
-                    }
+                    SetADXEncryptionFlag(outPath, encrypted);
                 }
                 Output.VerboseLog($"[INFO] Encoded file successfully!", ConsoleColor.DarkGreen);
             }
             else
                 Output.VerboseLog($"[INFO] Failed to encode file: \"{file}\"", ConsoleColor.DarkRed);
+
+            if (Convert.ToSingle(num_Volume.Value) != 1.0f)
+            {
+                if (File.Exists(tempWav))
+                    File.Delete(tempWav);
+                if (File.Exists(volAdjustedWav))
+                    File.Delete(volAdjustedWav);
+            }
+        }
+
+        private Tuple<int, int> GetADXLoopPoints(string file)
+        {
+            Tuple<int, int> loopPoints = new Tuple<int, int>(0, 0);
+
+            using (FileStream fs = new FileStream(file, FileMode.Open))
+            {
+                using (EndianBinaryReader reader = new EndianBinaryReader(fs, Endianness.BigEndian))
+                {
+                    reader.BaseStream.Position = 34;
+
+                    if (reader.ReadByte() == Convert.ToByte(0)
+                        && reader.ReadByte() == Convert.ToByte(1))
+                    {
+                        reader.BaseStream.Position = 40;
+                        var startSample = reader.ReadInt32();
+
+                        reader.BaseStream.Position = 48;
+                        var endSample = reader.ReadInt32();
+
+                        loopPoints = new Tuple<int, int>(startSample, endSample);
+                    }
+                }
+            }
+
+            return loopPoints;
+        }
+
+        private bool CheckADXEncryption(string file)
+        {
+            using (FileStream fs = new FileStream(file, FileMode.Open))
+            {
+                using (BinaryReader reader = new BinaryReader(fs))
+                {
+                    reader.BaseStream.Position = 19;
+
+                    if (reader.ReadByte() == Convert.ToByte(9))
+                        return true;
+
+                    return false;
+                }
+            }
+        }
+
+        private void SetADXEncryptionFlag(string outPath, bool encrypted)
+        {
+            using (FileStream fs = new FileStream(outPath, FileMode.Open))
+            {
+                using (BinaryWriter writer = new BinaryWriter(fs))
+                {
+                    // Add encryption flag to adx file if using keycode
+                    writer.BaseStream.Position = 19;
+                    byte newByte = Convert.ToByte(9);
+                    // Remove encryption flag if decrypting
+                    if (encrypted && settings.Decrypt)
+                        newByte = Convert.ToByte(0);
+                    Output.VerboseLog($"[INFO] Setting encryption byte to: {newByte.ToString("x2")}");
+                    writer.Write(newByte);
+                };
+            }
         }
 
         private long GetSampleCount(string file)
@@ -535,6 +625,66 @@ namespace PersonaVCE
             }
             else
                 Output.Log($"[ERROR] ACB repack failed, extracted archive directory doesn't exist: \"{acbDir}\"", ConsoleColor.Red);
+        }
+
+        private static int Clamp(int value, int min, int max)
+        {
+            if (value < min) return min;
+            if (value > max) return max;
+            return value;
+        }
+
+        public static bool ChangeVolume(string inputFilePath, string outputFilePath, float volumeFactor)
+        {
+            if (volumeFactor < 0)
+            {
+                Output.Log($"[ERROR] Volume change failed, volume factor must be a non-negative number.", ConsoleColor.Red);
+                return false;
+            }
+
+            using (var inputFile = new FileStream(inputFilePath, FileMode.Open, FileAccess.Read))
+            using (var outputFile = new FileStream(outputFilePath, FileMode.Create, FileAccess.Write))
+            using (var reader = new BinaryReader(inputFile))
+            using (var writer = new BinaryWriter(outputFile))
+            {
+                // Read WAV header (first 44 bytes)
+                byte[] header = reader.ReadBytes(44);
+                writer.Write(header);
+
+                // Determine bit depth from header (e.g., 16-bit, 24-bit, etc.)
+                int bitsPerSample = BitConverter.ToInt16(header, 34);
+                int bytesPerSample = bitsPerSample / 8;
+
+                if (bytesPerSample != 2)
+                {
+                    Output.Log($"[ERROR] Volume change failed, only 16-bit PCM WAV files are supported..", ConsoleColor.Red);
+                    return false;
+                }
+
+                // Process audio data
+                while (reader.BaseStream.Position < reader.BaseStream.Length)
+                {
+                    // Read a sample (16-bit signed integer)
+                    short sample = reader.ReadInt16();
+
+                    // Adjust the sample by the volume factor
+                    int newSample = (int)(sample * volumeFactor);
+
+                    // Clamp to avoid overflow
+                    newSample = Clamp(newSample, short.MinValue, short.MaxValue);
+
+                    // Write the adjusted sample
+                    writer.Write((short)newSample);
+                }
+            }
+
+            if (File.Exists(outputFilePath))
+            {
+                Output.Log($"[INFO] Volume change succeeded: \"{outputFilePath}\"", ConsoleColor.Green);
+                return true;
+            }
+
+            return false;
         }
     }
 }

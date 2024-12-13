@@ -22,9 +22,10 @@ namespace PersonaVCE
             public string InputDir { get; set; } = "";
             public string OutputDir { get; set; } = "";
             public string OutFormat { get; set; } = ".adx";
-            public bool UseKey { get; set; } = false;
+            public bool Decrypt { get; set; } = false;
             public decimal Key { get; set; } = 0;
             public bool UseLoops { get; set; } = false;
+            public bool UseExistingLoop { get; set; } = false;
             public bool LoopAll { get; set; } = false;
             public decimal LoopStart { get; set; } = 0;
             public decimal LoopEnd { get; set; } = 0;
@@ -87,10 +88,11 @@ namespace PersonaVCE
             comboBox_SoundFormat.SelectedItem = settings.OutFormat;
             comboBox_ArchiveFormat.SelectedItem = settings.ArchiveFormat;
 
-            chk_UseEncryption.Checked = settings.UseKey;
+            chk_Decrypt.Checked = settings.Decrypt;
             num_EncryptionKey.Value = settings.Key;
             chk_UseLoopPoints.Checked = settings.UseLoops;
             chk_LoopAll.Checked = settings.LoopAll;
+            chk_UseExistingLoop.Checked = settings.UseExistingLoop;
             num_LoopStart.Value = settings.LoopStart;
             num_LoopEnd.Value = settings.LoopEnd;
 

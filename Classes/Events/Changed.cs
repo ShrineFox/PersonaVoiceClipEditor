@@ -12,23 +12,9 @@ namespace PersonaVCE
 {
     public partial class PersonaVCE : MetroSetForm
     {
-        private void ToggleKey()
+        private void Decrypt_CheckedChanged(object sender, EventArgs e)
         {
-            if (chk_UseEncryption.Checked)
-            {
-                num_EncryptionKey.Enabled = true;
-                settings.UseKey = true;
-            }
-            else
-            {
-                settings.UseKey = false;
-                num_EncryptionKey.Enabled = false;
-            }
-        }
-
-        private void UseEncKey_CheckedChanged(object sender, EventArgs e)
-        {
-            ToggleKey();
+            settings.Decrypt = chk_Decrypt.Checked;
         }
 
         private void LoopAll_CheckedChanged(object sender, EventArgs e)
@@ -112,7 +98,7 @@ namespace PersonaVCE
                     break;
                 case "P5 (PS3)":
                     SetP5Defaults();
-                    chk_UseEncryption.Checked = false;
+                    num_EncryptionKey.Value = 0;
                     break;
                 default:
                     SetDefaults();
@@ -123,7 +109,7 @@ namespace PersonaVCE
 
         private void SetDefaults()
         {
-            chk_UseEncryption.Checked = false;
+            chk_Decrypt.Checked = false;
             num_EncryptionKey.Value = 0;
             txt_RenameSuffix.Text = "";
             num_LeftPadding.Value = 0;
@@ -132,7 +118,7 @@ namespace PersonaVCE
 
         private void SetP5Defaults()
         {
-            chk_UseEncryption.Checked = true;
+            chk_Decrypt.Checked = false;
             num_EncryptionKey.Value = 0;
             txt_RenameSuffix.Text = "_streaming";
             num_LeftPadding.Value = 5;
@@ -157,15 +143,22 @@ namespace PersonaVCE
             if (chk_UseLoopPoints.Checked)
             {
                 chk_LoopAll.Enabled = true;
+                chk_UseExistingLoop.Enabled = true;
                 settings.UseLoops = true;
             }
             else
             {
                 settings.UseLoops = false;
+                chk_UseExistingLoop.Enabled = false;
                 chk_LoopAll.Enabled = false;
             }
 
             EnableLoopEntry();
+        }
+
+        private void UseExistingLoop_CheckChanged(object sender, EventArgs e)
+        {
+            settings.UseExistingLoop = chk_UseExistingLoop.Checked;
         }
 
         private void LoopAll_Checked(object sender, EventArgs e)
