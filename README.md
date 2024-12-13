@@ -17,9 +17,10 @@ This may be useful for [automatically making dual-language mods](https://shrinef
 ## Encoding
 - **Drag Files To Encode**: Selected files or a folder containing them will be converted to the target sound format using ``VGAudio.exe``. Output will appear in a folder named ``Encoded`` next to the source files.  
 - **Drag Files To Decode**: Same as above, but ignores the selected sound format and outputs files as ``.wav``.  
-- **Use New Loop Points**: Uses the specified start/end sample numbers to infinitely loop the audio track.  
-- **Loop Entire Track**: Ignores the start/end sample numbers and infinitely loops the track between the very first and very last sample.  
-- **Use New Encryption Key**: Uses the provided keycode to encrypt output ``.adx`` when encoding. If the input is already an encrypted ``.adx``, this is used to remove encryption. If unchecked, existing encryption will not be affected by encoding.  
+- **Use Loop Points**: Uses the specified custom start/end sample numbers to infinitely loop the audio track.
+- **Use Existing Loop Points**: If input file is an ADX, we will attempt to use the existing start/end points (useful for decrypting/changing volume). Overrides custom set loop points.   
+- **Loop Entire Track**: Ignores the start/end sample numbers and infinitely loops the track between the very first and very last sample. Overrides all other loop options.  
+- **Decrypt if Encrypted**: Uses the provided keycode to decrypt an already-encrypted ``.adx`` when re-encoding.
 ## Renaming
 - **Ordered Filenames From Txt File**: See below.
 - **Source Sound Files Path**: The folder containing sound files used in the ``.txt`` list.  
@@ -68,3 +69,4 @@ Please note **these files will be overwritten** so back them up before proceedin
 [ACBEditor](https://github.com/blueskythlikesclouds/SonicAudioTools) - ``.ACB``/``.AWB`` Unpacking/Repacking  
 [MetroSet-UI](https://github.com/N-a-r-w-i-n/MetroSet-UI) - Dark/Light Themes for WinForms Controls  
 [ShrineFox.IO](https://github.com/ShrineFox/ShrineFox.IO) - Shared Code Library for my projects
+[NAudio](https://github.com/naudio/NAudio) - WAV Volume editing
