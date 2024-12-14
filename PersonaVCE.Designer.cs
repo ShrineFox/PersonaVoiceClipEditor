@@ -1058,7 +1058,7 @@ namespace PersonaVCE
             this.tlp_Ryo.SetColumnSpan(this.comboBox_Ryo, 2);
             this.comboBox_Ryo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_Ryo.FormattingEnabled = true;
-            this.comboBox_Ryo.Location = new System.Drawing.Point(3, 6);
+            this.comboBox_Ryo.Location = new System.Drawing.Point(3, 4);
             this.comboBox_Ryo.Name = "comboBox_Ryo";
             this.comboBox_Ryo.Size = new System.Drawing.Size(281, 28);
             this.comboBox_Ryo.TabIndex = 1;
@@ -1339,7 +1339,7 @@ namespace PersonaVCE
             this.ShowLeftRect = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.Style = MetroSet_UI.Enums.Style.Dark;
-            this.Text = "PersonaVCE v2.4";
+            this.Text = "PersonaVCE v2.4.1";
             this.TextColor = System.Drawing.Color.White;
             this.ThemeName = "MetroDark";
             this.menuStrip1.ResumeLayout(false);
