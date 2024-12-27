@@ -111,6 +111,7 @@ namespace PersonaVCE
             this.txt_RenameSuffix = new System.Windows.Forms.TextBox();
             this.tabPage_Archives = new System.Windows.Forms.TabPage();
             this.tlp_Archives = new System.Windows.Forms.TableLayoutPanel();
+            this.chk_RepackArchiveSilenced = new System.Windows.Forms.CheckBox();
             this.btn_ExtractArchive = new System.Windows.Forms.Button();
             this.btn_RepackArchive = new System.Windows.Forms.Button();
             this.rtb_Log = new System.Windows.Forms.RichTextBox();
@@ -276,7 +277,7 @@ namespace PersonaVCE
             this.splitContainer_Main.Panel2.AllowDrop = true;
             this.splitContainer_Main.Panel2.Controls.Add(this.rtb_Log);
             this.splitContainer_Main.Size = new System.Drawing.Size(778, 573);
-            this.splitContainer_Main.SplitterDistance = 508;
+            this.splitContainer_Main.SplitterDistance = 507;
             this.splitContainer_Main.TabIndex = 2;
             // 
             // metroSetTabControl_Main
@@ -288,15 +289,15 @@ namespace PersonaVCE
             this.metroSetTabControl_Main.Controls.Add(this.tabPage_Encoding);
             this.metroSetTabControl_Main.Controls.Add(this.tabPage_Renaming);
             this.metroSetTabControl_Main.Controls.Add(this.tabPage_Archives);
-            this.metroSetTabControl_Main.Cursor = System.Windows.Forms.Cursors.Default;
+            this.metroSetTabControl_Main.Cursor = System.Windows.Forms.Cursors.Hand;
             this.metroSetTabControl_Main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.metroSetTabControl_Main.IsDerivedStyle = true;
             this.metroSetTabControl_Main.ItemSize = new System.Drawing.Size(100, 38);
             this.metroSetTabControl_Main.Location = new System.Drawing.Point(0, 0);
             this.metroSetTabControl_Main.Name = "metroSetTabControl_Main";
-            this.metroSetTabControl_Main.SelectedIndex = 0;
+            this.metroSetTabControl_Main.SelectedIndex = 2;
             this.metroSetTabControl_Main.SelectedTextColor = System.Drawing.Color.White;
-            this.metroSetTabControl_Main.Size = new System.Drawing.Size(778, 508);
+            this.metroSetTabControl_Main.Size = new System.Drawing.Size(778, 507);
             this.metroSetTabControl_Main.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.metroSetTabControl_Main.Speed = 100;
             this.metroSetTabControl_Main.Style = MetroSet_UI.Enums.Style.Dark;
@@ -314,7 +315,7 @@ namespace PersonaVCE
             this.tabPage_Encoding.Controls.Add(this.tlp_EncodingTab);
             this.tabPage_Encoding.Location = new System.Drawing.Point(4, 42);
             this.tabPage_Encoding.Name = "tabPage_Encoding";
-            this.tabPage_Encoding.Size = new System.Drawing.Size(770, 462);
+            this.tabPage_Encoding.Size = new System.Drawing.Size(770, 460);
             this.tabPage_Encoding.TabIndex = 0;
             this.tabPage_Encoding.Text = "Encoding";
             // 
@@ -333,7 +334,7 @@ namespace PersonaVCE
             this.tlp_EncodingTab.RowCount = 2;
             this.tlp_EncodingTab.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 45F));
             this.tlp_EncodingTab.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 55F));
-            this.tlp_EncodingTab.Size = new System.Drawing.Size(770, 462);
+            this.tlp_EncodingTab.Size = new System.Drawing.Size(770, 460);
             this.tlp_EncodingTab.TabIndex = 3;
             // 
             // btn_Encode
@@ -359,7 +360,7 @@ namespace PersonaVCE
             this.groupBox_LoopPoints.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.groupBox_LoopPoints.Location = new System.Drawing.Point(3, 210);
             this.groupBox_LoopPoints.Name = "groupBox_LoopPoints";
-            this.groupBox_LoopPoints.Size = new System.Drawing.Size(379, 249);
+            this.groupBox_LoopPoints.Size = new System.Drawing.Size(379, 247);
             this.groupBox_LoopPoints.TabIndex = 2;
             this.groupBox_LoopPoints.TabStop = false;
             this.groupBox_LoopPoints.Text = "Loop Points";
@@ -385,7 +386,7 @@ namespace PersonaVCE
             this.tlp_LoopSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tlp_LoopSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlp_LoopSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlp_LoopSettings.Size = new System.Drawing.Size(373, 224);
+            this.tlp_LoopSettings.Size = new System.Drawing.Size(373, 222);
             this.tlp_LoopSettings.TabIndex = 0;
             // 
             // chk_UseExistingLoop
@@ -403,7 +404,7 @@ namespace PersonaVCE
             // num_LoopStart
             // 
             this.num_LoopStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.num_LoopStart.Location = new System.Drawing.Point(3, 166);
+            this.num_LoopStart.Location = new System.Drawing.Point(3, 164);
             this.num_LoopStart.Maximum = new decimal(new int[] {
             -1,
             -1,
@@ -417,7 +418,7 @@ namespace PersonaVCE
             // num_LoopEnd
             // 
             this.num_LoopEnd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.num_LoopEnd.Location = new System.Drawing.Point(207, 166);
+            this.num_LoopEnd.Location = new System.Drawing.Point(207, 164);
             this.num_LoopEnd.Maximum = new decimal(new int[] {
             -1,
             -1,
@@ -433,7 +434,7 @@ namespace PersonaVCE
             this.chk_LoopAll.AutoSize = true;
             this.tlp_LoopSettings.SetColumnSpan(this.chk_LoopAll, 3);
             this.chk_LoopAll.ForeColor = System.Drawing.Color.DimGray;
-            this.chk_LoopAll.Location = new System.Drawing.Point(3, 70);
+            this.chk_LoopAll.Location = new System.Drawing.Point(3, 69);
             this.chk_LoopAll.Name = "chk_LoopAll";
             this.chk_LoopAll.Size = new System.Drawing.Size(164, 24);
             this.chk_LoopAll.TabIndex = 4;
@@ -459,7 +460,7 @@ namespace PersonaVCE
             this.lbl_Loop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_Loop.AutoSize = true;
             this.lbl_Loop.ForeColor = System.Drawing.Color.Black;
-            this.lbl_Loop.Location = new System.Drawing.Point(170, 169);
+            this.lbl_Loop.Location = new System.Drawing.Point(170, 167);
             this.lbl_Loop.Name = "lbl_Loop";
             this.lbl_Loop.Size = new System.Drawing.Size(31, 20);
             this.lbl_Loop.TabIndex = 1;
@@ -478,7 +479,7 @@ namespace PersonaVCE
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(379, 249);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(379, 247);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
             // groupBox_Volume
@@ -486,9 +487,9 @@ namespace PersonaVCE
             this.groupBox_Volume.Controls.Add(this.num_Volume);
             this.groupBox_Volume.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox_Volume.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.groupBox_Volume.Location = new System.Drawing.Point(3, 127);
+            this.groupBox_Volume.Location = new System.Drawing.Point(3, 126);
             this.groupBox_Volume.Name = "groupBox_Volume";
-            this.groupBox_Volume.Size = new System.Drawing.Size(373, 119);
+            this.groupBox_Volume.Size = new System.Drawing.Size(373, 118);
             this.groupBox_Volume.TabIndex = 5;
             this.groupBox_Volume.TabStop = false;
             this.groupBox_Volume.Text = "Volume";
@@ -497,7 +498,7 @@ namespace PersonaVCE
             // 
             this.num_Volume.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.num_Volume.DecimalPlaces = 1;
-            this.num_Volume.Location = new System.Drawing.Point(6, 46);
+            this.num_Volume.Location = new System.Drawing.Point(6, 45);
             this.num_Volume.Maximum = new decimal(new int[] {
             99,
             0,
@@ -519,7 +520,7 @@ namespace PersonaVCE
             this.groupBox_Encryption.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.groupBox_Encryption.Location = new System.Drawing.Point(3, 3);
             this.groupBox_Encryption.Name = "groupBox_Encryption";
-            this.groupBox_Encryption.Size = new System.Drawing.Size(373, 118);
+            this.groupBox_Encryption.Size = new System.Drawing.Size(373, 117);
             this.groupBox_Encryption.TabIndex = 4;
             this.groupBox_Encryption.TabStop = false;
             this.groupBox_Encryption.Text = "Encryption Key";
@@ -539,7 +540,7 @@ namespace PersonaVCE
             this.tlp_Encryption.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 28.81356F));
             this.tlp_Encryption.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 71.18644F));
             this.tlp_Encryption.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlp_Encryption.Size = new System.Drawing.Size(367, 93);
+            this.tlp_Encryption.Size = new System.Drawing.Size(367, 92);
             this.tlp_Encryption.TabIndex = 0;
             // 
             // num_EncryptionKey
@@ -574,7 +575,7 @@ namespace PersonaVCE
             this.tabPage_Renaming.Controls.Add(this.splitContainer_Renaming);
             this.tabPage_Renaming.Location = new System.Drawing.Point(4, 42);
             this.tabPage_Renaming.Name = "tabPage_Renaming";
-            this.tabPage_Renaming.Size = new System.Drawing.Size(770, 462);
+            this.tabPage_Renaming.Size = new System.Drawing.Size(770, 460);
             this.tabPage_Renaming.TabIndex = 1;
             this.tabPage_Renaming.Text = "Renaming";
             // 
@@ -594,7 +595,7 @@ namespace PersonaVCE
             // 
             this.splitContainer_Renaming.Panel2.AllowDrop = true;
             this.splitContainer_Renaming.Panel2.Controls.Add(this.tlp_RenamingSettings);
-            this.splitContainer_Renaming.Size = new System.Drawing.Size(770, 462);
+            this.splitContainer_Renaming.Size = new System.Drawing.Size(770, 460);
             this.splitContainer_Renaming.SplitterDistance = 467;
             this.splitContainer_Renaming.TabIndex = 4;
             // 
@@ -611,7 +612,7 @@ namespace PersonaVCE
             this.tlp_RenamingDGV.RowCount = 2;
             this.tlp_RenamingDGV.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 55F));
             this.tlp_RenamingDGV.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 45F));
-            this.tlp_RenamingDGV.Size = new System.Drawing.Size(467, 462);
+            this.tlp_RenamingDGV.Size = new System.Drawing.Size(467, 460);
             this.tlp_RenamingDGV.TabIndex = 0;
             // 
             // tlp_RenamePaths
@@ -624,13 +625,13 @@ namespace PersonaVCE
             this.tlp_RenamePaths.Controls.Add(this.groupBox_RenameOutputPath, 0, 1);
             this.tlp_RenamePaths.Controls.Add(this.groupBox_RenameSourcePath, 0, 0);
             this.tlp_RenamePaths.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_RenamePaths.Location = new System.Drawing.Point(3, 257);
+            this.tlp_RenamePaths.Location = new System.Drawing.Point(3, 256);
             this.tlp_RenamePaths.Name = "tlp_RenamePaths";
             this.tlp_RenamePaths.RowCount = 3;
             this.tlp_RenamePaths.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tlp_RenamePaths.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tlp_RenamePaths.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tlp_RenamePaths.Size = new System.Drawing.Size(461, 202);
+            this.tlp_RenamePaths.Size = new System.Drawing.Size(461, 201);
             this.tlp_RenamePaths.TabIndex = 8;
             // 
             // groupBox_InputTxtFile
@@ -641,7 +642,7 @@ namespace PersonaVCE
             this.groupBox_InputTxtFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.groupBox_InputTxtFile.Location = new System.Drawing.Point(3, 137);
             this.groupBox_InputTxtFile.Name = "groupBox_InputTxtFile";
-            this.groupBox_InputTxtFile.Size = new System.Drawing.Size(455, 62);
+            this.groupBox_InputTxtFile.Size = new System.Drawing.Size(455, 61);
             this.groupBox_InputTxtFile.TabIndex = 2;
             this.groupBox_InputTxtFile.TabStop = false;
             this.groupBox_InputTxtFile.Text = "Txt File With Filenames In Order Path";
@@ -659,7 +660,7 @@ namespace PersonaVCE
             this.tlp_InputTxtFile.Name = "tlp_InputTxtFile";
             this.tlp_InputTxtFile.RowCount = 1;
             this.tlp_InputTxtFile.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_InputTxtFile.Size = new System.Drawing.Size(449, 37);
+            this.tlp_InputTxtFile.Size = new System.Drawing.Size(449, 36);
             this.tlp_InputTxtFile.TabIndex = 0;
             // 
             // btn_InputTxtFile
@@ -670,7 +671,7 @@ namespace PersonaVCE
             this.btn_InputTxtFile.ForeColor = System.Drawing.Color.DimGray;
             this.btn_InputTxtFile.Location = new System.Drawing.Point(384, 3);
             this.btn_InputTxtFile.Name = "btn_InputTxtFile";
-            this.btn_InputTxtFile.Size = new System.Drawing.Size(62, 31);
+            this.btn_InputTxtFile.Size = new System.Drawing.Size(62, 30);
             this.btn_InputTxtFile.TabIndex = 7;
             this.btn_InputTxtFile.Text = "...";
             this.btn_InputTxtFile.UseVisualStyleBackColor = true;
@@ -810,7 +811,7 @@ namespace PersonaVCE
             this.groupBox_RenameTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.groupBox_RenameTxt.Location = new System.Drawing.Point(3, 3);
             this.groupBox_RenameTxt.Name = "groupBox_RenameTxt";
-            this.groupBox_RenameTxt.Size = new System.Drawing.Size(461, 248);
+            this.groupBox_RenameTxt.Size = new System.Drawing.Size(461, 247);
             this.groupBox_RenameTxt.TabIndex = 1;
             this.groupBox_RenameTxt.TabStop = false;
             this.groupBox_RenameTxt.Text = "Ordered Filenames From Txt File";
@@ -852,7 +853,7 @@ namespace PersonaVCE
             this.dgv_RenameTxt.RowHeadersVisible = false;
             this.dgv_RenameTxt.RowHeadersWidth = 51;
             this.dgv_RenameTxt.RowTemplate.Height = 24;
-            this.dgv_RenameTxt.Size = new System.Drawing.Size(455, 223);
+            this.dgv_RenameTxt.Size = new System.Drawing.Size(455, 222);
             this.dgv_RenameTxt.TabIndex = 0;
             this.dgv_RenameTxt.DragDrop += new System.Windows.Forms.DragEventHandler(this.Dgv_DragDrop);
             this.dgv_RenameTxt.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnter);
@@ -895,7 +896,7 @@ namespace PersonaVCE
             this.tlp_RenamingSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 55F));
             this.tlp_RenamingSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tlp_RenamingSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 9F));
-            this.tlp_RenamingSettings.Size = new System.Drawing.Size(299, 462);
+            this.tlp_RenamingSettings.Size = new System.Drawing.Size(299, 460);
             this.tlp_RenamingSettings.TabIndex = 0;
             // 
             // chk_EncodeRename
@@ -906,7 +907,7 @@ namespace PersonaVCE
             this.chk_EncodeRename.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chk_EncodeRename.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.chk_EncodeRename.ForeColor = System.Drawing.Color.DimGray;
-            this.chk_EncodeRename.Location = new System.Drawing.Point(3, 427);
+            this.chk_EncodeRename.Location = new System.Drawing.Point(3, 426);
             this.chk_EncodeRename.Name = "chk_EncodeRename";
             this.chk_EncodeRename.Size = new System.Drawing.Size(141, 22);
             this.chk_EncodeRename.TabIndex = 13;
@@ -918,9 +919,9 @@ namespace PersonaVCE
             // 
             this.btn_Rename.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
             this.btn_Rename.ForeColor = System.Drawing.Color.DimGray;
-            this.btn_Rename.Location = new System.Drawing.Point(150, 418);
+            this.btn_Rename.Location = new System.Drawing.Point(150, 417);
             this.btn_Rename.Name = "btn_Rename";
-            this.btn_Rename.Size = new System.Drawing.Size(146, 41);
+            this.btn_Rename.Size = new System.Drawing.Size(146, 40);
             this.btn_Rename.TabIndex = 10;
             this.btn_Rename.Text = "Copy+Rename";
             this.btn_Rename.UseVisualStyleBackColor = true;
@@ -934,7 +935,7 @@ namespace PersonaVCE
             this.groupBox_Ryo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.groupBox_Ryo.Location = new System.Drawing.Point(3, 164);
             this.groupBox_Ryo.Name = "groupBox_Ryo";
-            this.groupBox_Ryo.Size = new System.Drawing.Size(293, 248);
+            this.groupBox_Ryo.Size = new System.Drawing.Size(293, 247);
             this.groupBox_Ryo.TabIndex = 12;
             this.groupBox_Ryo.TabStop = false;
             this.groupBox_Ryo.Text = "Ryo Output Settings";
@@ -959,7 +960,7 @@ namespace PersonaVCE
             this.tlp_Ryo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.9499F));
             this.tlp_Ryo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 39.66012F));
             this.tlp_Ryo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 26.44008F));
-            this.tlp_Ryo.Size = new System.Drawing.Size(287, 223);
+            this.tlp_Ryo.Size = new System.Drawing.Size(287, 222);
             this.tlp_Ryo.TabIndex = 0;
             // 
             // chk_RyoPlayerVol
@@ -1000,7 +1001,7 @@ namespace PersonaVCE
             this.groupBox_RyoFolderSuffix.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox_RyoFolderSuffix.Location = new System.Drawing.Point(3, 165);
             this.groupBox_RyoFolderSuffix.Name = "groupBox_RyoFolderSuffix";
-            this.groupBox_RyoFolderSuffix.Size = new System.Drawing.Size(137, 55);
+            this.groupBox_RyoFolderSuffix.Size = new System.Drawing.Size(137, 54);
             this.groupBox_RyoFolderSuffix.TabIndex = 5;
             this.groupBox_RyoFolderSuffix.TabStop = false;
             this.groupBox_RyoFolderSuffix.Text = "Folder Suffix";
@@ -1010,7 +1011,7 @@ namespace PersonaVCE
             this.txt_RyoFolderSuffix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_RyoFolderSuffix.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txt_RyoFolderSuffix.Enabled = false;
-            this.txt_RyoFolderSuffix.Location = new System.Drawing.Point(6, 23);
+            this.txt_RyoFolderSuffix.Location = new System.Drawing.Point(6, 22);
             this.txt_RyoFolderSuffix.Name = "txt_RyoFolderSuffix";
             this.txt_RyoFolderSuffix.Size = new System.Drawing.Size(125, 26);
             this.txt_RyoFolderSuffix.TabIndex = 5;
@@ -1253,7 +1254,7 @@ namespace PersonaVCE
             this.tabPage_Archives.Controls.Add(this.tlp_Archives);
             this.tabPage_Archives.Location = new System.Drawing.Point(4, 42);
             this.tabPage_Archives.Name = "tabPage_Archives";
-            this.tabPage_Archives.Size = new System.Drawing.Size(770, 462);
+            this.tabPage_Archives.Size = new System.Drawing.Size(770, 461);
             this.tabPage_Archives.TabIndex = 2;
             this.tabPage_Archives.Text = "Archives";
             // 
@@ -1262,16 +1263,30 @@ namespace PersonaVCE
             this.tlp_Archives.ColumnCount = 2;
             this.tlp_Archives.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlp_Archives.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlp_Archives.Controls.Add(this.chk_RepackArchiveSilenced, 0, 1);
             this.tlp_Archives.Controls.Add(this.btn_ExtractArchive, 0, 0);
             this.tlp_Archives.Controls.Add(this.btn_RepackArchive, 1, 0);
             this.tlp_Archives.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp_Archives.Location = new System.Drawing.Point(0, 0);
             this.tlp_Archives.Name = "tlp_Archives";
-            this.tlp_Archives.RowCount = 1;
-            this.tlp_Archives.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_Archives.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_Archives.Size = new System.Drawing.Size(770, 462);
+            this.tlp_Archives.RowCount = 2;
+            this.tlp_Archives.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 90F));
+            this.tlp_Archives.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlp_Archives.Size = new System.Drawing.Size(770, 461);
             this.tlp_Archives.TabIndex = 3;
+            // 
+            // chk_RepackArchiveSilenced
+            // 
+            this.chk_RepackArchiveSilenced.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.chk_RepackArchiveSilenced.AutoSize = true;
+            this.chk_RepackArchiveSilenced.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
+            this.chk_RepackArchiveSilenced.ForeColor = System.Drawing.Color.DimGray;
+            this.chk_RepackArchiveSilenced.Location = new System.Drawing.Point(3, 427);
+            this.chk_RepackArchiveSilenced.Name = "chk_RepackArchiveSilenced";
+            this.chk_RepackArchiveSilenced.Size = new System.Drawing.Size(379, 21);
+            this.chk_RepackArchiveSilenced.TabIndex = 6;
+            this.chk_RepackArchiveSilenced.Text = "Repack With Audio Silenced";
+            this.chk_RepackArchiveSilenced.UseVisualStyleBackColor = true;
             // 
             // btn_ExtractArchive
             // 
@@ -1280,7 +1295,7 @@ namespace PersonaVCE
             this.btn_ExtractArchive.ForeColor = System.Drawing.Color.DimGray;
             this.btn_ExtractArchive.Location = new System.Drawing.Point(3, 3);
             this.btn_ExtractArchive.Name = "btn_ExtractArchive";
-            this.btn_ExtractArchive.Size = new System.Drawing.Size(379, 456);
+            this.btn_ExtractArchive.Size = new System.Drawing.Size(379, 408);
             this.btn_ExtractArchive.TabIndex = 1;
             this.btn_ExtractArchive.Text = "Drag Archive to Extract";
             this.btn_ExtractArchive.UseVisualStyleBackColor = true;
@@ -1295,7 +1310,7 @@ namespace PersonaVCE
             this.btn_RepackArchive.ForeColor = System.Drawing.Color.DimGray;
             this.btn_RepackArchive.Location = new System.Drawing.Point(388, 3);
             this.btn_RepackArchive.Name = "btn_RepackArchive";
-            this.btn_RepackArchive.Size = new System.Drawing.Size(379, 456);
+            this.btn_RepackArchive.Size = new System.Drawing.Size(379, 408);
             this.btn_RepackArchive.TabIndex = 2;
             this.btn_RepackArchive.Text = "Drag Folder to Repack";
             this.btn_RepackArchive.UseVisualStyleBackColor = true;
@@ -1313,7 +1328,7 @@ namespace PersonaVCE
             this.rtb_Log.Location = new System.Drawing.Point(0, 0);
             this.rtb_Log.Name = "rtb_Log";
             this.rtb_Log.ReadOnly = true;
-            this.rtb_Log.Size = new System.Drawing.Size(778, 61);
+            this.rtb_Log.Size = new System.Drawing.Size(778, 62);
             this.rtb_Log.TabIndex = 0;
             this.rtb_Log.Text = "";
             // 
@@ -1403,6 +1418,7 @@ namespace PersonaVCE
             this.tlp_Suffix.PerformLayout();
             this.tabPage_Archives.ResumeLayout(false);
             this.tlp_Archives.ResumeLayout(false);
+            this.tlp_Archives.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1491,5 +1507,6 @@ namespace PersonaVCE
         private System.Windows.Forms.CheckBox chk_Decrypt;
         private System.Windows.Forms.NumericUpDown num_Volume;
         private System.Windows.Forms.CheckBox chk_UseExistingLoop;
+        private System.Windows.Forms.CheckBox chk_RepackArchiveSilenced;
     }
 }

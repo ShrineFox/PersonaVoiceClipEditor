@@ -504,10 +504,54 @@ namespace PersonaVCE
                 else if (Path.GetExtension(archivePath).ToLower() == ".acb")
                     ExtractACB(archivePath);
                 else
+                {
                     Output.Log($"[ERROR] Could not extract archive, not a supported format: \"{archivePath}\"", ConsoleColor.Red);
+                    return;
+                }
+
+                if (chk_RepackArchiveSilenced.Checked)
+                    RepackArchiveSilenced(archivePath);
             }
             else
                 Output.Log($"[ERROR] Could not unpack archive, file doesn't exist: \"{archivePath}\"", ConsoleColor.Red);
+        }
+
+        private void RepackArchiveSilenced(string archivePath)
+        {
+            string archiveDir = "";
+            bool isAcb = true;
+
+            if (Path.GetExtension(archivePath).ToLower() == ".afs")
+            {
+                isAcb = false;
+                archiveDir += "_extracted";
+            }
+            else
+                archiveDir = Path.Combine(Path.GetDirectoryName(archivePath), Path.GetFileNameWithoutExtension(archivePath));
+
+            FileSys.WaitForDirectory(archiveDir);
+            if (!Directory.Exists(archiveDir))
+                return;
+
+            foreach (var file in Directory.GetFiles(archiveDir))
+            {
+                using (FileSys.WaitForFile(file)) { };
+                string silentAdx = Path.Combine(Exe.Directory(), "Dependencies/silence.adx");
+                File.Copy(silentAdx, file, true);
+            }
+
+            foreach (var file in Directory.GetFiles(archiveDir))
+            {
+                using (FileSys.WaitForFile(file)) { };
+            }
+            FileSys.WaitForDirectory(archiveDir);
+
+            using (FileSys.WaitForFile(archivePath)) { };
+
+            if (isAcb)
+                RepackACB(archiveDir);
+            else
+                RepackAFS(archiveDir);
         }
 
         private void RepackArchive(string folderPath)
