@@ -204,11 +204,11 @@ namespace PersonaVCE
             Output.Log($"[INFO] Encoding \"{Path.GetFileName(inputFile)}\" to \"{Path.GetFileName(outPath)}\"...");
             Output.VerboseLog(args);
             Exe.Run(vgAudioPath, args);
-            using (FileSys.WaitForFile(outPath)) { };
             
             // Delete volume adjusted WAV
-            if (File.Exists(volAdjustedWav) && outPath != volAdjustedWav)
+            if (Convert.ToSingle(num_Volume.Value) != 1.0f && (File.Exists(volAdjustedWav) && outPath != volAdjustedWav))
             {
+                using (FileSys.WaitForFile(outPath)) { };
                 Output.Log($"Deleting volume-adjusted WAV: \"{volAdjustedWav}\"", ConsoleColor.Yellow);
                 File.Delete(volAdjustedWav);
             }
@@ -393,11 +393,11 @@ namespace PersonaVCE
                 for (int i = 0; i < settings.DGVCells.Count; i++)
                 {
                     // Add input file paths to each adx entry that matches wave ID and cue type
-                    if (files.Any(x => Path.GetFileNameWithoutExtension(x).Equals(settings.DGVCells[i])))
+                    if (files.Any(x => Path.GetFileNameWithoutExtension(x).Equals(Path.GetFileNameWithoutExtension(settings.DGVCells[i]))))
                     {
                         foreach (var adx in AdxFiles.Where(x => x.WaveID == (Convert.ToInt32(settings.StartIndex) + i)
                             && x.Streaming == settings.RyoStreaming))
-                            adx.Path = files.First(x => Path.GetFileNameWithoutExtension(x).Equals(settings.DGVCells[i]));
+                            adx.Path = files.First(x => Path.GetFileNameWithoutExtension(x).Equals(Path.GetFileNameWithoutExtension(settings.DGVCells[i])));
                     }
                 }
 

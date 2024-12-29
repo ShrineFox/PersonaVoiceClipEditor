@@ -289,13 +289,13 @@ namespace PersonaVCE
             this.metroSetTabControl_Main.Controls.Add(this.tabPage_Encoding);
             this.metroSetTabControl_Main.Controls.Add(this.tabPage_Renaming);
             this.metroSetTabControl_Main.Controls.Add(this.tabPage_Archives);
-            this.metroSetTabControl_Main.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.metroSetTabControl_Main.Cursor = System.Windows.Forms.Cursors.Default;
             this.metroSetTabControl_Main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.metroSetTabControl_Main.IsDerivedStyle = true;
             this.metroSetTabControl_Main.ItemSize = new System.Drawing.Size(100, 38);
             this.metroSetTabControl_Main.Location = new System.Drawing.Point(0, 0);
             this.metroSetTabControl_Main.Name = "metroSetTabControl_Main";
-            this.metroSetTabControl_Main.SelectedIndex = 2;
+            this.metroSetTabControl_Main.SelectedIndex = 1;
             this.metroSetTabControl_Main.SelectedTextColor = System.Drawing.Color.White;
             this.metroSetTabControl_Main.Size = new System.Drawing.Size(778, 507);
             this.metroSetTabControl_Main.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
@@ -575,7 +575,7 @@ namespace PersonaVCE
             this.tabPage_Renaming.Controls.Add(this.splitContainer_Renaming);
             this.tabPage_Renaming.Location = new System.Drawing.Point(4, 42);
             this.tabPage_Renaming.Name = "tabPage_Renaming";
-            this.tabPage_Renaming.Size = new System.Drawing.Size(770, 460);
+            this.tabPage_Renaming.Size = new System.Drawing.Size(770, 461);
             this.tabPage_Renaming.TabIndex = 1;
             this.tabPage_Renaming.Text = "Renaming";
             // 
@@ -595,7 +595,7 @@ namespace PersonaVCE
             // 
             this.splitContainer_Renaming.Panel2.AllowDrop = true;
             this.splitContainer_Renaming.Panel2.Controls.Add(this.tlp_RenamingSettings);
-            this.splitContainer_Renaming.Size = new System.Drawing.Size(770, 460);
+            this.splitContainer_Renaming.Size = new System.Drawing.Size(770, 461);
             this.splitContainer_Renaming.SplitterDistance = 467;
             this.splitContainer_Renaming.TabIndex = 4;
             // 
@@ -612,7 +612,7 @@ namespace PersonaVCE
             this.tlp_RenamingDGV.RowCount = 2;
             this.tlp_RenamingDGV.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 55F));
             this.tlp_RenamingDGV.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 45F));
-            this.tlp_RenamingDGV.Size = new System.Drawing.Size(467, 460);
+            this.tlp_RenamingDGV.Size = new System.Drawing.Size(467, 461);
             this.tlp_RenamingDGV.TabIndex = 0;
             // 
             // tlp_RenamePaths
@@ -631,7 +631,7 @@ namespace PersonaVCE
             this.tlp_RenamePaths.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tlp_RenamePaths.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tlp_RenamePaths.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tlp_RenamePaths.Size = new System.Drawing.Size(461, 201);
+            this.tlp_RenamePaths.Size = new System.Drawing.Size(461, 202);
             this.tlp_RenamePaths.TabIndex = 8;
             // 
             // groupBox_InputTxtFile
@@ -642,7 +642,7 @@ namespace PersonaVCE
             this.groupBox_InputTxtFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.groupBox_InputTxtFile.Location = new System.Drawing.Point(3, 137);
             this.groupBox_InputTxtFile.Name = "groupBox_InputTxtFile";
-            this.groupBox_InputTxtFile.Size = new System.Drawing.Size(455, 61);
+            this.groupBox_InputTxtFile.Size = new System.Drawing.Size(455, 62);
             this.groupBox_InputTxtFile.TabIndex = 2;
             this.groupBox_InputTxtFile.TabStop = false;
             this.groupBox_InputTxtFile.Text = "Txt File With Filenames In Order Path";
@@ -660,7 +660,7 @@ namespace PersonaVCE
             this.tlp_InputTxtFile.Name = "tlp_InputTxtFile";
             this.tlp_InputTxtFile.RowCount = 1;
             this.tlp_InputTxtFile.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlp_InputTxtFile.Size = new System.Drawing.Size(449, 36);
+            this.tlp_InputTxtFile.Size = new System.Drawing.Size(449, 37);
             this.tlp_InputTxtFile.TabIndex = 0;
             // 
             // btn_InputTxtFile
@@ -671,7 +671,7 @@ namespace PersonaVCE
             this.btn_InputTxtFile.ForeColor = System.Drawing.Color.DimGray;
             this.btn_InputTxtFile.Location = new System.Drawing.Point(384, 3);
             this.btn_InputTxtFile.Name = "btn_InputTxtFile";
-            this.btn_InputTxtFile.Size = new System.Drawing.Size(62, 30);
+            this.btn_InputTxtFile.Size = new System.Drawing.Size(62, 31);
             this.btn_InputTxtFile.TabIndex = 7;
             this.btn_InputTxtFile.Text = "...";
             this.btn_InputTxtFile.UseVisualStyleBackColor = true;
@@ -896,7 +896,7 @@ namespace PersonaVCE
             this.tlp_RenamingSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 55F));
             this.tlp_RenamingSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tlp_RenamingSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 9F));
-            this.tlp_RenamingSettings.Size = new System.Drawing.Size(299, 460);
+            this.tlp_RenamingSettings.Size = new System.Drawing.Size(299, 461);
             this.tlp_RenamingSettings.TabIndex = 0;
             // 
             // chk_EncodeRename
@@ -921,7 +921,7 @@ namespace PersonaVCE
             this.btn_Rename.ForeColor = System.Drawing.Color.DimGray;
             this.btn_Rename.Location = new System.Drawing.Point(150, 417);
             this.btn_Rename.Name = "btn_Rename";
-            this.btn_Rename.Size = new System.Drawing.Size(146, 40);
+            this.btn_Rename.Size = new System.Drawing.Size(146, 41);
             this.btn_Rename.TabIndex = 10;
             this.btn_Rename.Text = "Copy+Rename";
             this.btn_Rename.UseVisualStyleBackColor = true;
