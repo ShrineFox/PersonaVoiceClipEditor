@@ -5,13 +5,13 @@ VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonaVCE", "PersonaVCE.csproj", "{A4B9ACF4-408F-4C61-8579-5C79D8FE07A7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AFSLib", "..\AFSLib\AFSLib\AFSLib.csproj", "{9A29C882-457B-4CB3-BF29-4472C0FF54D1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcbEditor", "..\SonicAudioTools\Source\AcbEditor\AcbEditor.csproj", "{45A72DAF-370A-42D1-833E-CEE27EA5E311}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShrineFox.IO", "..\ShrineFox.IO\ShrineFox.IO.csproj", "{7640412A-7372-4925-B20C-0178D8818A8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonicAudioLib", "..\SonicAudioTools\Source\SonicAudioLib\SonicAudioLib.csproj", "{63138773-1F47-474C-9345-15EB6183ECC6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AFSLib", "..\..\Misc-Modding\Persona\AFSLib\AFSLib\AFSLib.csproj", "{FF8EE066-9689-7DF4-2702-719C2B851444}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcbEditor", "..\..\Misc-Modding\Persona\SonicAudioTools\Source\AcbEditor\AcbEditor.csproj", "{45A72DAF-370A-42D1-833E-CEE27EA5E311}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonicAudioLib", "..\..\Misc-Modding\Persona\SonicAudioTools\Source\SonicAudioLib\SonicAudioLib.csproj", "{63138773-1F47-474C-9345-15EB6183ECC6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,18 +23,18 @@ Global
 		{A4B9ACF4-408F-4C61-8579-5C79D8FE07A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4B9ACF4-408F-4C61-8579-5C79D8FE07A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4B9ACF4-408F-4C61-8579-5C79D8FE07A7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9A29C882-457B-4CB3-BF29-4472C0FF54D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9A29C882-457B-4CB3-BF29-4472C0FF54D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9A29C882-457B-4CB3-BF29-4472C0FF54D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9A29C882-457B-4CB3-BF29-4472C0FF54D1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{45A72DAF-370A-42D1-833E-CEE27EA5E311}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{45A72DAF-370A-42D1-833E-CEE27EA5E311}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{45A72DAF-370A-42D1-833E-CEE27EA5E311}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{45A72DAF-370A-42D1-833E-CEE27EA5E311}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7640412A-7372-4925-B20C-0178D8818A8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7640412A-7372-4925-B20C-0178D8818A8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7640412A-7372-4925-B20C-0178D8818A8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7640412A-7372-4925-B20C-0178D8818A8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF8EE066-9689-7DF4-2702-719C2B851444}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF8EE066-9689-7DF4-2702-719C2B851444}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF8EE066-9689-7DF4-2702-719C2B851444}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF8EE066-9689-7DF4-2702-719C2B851444}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45A72DAF-370A-42D1-833E-CEE27EA5E311}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45A72DAF-370A-42D1-833E-CEE27EA5E311}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45A72DAF-370A-42D1-833E-CEE27EA5E311}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45A72DAF-370A-42D1-833E-CEE27EA5E311}.Release|Any CPU.Build.0 = Release|Any CPU
 		{63138773-1F47-474C-9345-15EB6183ECC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{63138773-1F47-474C-9345-15EB6183ECC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63138773-1F47-474C-9345-15EB6183ECC6}.Release|Any CPU.ActiveCfg = Release|Any CPU

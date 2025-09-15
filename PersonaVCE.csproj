@@ -84,6 +84,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="VGAudio, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\VGAudio.2.2.1\lib\net45\VGAudio.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Events\Changed.cs">
@@ -147,17 +150,21 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AFSLib\AFSLib\AFSLib.csproj">
-      <Project>{9a29c882-457b-4cb3-bf29-4472c0ff54d1}</Project>
+    <ProjectReference Include="..\..\Misc-Modding\Persona\AFSLib\AFSLib\AFSLib.csproj">
+      <Project>{ff8ee066-9689-7df4-2702-719c2b851444}</Project>
       <Name>AFSLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Misc-Modding\Persona\SonicAudioTools\Source\AcbEditor\AcbEditor.csproj">
+      <Project>{45a72daf-370a-42d1-833e-cee27ea5e311}</Project>
+      <Name>AcbEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Misc-Modding\Persona\SonicAudioTools\Source\SonicAudioLib\SonicAudioLib.csproj">
+      <Project>{63138773-1f47-474c-9345-15eb6183ecc6}</Project>
+      <Name>SonicAudioLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\ShrineFox.IO\ShrineFox.IO.csproj">
       <Project>{7640412a-7372-4925-b20c-0178d8818a8f}</Project>
       <Name>ShrineFox.IO</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SonicAudioTools\Source\AcbEditor\AcbEditor.csproj">
-      <Project>{45a72daf-370a-42d1-833e-cee27ea5e311}</Project>
-      <Name>AcbEditor</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

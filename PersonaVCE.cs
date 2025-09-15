@@ -1,15 +1,21 @@
-﻿using System;
+﻿using AFSLib;
+using MetroSet_UI.Forms;
+using NAudio.Wave;
+using NAudio.Wave.SampleProviders;
+using ShrineFox.IO;
+using SonicAudioLib.IO;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Threading;
-using ShrineFox.IO;
-using AFSLib;
 using System.Media;
-using MetroSet_UI.Forms;
-using NAudio.Wave;
-using NAudio.Wave.SampleProviders;
+using System.Threading;
+using System.Windows.Forms;
+using VGAudio.Codecs.CriAdx;
+using VGAudio.Containers.Adx;
+using VGAudio.Containers.Wave;
+using VGAudio.Formats;
 
 namespace PersonaVCE
 {
@@ -99,129 +105,60 @@ namespace PersonaVCE
             Output.Log($"[INFO] Done encoding files to \"{comboBox_SoundFormat.SelectedItem}\".", ConsoleColor.Green);
         }
 
-        private void EncodeFile(string inputFile, string outputDir)
+        public static MemoryStream LoadWavInMemory(string inputPath, float volumeFactor = 1.0f)
         {
-            string ogInputFile = inputFile;
-            string inputExtension = Path.GetExtension(inputFile).ToLower();
+            var memoryStream = new MemoryStream();
 
-            string vgAudioPath = Path.Combine(Exe.Directory(), "Dependencies\\VGAudio.exe");
-            string args = $"\"{inputFile}\"";
-
-            // If volume does not equal 1.0, convert to WAV and adjust volume
-            string tempAdx = Path.Combine(outputDir, Path.GetFileNameWithoutExtension(inputFile) + "_temp.adx");
-            string tempWav = Path.Combine(outputDir, Path.GetFileNameWithoutExtension(inputFile) + "_temp.wav");
-            string volAdjustedWav = Path.Combine(outputDir, Path.GetFileNameWithoutExtension(inputFile) + ".wav");
-
-            if (Convert.ToSingle(num_Volume.Value) != 1.0f)
+            using (var reader = new AudioFileReader(inputPath))
             {
-                if (inputExtension == ".adx")
+                var sampleProvider = new VolumeSampleProvider(reader)
                 {
-                    // If ADX is encrypted, remove encryption using keycode
-                    if (num_EncryptionKey.Value == 0 || CheckADXEncryption(inputFile))
-                    {
-                        args = $"\"{inputFile}\" \"{tempAdx}\" --keycode {num_EncryptionKey.Value}";
+                    Volume = volumeFactor
+                };
 
-                        Output.Log("Decrypting temporary ADX...", ConsoleColor.Yellow);
-                        Output.VerboseLog(args);
-                        Exe.Run(vgAudioPath, args);
-                        using (FileSys.WaitForFile(tempAdx)) { };
-
-                        // Set input file to decrypted ADX
-                        inputFile = tempAdx;
-                    }
-
-                    // Create temporary WAV from input ADX
-                    args = $"\"{inputFile}\" \"{tempWav}\"";
-
-                    Output.Log($"Creating temp WAV: \"{tempWav}\"", ConsoleColor.Yellow);
-                    Output.VerboseLog(args);
-                    Exe.Run(vgAudioPath, args);
-                    using (FileSys.WaitForFile(tempWav)) { };
-
-                    // Delete temp ADX if it was made from a separate input file
-                    if (tempAdx != ogInputFile && File.Exists(tempAdx))
-                    {
-                        Output.Log($"Deleting temporary ADX: \"{tempAdx}\"", ConsoleColor.Yellow);
-                        File.Delete(tempAdx);
-                    }
-
-                    // Use temp WAV as input file
-                    inputFile = tempWav;
-                }
-
-                // Change temp WAV volume and output as new WAV
-                using (var wavReader = new AudioFileReader(inputFile))
-                {
-                    wavReader.Volume = Convert.ToSingle(num_Volume.Value);
-                    SampleChannel channel = new SampleChannel(wavReader);
-                    WaveFileWriter.CreateWaveFile16(volAdjustedWav, channel);
-                    Output.Log($"Created volume adjusted WAV: \"{volAdjustedWav}\"", ConsoleColor.Yellow);
-                }
-
-                using (FileSys.WaitForFile(volAdjustedWav)) { };
-                // Delete non-volume adjusted WAV if it was made from a separate input file
-                if (tempWav != ogInputFile && File.Exists(tempWav))
-                {
-                    Output.Log($"Deleting temporary WAV: \"{tempWav}\"", ConsoleColor.Yellow);
-                    File.Delete(tempWav);
-                }
-
-                // Set input file to volume adjusted WAV
-                inputFile = volAdjustedWav;
-                args = $"\"{inputFile}\"";
+                WaveFileWriter.WriteWavFileToStream(memoryStream, sampleProvider.ToWaveProvider16());
             }
 
-            string outPath = Path.Combine(outputDir, Path.GetFileNameWithoutExtension(ogInputFile) + settings.OutFormat);
-            args += $" \"{outPath}\"";
+            // Reset position so it can be read again
+            memoryStream.Position = 0;
 
-            // If file is encrypted and user wants output decrypted, use keycode to decrypt.
-            // Otherwise, output will be encrypted using keycode as long as it's not 0.
-            if (num_EncryptionKey.Value != 0 && CheckADXEncryption(inputFile) && settings.Decrypt ||
-                num_EncryptionKey.Value != 0 && !CheckADXEncryption(inputFile) && !settings.Decrypt)
-                args += $" --keycode {num_EncryptionKey.Value}";
+            return memoryStream;
+        }
 
-            // If loops are specified, use loops
-            if (settings.UseLoops)
+        private void EncodeFile(string inputFile, string outputDir, float volume = 1.0f)
+        {
+            var wavReader = new WaveReader();
+            AudioData audio = wavReader.Read(LoadWavInMemory(inputFile, volume));
+
+            string outPath = Path.Combine(outputDir, Path.GetFileNameWithoutExtension(inputFile) + settings.OutFormat);
+
+            switch (settings.OutFormat)
             {
-                string loopArgs = " -l";
-
-                if (settings.LoopAll)
-                    loopArgs += $" 0-{GetSampleCount(ogInputFile) - 1}";
-                else
-                {
-                    if (inputExtension == ".adx" && settings.UseExistingLoop)
+                case ".adx":
+                    // Write to ADX
+                    Directory.CreateDirectory(Path.GetDirectoryName(outPath));
+                    using (var fs = File.Create(outPath))
                     {
-                        var loopPoints = GetADXLoopPoints(ogInputFile);
-                        loopArgs += $" {Convert.ToInt32(loopPoints.Item1)}-{Convert.ToInt32(loopPoints.Item2)}";
+                        var adxWriter = new AdxWriter();
+                        adxWriter.Configuration = new AdxConfiguration();
+                        // Encrypt if encryption key isn't 0
+                        if (num_EncryptionKey.Value != 0)
+                        {
+                            adxWriter.Configuration.EncryptionType = 9;
+                            adxWriter.Configuration.EncryptionKey = new CriAdxKey((ulong)num_EncryptionKey.Value);
+                        }
+
+                        // TODO: Somehow add loop points?
+
+                        adxWriter.WriteToStream(audio, fs);
                     }
-                    else
-                        loopArgs += $" {Convert.ToInt32(settings.LoopStart)}-{Convert.ToInt32(settings.LoopEnd)}";
-                }
-
-                args += loopArgs;
+                    break;
             }
 
-            Output.Log($"[INFO] Encoding \"{Path.GetFileName(inputFile)}\" to \"{Path.GetFileName(outPath)}\"...");
-            Output.VerboseLog(args);
-            Exe.Run(vgAudioPath, args);
-            
-            // Delete volume adjusted WAV
-            if (Convert.ToSingle(num_Volume.Value) != 1.0f && (File.Exists(volAdjustedWav) && outPath != volAdjustedWav))
-            {
-                using (FileSys.WaitForFile(outPath)) { };
-                Output.Log($"Deleting volume-adjusted WAV: \"{volAdjustedWav}\"", ConsoleColor.Yellow);
-                File.Delete(volAdjustedWav);
-            }
-
-            // Set ADX Type 9 encryption flag if output file exists and is encrypted
             if (File.Exists(outPath))
-            {
-                if (settings.OutFormat == ".adx" && !settings.Decrypt && num_EncryptionKey.Value != 0)
-                    SetADXEncryptionFlag(outPath);
-                Output.Log($"[INFO] Encoded file successfully!", ConsoleColor.DarkGreen);
-            }
+                Output.Log($"[INFO] Encoded {Path.GetFileName(outPath)} successfully!", ConsoleColor.DarkGreen);
             else
-                Output.Log($"[INFO] Failed to encode file: \"{inputFile}\"", ConsoleColor.DarkRed);
+                Output.Log($"[INFO] Failed to encode {outPath}", ConsoleColor.DarkRed);
         }
 
         private Tuple<int, int> GetADXLoopPoints(string file)
@@ -688,8 +625,9 @@ namespace PersonaVCE
 
                     // Repack ACB
                     Output.Log($"[INFO] Repacking ACB/AWB file with files from: \"{acbDir}\"");
-                    // In order to make this workk, make AcbEditor Program procedure public
+                    // In order to make this work, make AcbEditor Program procedure public
                     // and add return; to start of OnProgressChanged()
+                    // to prevent "Invalid Handle" error due to no Console window
                     AcbEditor.Program.Main(new string[] { acbDir });
                     Output.Log($"[INFO] Done repacking ACB archive: \"{acbFile}\"", ConsoleColor.Green);
                     SystemSounds.Exclamation.Play();

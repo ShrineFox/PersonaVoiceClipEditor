@@ -315,7 +315,7 @@ namespace PersonaVCE
             this.tabPage_Encoding.Controls.Add(this.tlp_EncodingTab);
             this.tabPage_Encoding.Location = new System.Drawing.Point(4, 42);
             this.tabPage_Encoding.Name = "tabPage_Encoding";
-            this.tabPage_Encoding.Size = new System.Drawing.Size(770, 460);
+            this.tabPage_Encoding.Size = new System.Drawing.Size(770, 461);
             this.tabPage_Encoding.TabIndex = 0;
             this.tabPage_Encoding.Text = "Encoding";
             // 
@@ -334,7 +334,7 @@ namespace PersonaVCE
             this.tlp_EncodingTab.RowCount = 2;
             this.tlp_EncodingTab.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 45F));
             this.tlp_EncodingTab.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 55F));
-            this.tlp_EncodingTab.Size = new System.Drawing.Size(770, 460);
+            this.tlp_EncodingTab.Size = new System.Drawing.Size(770, 461);
             this.tlp_EncodingTab.TabIndex = 3;
             // 
             // btn_Encode
@@ -360,7 +360,7 @@ namespace PersonaVCE
             this.groupBox_LoopPoints.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.groupBox_LoopPoints.Location = new System.Drawing.Point(3, 210);
             this.groupBox_LoopPoints.Name = "groupBox_LoopPoints";
-            this.groupBox_LoopPoints.Size = new System.Drawing.Size(379, 247);
+            this.groupBox_LoopPoints.Size = new System.Drawing.Size(379, 248);
             this.groupBox_LoopPoints.TabIndex = 2;
             this.groupBox_LoopPoints.TabStop = false;
             this.groupBox_LoopPoints.Text = "Loop Points";
@@ -386,7 +386,7 @@ namespace PersonaVCE
             this.tlp_LoopSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tlp_LoopSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlp_LoopSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlp_LoopSettings.Size = new System.Drawing.Size(373, 222);
+            this.tlp_LoopSettings.Size = new System.Drawing.Size(373, 223);
             this.tlp_LoopSettings.TabIndex = 0;
             // 
             // chk_UseExistingLoop
@@ -479,7 +479,7 @@ namespace PersonaVCE
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(379, 247);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(379, 248);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
             // groupBox_Volume
@@ -487,7 +487,7 @@ namespace PersonaVCE
             this.groupBox_Volume.Controls.Add(this.num_Volume);
             this.groupBox_Volume.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox_Volume.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.groupBox_Volume.Location = new System.Drawing.Point(3, 126);
+            this.groupBox_Volume.Location = new System.Drawing.Point(3, 127);
             this.groupBox_Volume.Name = "groupBox_Volume";
             this.groupBox_Volume.Size = new System.Drawing.Size(373, 118);
             this.groupBox_Volume.TabIndex = 5;
@@ -520,7 +520,7 @@ namespace PersonaVCE
             this.groupBox_Encryption.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.groupBox_Encryption.Location = new System.Drawing.Point(3, 3);
             this.groupBox_Encryption.Name = "groupBox_Encryption";
-            this.groupBox_Encryption.Size = new System.Drawing.Size(373, 117);
+            this.groupBox_Encryption.Size = new System.Drawing.Size(373, 118);
             this.groupBox_Encryption.TabIndex = 4;
             this.groupBox_Encryption.TabStop = false;
             this.groupBox_Encryption.Text = "Encryption Key";
@@ -540,7 +540,7 @@ namespace PersonaVCE
             this.tlp_Encryption.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 28.81356F));
             this.tlp_Encryption.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 71.18644F));
             this.tlp_Encryption.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlp_Encryption.Size = new System.Drawing.Size(367, 92);
+            this.tlp_Encryption.Size = new System.Drawing.Size(367, 93);
             this.tlp_Encryption.TabIndex = 0;
             // 
             // num_EncryptionKey
@@ -1059,7 +1059,7 @@ namespace PersonaVCE
             this.tlp_Ryo.SetColumnSpan(this.comboBox_Ryo, 2);
             this.comboBox_Ryo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_Ryo.FormattingEnabled = true;
-            this.comboBox_Ryo.Location = new System.Drawing.Point(3, 4);
+            this.comboBox_Ryo.Location = new System.Drawing.Point(3, 6);
             this.comboBox_Ryo.Name = "comboBox_Ryo";
             this.comboBox_Ryo.Size = new System.Drawing.Size(281, 28);
             this.comboBox_Ryo.TabIndex = 1;
