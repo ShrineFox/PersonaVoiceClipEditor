@@ -35,9 +35,9 @@ namespace PersonaVCE
             // Encode dragged files or files in dragged folder
             var data = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             if (Directory.Exists(data[0]))
-                StartEncode(Directory.GetFiles(data[0]).ToArray());
+                StartEncode(Directory.GetFiles(data[0]).ToArray(), Convert.ToSingle(num_Volume.Value));
             else if (File.Exists(data[0]))
-                StartEncode(data);
+                StartEncode(data, Convert.ToSingle(num_Volume.Value));
         }
 
         private void RenameDir_DragDrop(object sender, DragEventArgs e)
@@ -45,7 +45,7 @@ namespace PersonaVCE
             var data = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             if (Directory.Exists(data[0]))
             {
-                StartEncode(Directory.GetFiles(data[0]).ToArray());
+                StartEncode(Directory.GetFiles(data[0]).ToArray(), Convert.ToSingle(num_Volume.Value));
                 txt_RenameSourcePath.Text = data[0];
                 settings.RenameDir = data[0];
             }
@@ -56,7 +56,7 @@ namespace PersonaVCE
             var data = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             if (Directory.Exists(data[0]))
             {
-                StartEncode(Directory.GetFiles(data[0]).ToArray());
+                StartEncode(Directory.GetFiles(data[0]).ToArray(), Convert.ToSingle(num_Volume.Value));
                 txt_RenameOutputPath.Text = data[0];
                 settings.RenameOutDir = data[0];
             }

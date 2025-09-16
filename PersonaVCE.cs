@@ -13,9 +13,11 @@ using System.Media;
 using System.Threading;
 using System.Windows.Forms;
 using VGAudio.Codecs.CriAdx;
+using VGAudio.Containers;
 using VGAudio.Containers.Adx;
 using VGAudio.Containers.Wave;
 using VGAudio.Formats;
+using VGAudio.Formats.Pcm16;
 
 namespace PersonaVCE
 {
@@ -81,7 +83,7 @@ namespace PersonaVCE
 #endif
         }
 
-        private void StartEncode(string[] inputFiles)
+        private void StartEncode(string[] inputFiles, float volume = 1.0f)
         {
             if (inputFiles.Length == 0 || string.IsNullOrEmpty(inputFiles[0]))
                 return;
@@ -97,7 +99,7 @@ namespace PersonaVCE
                 // Convert files to target format, output to specified directory
                 foreach (var file in inputFiles.Where(x => supportedFormats.Any(y => y.Equals(Path.GetExtension(x.ToLower())))))
                 {
-                    EncodeFile(file, outputDir);
+                    EncodeFile(file, outputDir, volume);
                 }
 
                 SystemSounds.Exclamation.Play();
@@ -127,33 +129,139 @@ namespace PersonaVCE
 
         private void EncodeFile(string inputFile, string outputDir, float volume = 1.0f)
         {
-            var wavReader = new WaveReader();
-            AudioData audio = wavReader.Read(LoadWavInMemory(inputFile, volume));
-
             string outPath = Path.Combine(outputDir, Path.GetFileNameWithoutExtension(inputFile) + settings.OutFormat);
 
-            switch (settings.OutFormat)
+            switch (Path.GetExtension(inputFile))
             {
-                case ".adx":
-                    // Write to ADX
-                    Directory.CreateDirectory(Path.GetDirectoryName(outPath));
-                    using (var fs = File.Create(outPath))
+                case ".wav": // informat is WAV
+                {
+                    var wavReader = new WaveReader();
+                    AudioData audio = wavReader.Read(LoadWavInMemory(inputFile, volume));
+
+                    switch (settings.OutFormat)
                     {
-                        var adxWriter = new AdxWriter();
-                        adxWriter.Configuration = new AdxConfiguration();
-                        // Encrypt if encryption key isn't 0
-                        if (num_EncryptionKey.Value != 0)
+                        case ".wav":
                         {
-                            adxWriter.Configuration.EncryptionType = 9;
-                            adxWriter.Configuration.EncryptionKey = new CriAdxKey((ulong)num_EncryptionKey.Value);
+                            // Write to WAV
+                            Directory.CreateDirectory(Path.GetDirectoryName(outPath));
+                            using (var fs = File.Create(outPath))
+                            {
+                                var wavWriter = new WaveWriter();
+                                wavWriter.WriteToStream(audio, fs);
+                            }
+                            break;
                         }
+                        case ".adx":
+                        {
+                            // Set loop points
+                            if (chk_UseLoopPoints.Checked)
+                            {
+                                if (chk_LoopAll.Checked)
+                                    audio.SetLoop(true);
+                                else if ((long)num_LoopStart.Value != 0 || (long)num_LoopEnd.Value != 0)
+                                    audio.SetLoop(true, Convert.ToInt32(num_LoopStart.Value), Convert.ToInt32(num_LoopEnd.Value));
+                            }
 
-                        // TODO: Somehow add loop points?
+                            // Write to ADX
+                            Directory.CreateDirectory(Path.GetDirectoryName(outPath));
+                            using (var fs = File.Create(outPath))
+                            {
+                                var adxWriter = new AdxWriter();
+                                adxWriter.Configuration = new AdxConfiguration();
+                                // Encrypt if encryption key isn't 0
+                                if (num_EncryptionKey.Value != 0)
+                                {
+                                    adxWriter.Configuration.EncryptionType = 9;
+                                    adxWriter.Configuration.EncryptionKey = new CriAdxKey((ulong)num_EncryptionKey.Value);
+                                }
 
-                        adxWriter.WriteToStream(audio, fs);
+                                adxWriter.WriteToStream(audio, fs);
+                            }
+                            break;
+                        }   
                     }
                     break;
+                }
+                case ".adx": // informat is ADX
+                {
+                    var adxReader = new AdxReader();
+                    adxReader.EncryptionKey = new CriAdxKey((ulong)num_EncryptionKey.Value);
+                    AudioData audio = adxReader.Read(File.ReadAllBytes(inputFile));
+                    // Set ADX volume in memory
+                    // Convert to PCM16 for editing
+                    var pcm = audio.GetFormat<Pcm16Format>();
+                    // Adjust samples (per channel)
+                    short[][] samples = pcm.Channels;
+                    for (int ch = 0; ch < samples.Length; ch++)
+                    {
+                        var arr = samples[ch];
+                        for (int i = 0; i < arr.Length; i++)
+                        {
+                            int scaled = (int)Math.Round(arr[i] * volume);
+
+                            // Hard clip to Int16 range
+                            if (scaled > short.MaxValue) scaled = short.MaxValue;
+                            if (scaled < short.MinValue) scaled = short.MinValue;
+
+                            arr[i] = (short)scaled;
+                        }
+                    }
+                    // Convert back to AudioData
+                    var adjustedAudioData = new AudioData(pcm);
+
+                    switch (settings.OutFormat)
+                    {
+                        case ".wav":
+                        {
+                            // Write to WAV
+                            Directory.CreateDirectory(Path.GetDirectoryName(outPath));
+                            using (var fs = File.Create(outPath))
+                            {
+                                var wavWriter = new WaveWriter();
+                                        
+                                wavWriter.WriteToStream(adjustedAudioData, fs);
+                            }
+                            break;
+                        }
+                        case ".adx":
+                        {
+                            // Re-encode to ADX with new settings
+                            // Set loop points
+                            if (chk_UseLoopPoints.Checked)
+                            {
+                                if (!chk_UseExistingLoop.Checked)
+                                {
+                                    if (chk_LoopAll.Checked)
+                                        adjustedAudioData.SetLoop(true);
+                                    else if ((long)num_LoopStart.Value != 0 || (long)num_LoopEnd.Value != 0)
+                                        adjustedAudioData.SetLoop(true, Convert.ToInt32(num_LoopStart.Value), Convert.ToInt32(num_LoopEnd.Value));
+                                }
+                                else
+                                    adjustedAudioData.SetLoop(false);
+                            }
+                            // Write to ADX
+                            Directory.CreateDirectory(Path.GetDirectoryName(outPath));
+                            using (var fs = File.Create(outPath))
+                            {
+                                var adxWriter = new AdxWriter();
+                                adxWriter.Configuration = new AdxConfiguration();
+                                // Encrypt if encryption key isn't 0
+                                if (num_EncryptionKey.Value != 0)
+                                {
+                                    adxWriter.Configuration.EncryptionType = 9;
+                                    adxWriter.Configuration.EncryptionKey = new CriAdxKey((ulong)num_EncryptionKey.Value);
+                                }
+                                adxWriter.WriteToStream(adjustedAudioData, fs);
+                            }
+                            break;
+                        }
+
+                    }
+                    break;
+                }
+
             }
+            
 
             if (File.Exists(outPath))
                 Output.Log($"[INFO] Encoded {Path.GetFileName(outPath)} successfully!", ConsoleColor.DarkGreen);
