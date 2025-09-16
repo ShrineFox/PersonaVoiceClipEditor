@@ -222,9 +222,9 @@ namespace PersonaVCE
                     else if ((long)num_LoopStart.Value != 0 || (long)num_LoopEnd.Value != 0)
                         audio.SetLoop(true, Convert.ToInt32(num_LoopStart.Value), Convert.ToInt32(num_LoopEnd.Value));
                 }
-                else
-                    audio.SetLoop(false);
             }
+            else
+                audio.SetLoop(false);
         }
 
         private AudioData AdjustVolumeInMemory(AudioData audio, float volume)
