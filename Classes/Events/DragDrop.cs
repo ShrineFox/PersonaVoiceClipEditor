@@ -1,14 +1,7 @@
 ﻿using MetroSet_UI.Forms;
-using ShrineFox.IO;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.LinkLabel;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace PersonaVCE
 {
@@ -35,9 +28,9 @@ namespace PersonaVCE
             // Encode dragged files or files in dragged folder
             var data = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             if (Directory.Exists(data[0]))
-                StartEncode(Directory.GetFiles(data[0]).ToArray(), Convert.ToSingle(num_Volume.Value));
+                StartEncode(Directory.GetFiles(data[0]).ToArray());
             else if (File.Exists(data[0]))
-                StartEncode(data, Convert.ToSingle(num_Volume.Value));
+                StartEncode(data);
         }
 
         private void RenameDir_DragDrop(object sender, DragEventArgs e)
@@ -45,7 +38,7 @@ namespace PersonaVCE
             var data = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             if (Directory.Exists(data[0]))
             {
-                StartEncode(Directory.GetFiles(data[0]).ToArray(), Convert.ToSingle(num_Volume.Value));
+                StartEncode(Directory.GetFiles(data[0]).ToArray());
                 txt_RenameSourcePath.Text = data[0];
                 settings.RenameDir = data[0];
             }
@@ -56,7 +49,7 @@ namespace PersonaVCE
             var data = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             if (Directory.Exists(data[0]))
             {
-                StartEncode(Directory.GetFiles(data[0]).ToArray(), Convert.ToSingle(num_Volume.Value));
+                StartEncode(Directory.GetFiles(data[0]).ToArray());
                 txt_RenameOutputPath.Text = data[0];
                 settings.RenameOutDir = data[0];
             }

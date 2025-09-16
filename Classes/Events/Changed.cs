@@ -12,10 +12,6 @@ namespace PersonaVCE
 {
     public partial class PersonaVCE : MetroSetForm
     {
-        private void Decrypt_CheckedChanged(object sender, EventArgs e)
-        {
-            settings.Decrypt = chk_Decrypt.Checked;
-        }
 
         private void LoopAll_CheckedChanged(object sender, EventArgs e)
         {
@@ -109,7 +105,6 @@ namespace PersonaVCE
 
         private void SetDefaults()
         {
-            chk_Decrypt.Checked = false;
             num_EncryptionKey.Value = 0;
             txt_RenameSuffix.Text = "";
             num_LeftPadding.Value = 0;
@@ -118,7 +113,6 @@ namespace PersonaVCE
 
         private void SetP5Defaults()
         {
-            chk_Decrypt.Checked = false;
             num_EncryptionKey.Value = 0;
             txt_RenameSuffix.Text = "_streaming";
             num_LeftPadding.Value = 5;

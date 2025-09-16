@@ -88,7 +88,6 @@ namespace PersonaVCE
             comboBox_SoundFormat.SelectedItem = settings.OutFormat;
             comboBox_ArchiveFormat.SelectedItem = settings.ArchiveFormat;
 
-            chk_Decrypt.Checked = settings.Decrypt;
             num_EncryptionKey.Value = settings.Key;
             chk_UseLoopPoints.Checked = settings.UseLoops;
             chk_LoopAll.Checked = settings.LoopAll;

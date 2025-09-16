@@ -13,8 +13,10 @@ using System.Media;
 using System.Threading;
 using System.Windows.Forms;
 using VGAudio.Codecs.CriAdx;
+using VGAudio.Codecs.CriHca;
 using VGAudio.Containers;
 using VGAudio.Containers.Adx;
+using VGAudio.Containers.Hca;
 using VGAudio.Containers.Wave;
 using VGAudio.Formats;
 using VGAudio.Formats.Pcm16;
@@ -83,7 +85,7 @@ namespace PersonaVCE
 #endif
         }
 
-        private void StartEncode(string[] inputFiles, float volume = 1.0f)
+        private void StartEncode(string[] inputFiles)
         {
             if (inputFiles.Length == 0 || string.IsNullOrEmpty(inputFiles[0]))
                 return;
@@ -99,7 +101,7 @@ namespace PersonaVCE
                 // Convert files to target format, output to specified directory
                 foreach (var file in inputFiles.Where(x => supportedFormats.Any(y => y.Equals(Path.GetExtension(x.ToLower())))))
                 {
-                    EncodeFile(file, outputDir, volume);
+                    EncodeFile(file, outputDir);
                 }
 
                 SystemSounds.Exclamation.Play();
@@ -127,141 +129,81 @@ namespace PersonaVCE
             return memoryStream;
         }
 
-        private void EncodeFile(string inputFile, string outputDir, float volume = 1.0f)
+        private void EncodeFile(string inputFile, string outputDir)
         {
+            float volume = Convert.ToSingle(num_Volume.Value);
             string outPath = Path.Combine(outputDir, Path.GetFileNameWithoutExtension(inputFile) + settings.OutFormat);
+            Directory.CreateDirectory(Path.GetDirectoryName(outPath));
 
+            AudioData audio;
+
+            // Read audio data from input file
             switch (Path.GetExtension(inputFile))
             {
-                case ".wav": // informat is WAV
-                {
+                case ".wav":
                     var wavReader = new WaveReader();
-                    AudioData audio = wavReader.Read(LoadWavInMemory(inputFile, volume));
-
-                    switch (settings.OutFormat)
-                    {
-                        case ".wav":
-                        {
-                            // Write to WAV
-                            Directory.CreateDirectory(Path.GetDirectoryName(outPath));
-                            using (var fs = File.Create(outPath))
-                            {
-                                var wavWriter = new WaveWriter();
-                                wavWriter.WriteToStream(audio, fs);
-                            }
-                            break;
-                        }
-                        case ".adx":
-                        {
-                            // Set loop points
-                            if (chk_UseLoopPoints.Checked)
-                            {
-                                if (chk_LoopAll.Checked)
-                                    audio.SetLoop(true);
-                                else if ((long)num_LoopStart.Value != 0 || (long)num_LoopEnd.Value != 0)
-                                    audio.SetLoop(true, Convert.ToInt32(num_LoopStart.Value), Convert.ToInt32(num_LoopEnd.Value));
-                            }
-
-                            // Write to ADX
-                            Directory.CreateDirectory(Path.GetDirectoryName(outPath));
-                            using (var fs = File.Create(outPath))
-                            {
-                                var adxWriter = new AdxWriter();
-                                adxWriter.Configuration = new AdxConfiguration();
-                                // Encrypt if encryption key isn't 0
-                                if (num_EncryptionKey.Value != 0)
-                                {
-                                    adxWriter.Configuration.EncryptionType = 9;
-                                    adxWriter.Configuration.EncryptionKey = new CriAdxKey((ulong)num_EncryptionKey.Value);
-                                }
-
-                                adxWriter.WriteToStream(audio, fs);
-                            }
-                            break;
-                        }   
-                    }
+                    audio = wavReader.Read(LoadWavInMemory(inputFile, volume));
                     break;
-                }
-                case ".adx": // informat is ADX
-                {
+                case ".adx":
                     var adxReader = new AdxReader();
-                    adxReader.EncryptionKey = new CriAdxKey((ulong)num_EncryptionKey.Value);
-                    AudioData audio = adxReader.Read(File.ReadAllBytes(inputFile));
-                    // Set ADX volume in memory
-                    // Convert to PCM16 for editing
-                    var pcm = audio.GetFormat<Pcm16Format>();
-                    // Adjust samples (per channel)
-                    short[][] samples = pcm.Channels;
-                    for (int ch = 0; ch < samples.Length; ch++)
+                    if (num_EncryptionKey.Value != 0)
+                        adxReader.EncryptionKey = new CriAdxKey((ulong)num_EncryptionKey.Value);
+                    audio = AdjustVolumeInMemory(adxReader.Read(File.ReadAllBytes(inputFile)), volume);
+                    break;
+                case ".hca":
+                    var hcaReader = new HcaReader();
+                    if (num_EncryptionKey.Value != 0)
+                        hcaReader.EncryptionKey = new CriHcaKey((ulong)num_EncryptionKey.Value);
+                    audio = AdjustVolumeInMemory(hcaReader.Read(File.ReadAllBytes(inputFile)), volume);
+                    break;
+                default:
+                    return;
+            }
+
+            // Write to output file in selected format
+            switch (settings.OutFormat)
+            {
+                case ".wav":
+                    using (var fs = File.Create(outPath))
                     {
-                        var arr = samples[ch];
-                        for (int i = 0; i < arr.Length; i++)
-                        {
-                            int scaled = (int)Math.Round(arr[i] * volume);
-
-                            // Hard clip to Int16 range
-                            if (scaled > short.MaxValue) scaled = short.MaxValue;
-                            if (scaled < short.MinValue) scaled = short.MinValue;
-
-                            arr[i] = (short)scaled;
-                        }
-                    }
-                    // Convert back to AudioData
-                    var adjustedAudioData = new AudioData(pcm);
-
-                    switch (settings.OutFormat)
-                    {
-                        case ".wav":
-                        {
-                            // Write to WAV
-                            Directory.CreateDirectory(Path.GetDirectoryName(outPath));
-                            using (var fs = File.Create(outPath))
-                            {
-                                var wavWriter = new WaveWriter();
-                                        
-                                wavWriter.WriteToStream(adjustedAudioData, fs);
-                            }
-                            break;
-                        }
-                        case ".adx":
-                        {
-                            // Re-encode to ADX with new settings
-                            // Set loop points
-                            if (chk_UseLoopPoints.Checked)
-                            {
-                                if (!chk_UseExistingLoop.Checked)
-                                {
-                                    if (chk_LoopAll.Checked)
-                                        adjustedAudioData.SetLoop(true);
-                                    else if ((long)num_LoopStart.Value != 0 || (long)num_LoopEnd.Value != 0)
-                                        adjustedAudioData.SetLoop(true, Convert.ToInt32(num_LoopStart.Value), Convert.ToInt32(num_LoopEnd.Value));
-                                }
-                                else
-                                    adjustedAudioData.SetLoop(false);
-                            }
-                            // Write to ADX
-                            Directory.CreateDirectory(Path.GetDirectoryName(outPath));
-                            using (var fs = File.Create(outPath))
-                            {
-                                var adxWriter = new AdxWriter();
-                                adxWriter.Configuration = new AdxConfiguration();
-                                // Encrypt if encryption key isn't 0
-                                if (num_EncryptionKey.Value != 0)
-                                {
-                                    adxWriter.Configuration.EncryptionType = 9;
-                                    adxWriter.Configuration.EncryptionKey = new CriAdxKey((ulong)num_EncryptionKey.Value);
-                                }
-                                adxWriter.WriteToStream(adjustedAudioData, fs);
-                            }
-                            break;
-                        }
-
+                        var wavWriter = new WaveWriter();
+                        wavWriter.WriteToStream(audio, fs);
                     }
                     break;
-                }
+                case ".adx":
+                    SetLoopsForAudioData(audio);
+                    using (var fs = File.Create(outPath))
+                    {
+                        var adxWriter = new AdxWriter();
+                        adxWriter.Configuration = new AdxConfiguration();
 
+                        if (num_EncryptionKey.Value != 0)
+                        {
+                            adxWriter.Configuration.EncryptionType = 9;
+                            adxWriter.Configuration.EncryptionKey = new CriAdxKey((ulong)num_EncryptionKey.Value);
+                        }
+
+                        adxWriter.WriteToStream(audio, fs);
+                    }
+                    break;
+                case ".hca":
+                    SetLoopsForAudioData(audio);
+                    using (var fs = File.Create(outPath))
+                    {
+                        var hcaWriter = new HcaWriter();
+                        hcaWriter.Configuration = new HcaConfiguration();
+                        // Encrypt if encryption key isn't 0
+                        if (num_EncryptionKey.Value != 0)
+                        {
+                            hcaWriter.Configuration.EncryptionKey = new CriHcaKey((ulong)num_EncryptionKey.Value);
+                        }
+
+                        hcaWriter.WriteToStream(audio, fs);
+                    }
+                    break;
+                default:
+                    return;
             }
-            
 
             if (File.Exists(outPath))
                 Output.Log($"[INFO] Encoded {Path.GetFileName(outPath)} successfully!", ConsoleColor.DarkGreen);
@@ -269,95 +211,42 @@ namespace PersonaVCE
                 Output.Log($"[INFO] Failed to encode {outPath}", ConsoleColor.DarkRed);
         }
 
-        private Tuple<int, int> GetADXLoopPoints(string file)
+        private void SetLoopsForAudioData(AudioData audio)
         {
-            Tuple<int, int> loopPoints = new Tuple<int, int>(0, 0);
-
-            using (FileStream fs = new FileStream(file, FileMode.Open))
+            if (chk_UseLoopPoints.Checked)
             {
-                using (EndianBinaryReader reader = new EndianBinaryReader(fs, Endianness.BigEndian))
+                if (!chk_UseExistingLoop.Checked)
                 {
-                    reader.BaseStream.Position = 34;
-
-                    if (reader.ReadByte() == Convert.ToByte(0)
-                        && reader.ReadByte() == Convert.ToByte(1))
-                    {
-                        reader.BaseStream.Position = 40;
-                        var startSample = reader.ReadInt32();
-
-                        reader.BaseStream.Position = 48;
-                        var endSample = reader.ReadInt32();
-
-                        loopPoints = new Tuple<int, int>(startSample, endSample);
-                    }
+                    if (chk_LoopAll.Checked)
+                        audio.SetLoop(true);
+                    else if ((long)num_LoopStart.Value != 0 || (long)num_LoopEnd.Value != 0)
+                        audio.SetLoop(true, Convert.ToInt32(num_LoopStart.Value), Convert.ToInt32(num_LoopEnd.Value));
                 }
-            }
-
-            return loopPoints;
-        }
-
-        private bool CheckADXEncryption(string file)
-        {
-            if (Path.GetExtension(file).ToLower() == ".wav")
-                return false;
-
-            using (FileStream fs = new FileStream(file, FileMode.Open))
-            {
-                using (BinaryReader reader = new BinaryReader(fs))
-                {
-                    reader.BaseStream.Position = 19;
-
-                    if (reader.ReadByte() == Convert.ToByte(9))
-                        return true;
-
-                    return false;
-                }
+                else
+                    audio.SetLoop(false);
             }
         }
 
-        private void SetADXEncryptionFlag(string outPath, bool encryptType9 = true)
+        private AudioData AdjustVolumeInMemory(AudioData audio, float volume)
         {
-            using (FileStream fs = new FileStream(outPath, FileMode.Open))
+            var pcm = audio.GetFormat<Pcm16Format>();
+            short[][] samples = pcm.Channels;
+            for (int ch = 0; ch < samples.Length; ch++)
             {
-                using (BinaryWriter writer = new BinaryWriter(fs))
+                var arr = samples[ch];
+                for (int i = 0; i < arr.Length; i++)
                 {
-                    // Add encryption flag to adx file if using keycode
-                    writer.BaseStream.Position = 19;
-                    byte newByte = Convert.ToByte(9);
-                    // Remove encryption flag if decrypting
-                    if (!encryptType9)
-                        newByte = Convert.ToByte(0);
-                    Output.VerboseLog($"[INFO] Setting encryption byte to: {newByte.ToString("x2")}");
-                    writer.Write(newByte);
-                };
-            }
-        }
+                    int scaled = (int)Math.Round(arr[i] * volume);
 
-        private long GetSampleCount(string file)
-        {
-            long sampleCount = -1;
+                    // Hard clip to Int16 range
+                    if (scaled > short.MaxValue) scaled = short.MaxValue;
+                    if (scaled < short.MinValue) scaled = short.MinValue;
 
-            if (File.Exists(file))
-            {
-                if (Path.GetExtension(file).ToLower() == ".adx")
-                using (FileStream fs = new FileStream(file, FileMode.Open))
-                {
-                    using (EndianBinaryReader reader = new EndianBinaryReader(fs, Endianness.LittleEndian))
-                    {
-                        reader.BaseStream.Position = 12;
-                        sampleCount = reader.ReadInt32();
-                    }
-                }
-                else if (Path.GetExtension(file).ToLower() == ".wav")
-                {
-                    using (var waveFile = new WaveFileReader(file))
-                    {
-                        sampleCount = waveFile.SampleCount;
-                    }
+                    arr[i] = (short)scaled;
                 }
             }
-
-            return sampleCount;
+            
+            return new AudioData(pcm);
         }
 
         private void AddTxtLinesToDGV()
@@ -744,66 +633,6 @@ namespace PersonaVCE
             }
             else
                 Output.Log($"[ERROR] ACB repack failed, extracted archive directory doesn't exist: \"{acbDir}\"", ConsoleColor.Red);
-        }
-
-        private static int Clamp(int value, int min, int max)
-        {
-            if (value < min) return min;
-            if (value > max) return max;
-            return value;
-        }
-
-        public static bool ChangeVolume(string inputFilePath, string outputFilePath, float volumeFactor)
-        {
-            if (volumeFactor < 0)
-            {
-                Output.Log($"[ERROR] Volume change failed, volume factor must be a non-negative number.", ConsoleColor.Red);
-                return false;
-            }
-
-            using (var inputFile = new FileStream(inputFilePath, FileMode.Open, FileAccess.Read))
-            using (var outputFile = new FileStream(outputFilePath, FileMode.Create, FileAccess.Write))
-            using (var reader = new BinaryReader(inputFile))
-            using (var writer = new BinaryWriter(outputFile))
-            {
-                // Read WAV header (first 44 bytes)
-                byte[] header = reader.ReadBytes(44);
-                writer.Write(header);
-
-                // Determine bit depth from header (e.g., 16-bit, 24-bit, etc.)
-                int bitsPerSample = BitConverter.ToInt16(header, 34);
-                int bytesPerSample = bitsPerSample / 8;
-
-                if (bytesPerSample != 2)
-                {
-                    Output.Log($"[ERROR] Volume change failed, only 16-bit PCM WAV files are supported..", ConsoleColor.Red);
-                    return false;
-                }
-
-                // Process audio data
-                while (reader.BaseStream.Position < reader.BaseStream.Length)
-                {
-                    // Read a sample (16-bit signed integer)
-                    short sample = reader.ReadInt16();
-
-                    // Adjust the sample by the volume factor
-                    int newSample = (int)(sample * volumeFactor);
-
-                    // Clamp to avoid overflow
-                    newSample = Clamp(newSample, short.MinValue, short.MaxValue);
-
-                    // Write the adjusted sample
-                    writer.Write((short)newSample);
-                }
-            }
-
-            if (File.Exists(outputFilePath))
-            {
-                Output.Log($"[INFO] Volume change succeeded: \"{outputFilePath}\"", ConsoleColor.Green);
-                return true;
-            }
-
-            return false;
         }
     }
 }

@@ -61,9 +61,7 @@ namespace PersonaVCE
             this.groupBox_Volume = new System.Windows.Forms.GroupBox();
             this.num_Volume = new System.Windows.Forms.NumericUpDown();
             this.groupBox_Encryption = new System.Windows.Forms.GroupBox();
-            this.tlp_Encryption = new System.Windows.Forms.TableLayoutPanel();
             this.num_EncryptionKey = new System.Windows.Forms.NumericUpDown();
-            this.chk_Decrypt = new System.Windows.Forms.CheckBox();
             this.tabPage_Renaming = new System.Windows.Forms.TabPage();
             this.splitContainer_Renaming = new System.Windows.Forms.SplitContainer();
             this.tlp_RenamingDGV = new System.Windows.Forms.TableLayoutPanel();
@@ -131,7 +129,6 @@ namespace PersonaVCE
             this.groupBox_Volume.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_Volume)).BeginInit();
             this.groupBox_Encryption.SuspendLayout();
-            this.tlp_Encryption.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_EncryptionKey)).BeginInit();
             this.tabPage_Renaming.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer_Renaming)).BeginInit();
@@ -289,13 +286,13 @@ namespace PersonaVCE
             this.metroSetTabControl_Main.Controls.Add(this.tabPage_Encoding);
             this.metroSetTabControl_Main.Controls.Add(this.tabPage_Renaming);
             this.metroSetTabControl_Main.Controls.Add(this.tabPage_Archives);
-            this.metroSetTabControl_Main.Cursor = System.Windows.Forms.Cursors.Default;
+            this.metroSetTabControl_Main.Cursor = System.Windows.Forms.Cursors.Hand;
             this.metroSetTabControl_Main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.metroSetTabControl_Main.IsDerivedStyle = true;
             this.metroSetTabControl_Main.ItemSize = new System.Drawing.Size(100, 38);
             this.metroSetTabControl_Main.Location = new System.Drawing.Point(0, 0);
             this.metroSetTabControl_Main.Name = "metroSetTabControl_Main";
-            this.metroSetTabControl_Main.SelectedIndex = 1;
+            this.metroSetTabControl_Main.SelectedIndex = 0;
             this.metroSetTabControl_Main.SelectedTextColor = System.Drawing.Color.White;
             this.metroSetTabControl_Main.Size = new System.Drawing.Size(778, 507);
             this.metroSetTabControl_Main.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
@@ -515,7 +512,7 @@ namespace PersonaVCE
             // 
             // groupBox_Encryption
             // 
-            this.groupBox_Encryption.Controls.Add(this.tlp_Encryption);
+            this.groupBox_Encryption.Controls.Add(this.num_EncryptionKey);
             this.groupBox_Encryption.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox_Encryption.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.groupBox_Encryption.Location = new System.Drawing.Point(3, 3);
@@ -525,28 +522,10 @@ namespace PersonaVCE
             this.groupBox_Encryption.TabStop = false;
             this.groupBox_Encryption.Text = "Encryption Key";
             // 
-            // tlp_Encryption
-            // 
-            this.tlp_Encryption.ColumnCount = 1;
-            this.tlp_Encryption.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80.50848F));
-            this.tlp_Encryption.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.49153F));
-            this.tlp_Encryption.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 106F));
-            this.tlp_Encryption.Controls.Add(this.num_EncryptionKey, 0, 1);
-            this.tlp_Encryption.Controls.Add(this.chk_Decrypt, 0, 0);
-            this.tlp_Encryption.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlp_Encryption.Location = new System.Drawing.Point(3, 22);
-            this.tlp_Encryption.Name = "tlp_Encryption";
-            this.tlp_Encryption.RowCount = 2;
-            this.tlp_Encryption.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 28.81356F));
-            this.tlp_Encryption.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 71.18644F));
-            this.tlp_Encryption.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlp_Encryption.Size = new System.Drawing.Size(367, 93);
-            this.tlp_Encryption.TabIndex = 0;
-            // 
             // num_EncryptionKey
             // 
             this.num_EncryptionKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.num_EncryptionKey.Location = new System.Drawing.Point(3, 46);
+            this.num_EncryptionKey.Location = new System.Drawing.Point(6, 51);
             this.num_EncryptionKey.Maximum = new decimal(new int[] {
             -1,
             -1,
@@ -556,18 +535,6 @@ namespace PersonaVCE
             this.num_EncryptionKey.Size = new System.Drawing.Size(361, 26);
             this.num_EncryptionKey.TabIndex = 1;
             this.num_EncryptionKey.ValueChanged += new System.EventHandler(this.EncKeyValue_Changed);
-            // 
-            // chk_Decrypt
-            // 
-            this.chk_Decrypt.AutoSize = true;
-            this.chk_Decrypt.ForeColor = System.Drawing.Color.DimGray;
-            this.chk_Decrypt.Location = new System.Drawing.Point(3, 3);
-            this.chk_Decrypt.Name = "chk_Decrypt";
-            this.chk_Decrypt.Size = new System.Drawing.Size(184, 20);
-            this.chk_Decrypt.TabIndex = 0;
-            this.chk_Decrypt.Text = "Decrypt if Encrypted";
-            this.chk_Decrypt.UseVisualStyleBackColor = true;
-            this.chk_Decrypt.CheckedChanged += new System.EventHandler(this.Decrypt_CheckedChanged);
             // 
             // tabPage_Renaming
             // 
@@ -1354,7 +1321,7 @@ namespace PersonaVCE
             this.ShowLeftRect = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.Style = MetroSet_UI.Enums.Style.Dark;
-            this.Text = "PersonaVCE v2.4.1";
+            this.Text = "PersonaVCE v2.5";
             this.TextColor = System.Drawing.Color.White;
             this.ThemeName = "MetroDark";
             this.menuStrip1.ResumeLayout(false);
@@ -1375,8 +1342,6 @@ namespace PersonaVCE
             this.groupBox_Volume.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.num_Volume)).EndInit();
             this.groupBox_Encryption.ResumeLayout(false);
-            this.tlp_Encryption.ResumeLayout(false);
-            this.tlp_Encryption.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_EncryptionKey)).EndInit();
             this.tabPage_Renaming.ResumeLayout(false);
             this.splitContainer_Renaming.Panel1.ResumeLayout(false);
@@ -1502,9 +1467,7 @@ namespace PersonaVCE
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.GroupBox groupBox_Volume;
         private System.Windows.Forms.GroupBox groupBox_Encryption;
-        private System.Windows.Forms.TableLayoutPanel tlp_Encryption;
         private System.Windows.Forms.NumericUpDown num_EncryptionKey;
-        private System.Windows.Forms.CheckBox chk_Decrypt;
         private System.Windows.Forms.NumericUpDown num_Volume;
         private System.Windows.Forms.CheckBox chk_UseExistingLoop;
         private System.Windows.Forms.CheckBox chk_RepackArchiveSilenced;
