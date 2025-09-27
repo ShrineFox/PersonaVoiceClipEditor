@@ -32,7 +32,8 @@ namespace PersonaVCE
             "P5R (ENG PS4)",
             "P5R (JP PS4)",
             "P5 (PS3)",
-            "P3/4" };
+            "P3/4",
+            "Sonic Racing CrossWorlds"};
 
         public static List<string> ryoOutputModes = new List<string> { "Don't Output For Ryo" };
 
@@ -90,8 +91,20 @@ namespace PersonaVCE
             if (inputFiles.Length == 0 || string.IsNullOrEmpty(inputFiles[0]))
                 return;
 
-            new Thread(() =>
+            if (comboBox_EncryptionPreset.SelectedItem.ToString().Contains("CrossWorlds"))
             {
+                string acbDir = WinFormsDialogs.SelectFolder("Select folder containing ACB/AWB files for CrossWorlds key",
+                    Path.GetDirectoryName(inputFiles[0]));
+                string txtFile = Path.Combine(acbDir, "keys.txt");
+                string key = "0";
+                if (File.Exists(txtFile))
+                    key = File.ReadAllText(txtFile).Split('-').Last().Trim();
+
+                num_EncryptionKey.Value = Convert.ToUInt64(key);
+            }
+
+            //new Thread(() =>
+            //{
                 Thread.CurrentThread.IsBackground = true;
 
                 Output.Log($"[INFO] Encoding supported files to format \"{settings.OutFormat}\".");
@@ -105,7 +118,7 @@ namespace PersonaVCE
                 }
 
                 SystemSounds.Exclamation.Play();
-            }).Start();
+            //}).Start();
             Output.Log($"[INFO] Done encoding files to \"{comboBox_SoundFormat.SelectedItem}\".", ConsoleColor.Green);
         }
 
@@ -154,6 +167,7 @@ namespace PersonaVCE
                     var hcaReader = new HcaReader();
                     if (num_EncryptionKey.Value != 0)
                         hcaReader.EncryptionKey = new CriHcaKey((ulong)num_EncryptionKey.Value);
+                    hcaReader.EncryptionKey = new CriHcaKey((ulong)num_EncryptionKey.Value);
                     audio = AdjustVolumeInMemory(hcaReader.Read(File.ReadAllBytes(inputFile)), volume);
                     break;
                 default:
@@ -197,8 +211,6 @@ namespace PersonaVCE
                         {
                             hcaWriter.Configuration.EncryptionKey = new CriHcaKey((ulong)num_EncryptionKey.Value);
                         }
-
-                        hcaWriter.WriteToStream(audio, fs);
                     }
                     break;
                 default:
@@ -575,26 +587,28 @@ namespace PersonaVCE
                 Output.Log($"[ERROR] AFS repack failed, extracted archive directory doesn't exist: \"{afsDir}\"", ConsoleColor.Red);
         }
 
+        public static byte[] crossWorldsGlobalKey = new byte[] { 0x00, 0x72, 0x0F, 0xB4, 0x61, 0x01, 0xDF, 0x7A };
+
         private void ExtractACB(string acbPath)
         {
             if (File.Exists(acbPath))
             {
-                new Thread(() =>
-                {
-                    Thread.CurrentThread.IsBackground = true;
+                Thread.CurrentThread.IsBackground = true;
 
-                    // Extract ADX from ACB
-                    // In order to make this workk, make AcbEditor Program procedure public
-                    // and add return; to start of OnProgressChanged()
-                    AcbEditor.Program.Main(new string[] { acbPath });
-                    Output.Log($"[INFO] Done extracting archive contents from: \"{acbPath}\"", ConsoleColor.Green);
+                // Extract ADX from ACB
+                // In order to make this workk, make AcbEditor Program procedure public
+                // and add return; to start of OnProgressChanged()
+                AcbEditor.Program.Main(new string[] { acbPath });
+                Output.Log($"[INFO] Done extracting archive contents from: \"{acbPath}\"", ConsoleColor.Green);
                     
-                    SystemSounds.Exclamation.Play();
-                }
-                ).Start();
+                SystemSounds.Exclamation.Play();
+
+                if (comboBox_EncryptionPreset.SelectedItem.ToString().Contains("CrossWorlds"))
+                    CriwareDoubleKeyThingmajig.Main(crossWorldsGlobalKey, acbPath.Replace(".acb", ""));
             }
             else
                 Output.Log($"[ERROR] ACB extract failed, input archive doesn't exist: \"{acbPath}\"", ConsoleColor.Red);
+
 
         }
 

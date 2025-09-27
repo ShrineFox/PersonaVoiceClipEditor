@@ -1026,7 +1026,7 @@ namespace PersonaVCE
             this.tlp_Ryo.SetColumnSpan(this.comboBox_Ryo, 2);
             this.comboBox_Ryo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_Ryo.FormattingEnabled = true;
-            this.comboBox_Ryo.Location = new System.Drawing.Point(3, 6);
+            this.comboBox_Ryo.Location = new System.Drawing.Point(3, 4);
             this.comboBox_Ryo.Name = "comboBox_Ryo";
             this.comboBox_Ryo.Size = new System.Drawing.Size(281, 28);
             this.comboBox_Ryo.TabIndex = 1;
