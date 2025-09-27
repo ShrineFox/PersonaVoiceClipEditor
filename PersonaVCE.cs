@@ -44,10 +44,6 @@ namespace PersonaVCE
             SetupLogging();
             SetupDropdowns();
             SetupTheme();
-
-            // Select P5R Switch/PC preset by default
-            if (comboBox_EncryptionPreset.SelectedIndex == 0)
-                comboBox_EncryptionPreset.SelectedIndex = 1;
         }
 
         private void SetupTheme()
@@ -68,6 +64,7 @@ namespace PersonaVCE
 
             comboBox_EncryptionPreset.ComboBox.DataSource = presets;
             comboBox_EncryptionPreset.ComboBox.BindingContext = this.BindingContext;
+            comboBox_EncryptionPreset.ComboBox.SelectedIndex = 1; // default to P5R
 
             if (Directory.Exists("./Dependencies/RyoText"))
                 foreach (var tsv in Directory.GetFiles("./Dependencies/RyoText", "*.tsv", SearchOption.AllDirectories))
@@ -91,9 +88,9 @@ namespace PersonaVCE
             if (inputFiles.Length == 0 || string.IsNullOrEmpty(inputFiles[0]))
                 return;
 
-            if (comboBox_EncryptionPreset.SelectedItem.ToString().Contains("CrossWorlds"))
+            if (comboBox_EncryptionPreset.SelectedItem.ToString().Contains("CrossWorlds") && comboBox_SoundFormat.SelectedItem.ToString() == ".hca")
             {
-                string acbDir = WinFormsDialogs.SelectFolder("Select folder containing ACB/AWB files for CrossWorlds key",
+                string acbDir = WinFormsDialogs.SelectFolder("Select extracted CrossWorlds ACB folder with keys.txt",
                     Path.GetDirectoryName(inputFiles[0]));
                 string txtFile = Path.Combine(acbDir, "keys.txt");
                 string key = "0";
@@ -211,6 +208,7 @@ namespace PersonaVCE
                         {
                             hcaWriter.Configuration.EncryptionKey = new CriHcaKey((ulong)num_EncryptionKey.Value);
                         }
+                        hcaWriter.WriteToStream(audio, fs);
                     }
                     break;
                 default:
@@ -593,18 +591,32 @@ namespace PersonaVCE
         {
             if (File.Exists(acbPath))
             {
-                Thread.CurrentThread.IsBackground = true;
-
                 // Extract ADX from ACB
                 // In order to make this workk, make AcbEditor Program procedure public
                 // and add return; to start of OnProgressChanged()
-                AcbEditor.Program.Main(new string[] { acbPath });
-                Output.Log($"[INFO] Done extracting archive contents from: \"{acbPath}\"", ConsoleColor.Green);
-                    
-                SystemSounds.Exclamation.Play();
-
                 if (comboBox_EncryptionPreset.SelectedItem.ToString().Contains("CrossWorlds"))
+                {
+                    AcbEditor.Program.Main(new string[] { acbPath });
                     CriwareDoubleKeyThingmajig.Main(crossWorldsGlobalKey, acbPath.Replace(".acb", ""));
+
+                    Output.Log($"[INFO] Done extracting archive contents from: \"{acbPath}\"", ConsoleColor.Green);
+
+                    SystemSounds.Exclamation.Play();
+
+                }
+                else
+                {
+                    // Use new thread if not crossworlds to prevent locking up UI
+                    new Thread(() =>
+                    {
+                        Thread.CurrentThread.IsBackground = true;
+                        AcbEditor.Program.Main(new string[] { acbPath });
+                        Output.Log($"[INFO] Done extracting archive contents from: \"{acbPath}\"", ConsoleColor.Green);
+
+                        SystemSounds.Exclamation.Play();
+                    }
+                    ).Start();
+                }
             }
             else
                 Output.Log($"[ERROR] ACB extract failed, input archive doesn't exist: \"{acbPath}\"", ConsoleColor.Red);
